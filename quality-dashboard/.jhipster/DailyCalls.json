@@ -1,0 +1,77 @@
+{
+  "changelogDate": "20231105120337",
+  "dto": "mapstruct",
+  "entityTableName": "daily_calls",
+  "fields": [
+    {
+      "fieldName": "day",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required", "unique"]
+    },
+    {
+      "fieldName": "totalDailyReceivedCalls",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "totalDailyAttendedCalls",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "totalDailyMissedCalls",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "totalDailyReceivedCallsExternalAgent",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "totalDailyAttendedCallsExternalAgent",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "totalDailyReceivedCallsInternalAgent",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "totalDailyAttendedCallsInternalAgent",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "totalDailyCallsTimeInMin",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "totalDailyCallsTimeExternalAgentInMin",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "totalDailyCallsTimeInternalAgentInMin",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "avgDailyOperationTimeExternalAgentInMin",
+      "fieldType": "Float",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "avgDailyOperationTimeInternalAgentInMin",
+      "fieldType": "Float",
+      "fieldValidateRules": []
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "DailyCalls",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

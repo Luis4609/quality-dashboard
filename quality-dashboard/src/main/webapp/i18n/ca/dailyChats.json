@@ -1,0 +1,29 @@
+{
+  "qualitydashboardApp": {
+    "dailyChats": {
+      "home": {
+        "title": "Daily Chats",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Daily Chats",
+        "createOrEditLabel": "Create or edit a Daily Chats",
+        "notFound": "No Daily Chats found"
+      },
+      "created": "A new Daily Chats is created with identifier {{ param }}",
+      "updated": "A Daily Chats is updated with identifier {{ param }}",
+      "deleted": "A Daily Chats is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Daily Chats {{ id }}?"
+      },
+      "detail": {
+        "title": "Daily Chats"
+      },
+      "id": "ID",
+      "day": "Day",
+      "totalDailyReceivedChats": "Total Daily Received Chats",
+      "totalDailyConversationChatsTimeInMin": "Total Daily Conversation Chats Time In Min",
+      "totalDailyAttendedChats": "Total Daily Attended Chats",
+      "totalDailyMissedChats": "Total Daily Missed Chats",
+      "avgDailyConversationChatsTimeInMin": "Avg Daily Conversation Chats Time In Min"
+    }
+  }
+}

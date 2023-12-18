@@ -1,0 +1,45 @@
+{
+  "qualitydashboardApp": {
+    "dailyCalls": {
+      "home": {
+        "title": "DailyCalls",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau Daily Calls",
+        "createOrEditLabel": "Créer ou éditer un Daily Calls",
+        "notFound": "Aucun Daily Calls trouvé",
+        "uploadExcel": "Upload excel"
+      },
+      "created": "Un nouveau Daily Calls a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Daily Calls avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Daily Calls avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Êtes-vous certain de vouloir supprimer le Daily Calls {{ id }} ?"
+      },
+      "upload": {
+        "title": "DailyCalls Télécharger des données depuis Excel",
+        "button": "Ajouter le fichier",
+        "infoText": "Téléchargez le fichier Excel avec les données des appels quotidiens"
+      },
+      "metrics": {
+        "title": "Daily Calls Metricas"
+      },
+      "detail": {
+        "title": "Daily Calls"
+      },
+      "id": "ID",
+      "day": "Day",
+      "totalDailyReceivedCalls": "Total Daily Received Calls",
+      "totalDailyAttendedCalls": "Total Daily Attended Calls",
+      "totalDailyMissedCalls": "Total Daily Missed Calls",
+      "totalDailyReceivedCallsExternalAgent": "Total Daily Received Calls External Agent",
+      "totalDailyAttendedCallsExternalAgent": "Total Daily Attended Calls External Agent",
+      "totalDailyReceivedCallsInternalAgent": "Total Daily Received Calls Internal Agent",
+      "totalDailyAttendedCallsInternalAgent": "Total Daily Attended Calls Internal Agent",
+      "totalDailyCallsTimeInMin": "Total Daily Calls Time In Min",
+      "totalDailyCallsTimeExternalAgentInMin": "Total Daily Calls Time External Agent In Min",
+      "totalDailyCallsTimeInternalAgentInMin": "Total Daily Calls Time Internal Agent In Min",
+      "avgDailyOperationTimeExternalAgentInMin": "Avg Daily Operation Time External Agent In Min",
+      "avgDailyOperationTimeInternalAgentInMin": "Avg Daily Operation Time Internal Agent In Min"
+    }
+  }
+}
