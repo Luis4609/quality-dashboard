@@ -18,9 +18,22 @@ export interface IDailyCalls {
 export const defaultValue: Readonly<IDailyCalls> = {};
 
 export interface IDailyCallsMetrics {
-  totalDailyReceivedCalls?: number | null;
-  totalDailyAttendedCalls?: number;
-  totalDailyMissedCalls?: number;
-  totalDailyAttendedCallsExternalAgent?: number;
-  totalDailyAttendedCallsInternalAgent?: number
+  totalReceivedCalls?: number | null;
+  totalAttendedCalls?: number;
+  totalLostCalls?: number;
+  totalAttendedCallsExternalAgent?: number;
+  totalAttendedCallsInternalAgent?: number
 }
+
+export const defaultValueMetrics: Readonly<IDailyCallsMetrics> = {};
+
+export interface IDailyCallsMetricsByDate {
+  totalReceivedCalls?: number | null;
+  totalAttendedCalls?: number;
+  totalLostCalls?: number;
+  totalAttendedCallsExternalAgent?: number;
+  totalAttendedCallsInternalAgent?: number;
+  metricDate?: number
+}
+
+export const defaultValueMetricsByDate: Readonly<IDailyCallsMetricsByDate> = {};

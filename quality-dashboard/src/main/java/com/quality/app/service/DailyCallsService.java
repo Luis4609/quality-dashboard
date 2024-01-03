@@ -3,7 +3,8 @@ package com.quality.app.service;
 import com.quality.app.domain.DailyCalls;
 import com.quality.app.repository.DailyCallsRepository;
 import com.quality.app.service.dto.DailyCallsDTO;
-import com.quality.app.service.dto.metrics.DailyCallsMetricsDTO;
+import com.quality.app.service.dto.metrics.IDailyCallsMetrics;
+import com.quality.app.service.dto.metrics.IDailyCallsMetricsByDate;
 import com.quality.app.service.mapper.DailyCallsMapper;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -198,8 +199,31 @@ public class DailyCallsService {
      * @param finish the finish
      * @return the metrics by date range
      */
-    public DailyCallsMetricsDTO getMetricsByDateRange(Date start, Date finish) {
+    public IDailyCallsMetrics getMetricsByDateRange(Date start, Date finish) {
 
-      return dailyCallsRepository.getDailyCallMetricsByDate(start, finish);
+        return dailyCallsRepository.getDailyCallMetricsByDate(start, finish);
+    }
+
+    /**
+     * Gets metrics by date range and period.
+     *
+     * @param start      the start
+     * @param finish     the finish
+     * @param period     the period
+     * @param datePeriod the date period
+     * @return the metrics by date range and period
+     */
+    public IDailyCallsMetrics getMetricsByDateRangeAndPeriod(Date start, Date finish, Integer period, String datePeriod) {
+
+        IDailyCallsMetrics dailyCallsMetrics = dailyCallsRepository.getDailyCallMetricsByDate(start, finish);
+        IDailyCallsMetrics dailyCallsMetrics1 = dailyCallsRepository.getDailyCallMetricsByDateAndPeriod(start, finish, period);
+
+
+        return dailyCallsRepository.getDailyCallMetricsByDateAndPeriod(start, finish, period);
+    }
+
+    public List<IDailyCallsMetricsByDate> getMetricsByYearGroupByMonth(Integer year) {
+
+        return dailyCallsRepository.getMetricsByYearGroupByMonth(year);
     }
 }

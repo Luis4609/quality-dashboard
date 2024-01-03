@@ -1,8 +1,8 @@
-import axios from 'axios';
 import { createAsyncThunk, isFulfilled, isPending } from '@reduxjs/toolkit';
+import { IDailyCalls, defaultValue } from 'app/shared/model/daily-calls.model';
+import { EntityState, IQueryParams, createEntitySlice, serializeAxiosError } from 'app/shared/reducers/reducer.utils';
 import { cleanEntity } from 'app/shared/util/entity-utils';
-import { IQueryParams, createEntitySlice, EntityState, serializeAxiosError } from 'app/shared/reducers/reducer.utils';
-import { IDailyCalls, IDailyCallsMetrics, defaultValue } from 'app/shared/model/daily-calls.model';
+import axios from 'axios';
 
 const initialState: EntityState<IDailyCalls> = {
   loading: false,
@@ -28,15 +28,6 @@ export const getEntity = createAsyncThunk(
   async (id: string | number) => {
     const requestUrl = `${apiUrl}/${id}`;
     return axios.get<IDailyCalls>(requestUrl);
-  },
-  { serializeError: serializeAxiosError },
-);
-
-export const getMetrics = createAsyncThunk(
-  'dailyCalls/fetch_metrics',
-  async (start: Date) => {
-    const requestUrl = `${apiUrl}/metrics/${start}`;
-    return axios.get<IDailyCallsMetrics>(requestUrl);
   },
   { serializeError: serializeAxiosError },
 );

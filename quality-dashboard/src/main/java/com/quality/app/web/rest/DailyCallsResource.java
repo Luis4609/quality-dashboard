@@ -5,7 +5,8 @@ import com.quality.app.service.DailyCallsQueryService;
 import com.quality.app.service.DailyCallsService;
 import com.quality.app.service.criteria.DailyCallsCriteria;
 import com.quality.app.service.dto.DailyCallsDTO;
-import com.quality.app.service.dto.metrics.DailyCallsMetricsDTO;
+import com.quality.app.service.dto.metrics.IDailyCallsMetrics;
+import com.quality.app.service.dto.metrics.IDailyCallsMetricsByDate;
 import com.quality.app.web.rest.errors.BadRequestAlertException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -14,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -231,21 +233,23 @@ public class DailyCallsResource {
      *
      * @return the daily calls metrics
      */
-    @GetMapping("/metrics/{start}/{end}")
-    public ResponseEntity<DailyCallsMetricsDTO> getDailyCallsMetrics(@PathVariable Date start, @PathVariable Date end) {
-
-        return ResponseEntity.ok().body(dailyCallsService.getMetricsByDateRange(start, end));
-    }
-
-    /**
-     * Gets daily calls metrics.
-     *
-     * @param start the start
-     * @return the daily calls metrics
-     */
-    @GetMapping("/metrics/{start}")
-    public ResponseEntity<DailyCallsMetricsDTO> getDailyCallsMetrics(@PathVariable Date start) {
+    @GetMapping("/metrics")
+    public ResponseEntity<IDailyCallsMetrics> getDailyCallsMetrics(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date start) {
 
         return ResponseEntity.ok().body(dailyCallsService.getMetricsByDateRange(start, new Date()));
+    }
+
+
+    @GetMapping("/metrics/period")
+    public ResponseEntity<IDailyCallsMetrics> getDailyCallsMetrics(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date start, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date end,
+                                                                   @RequestParam Integer period, @RequestParam String datePeriod) {
+
+        return ResponseEntity.ok().body(dailyCallsService.getMetricsByDateRangeAndPeriod(start, end, period, datePeriod));
+    }
+
+    @GetMapping("/metrics/year")
+    public ResponseEntity<List<IDailyCallsMetricsByDate>> getCallsByYearGroupByMonth(@RequestParam Integer year) {
+
+        return ResponseEntity.ok().body(dailyCallsService.getMetricsByYearGroupByMonth(year));
     }
 }
