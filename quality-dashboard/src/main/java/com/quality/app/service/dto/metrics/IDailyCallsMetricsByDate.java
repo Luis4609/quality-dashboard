@@ -1,6 +1,6 @@
 package com.quality.app.service.dto.metrics;
 
-import java.util.Date;
+import java.sql.Date;
 
 public interface IDailyCallsMetricsByDate {
 
@@ -14,5 +14,5 @@ public interface IDailyCallsMetricsByDate {
 
     Integer getTotalAttendedCallsInternalAgent();
 
-    Integer getMetricDate();
+    Date getMetricDate();
 }

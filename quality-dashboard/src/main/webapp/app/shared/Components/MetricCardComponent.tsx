@@ -3,11 +3,20 @@ import { Card, CardHeader, CardBody, CardTitle, CardText, CardFooter } from 'rea
 
 // danger, success
 
-function MetricCardComponent(props: { footer: string; title: string; color: string; data: number }) {
+function MetricCardComponent(props: { footer: string; title: string; color: string; data: number; previousData: number }) {
+  function getColor(data: number, previousData: number) {
+    const dataDiff = data - previousData;
+
+    if(dataDiff > 0) {
+      return "success"  
+    } 
+    return 'danger';
+  }
+
   return (
     <Card
       className="my-2"
-      color={props.color}
+      color={getColor(props.data, props.previousData)}
       inverse
       style={{
         width: '18rem',
@@ -18,7 +27,7 @@ function MetricCardComponent(props: { footer: string; title: string; color: stri
         <CardTitle tag="h5">{props.data}</CardTitle>
         <CardText></CardText>
       </CardBody>
-      <CardFooter>{props.footer}</CardFooter>
+      <CardFooter>{props.data - props.previousData} {props.footer}</CardFooter>
     </Card>
   );
 }

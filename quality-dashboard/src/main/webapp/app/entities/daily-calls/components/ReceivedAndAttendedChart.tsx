@@ -18,70 +18,53 @@ echarts.registerTheme('my_theme', {
 });
 
 const DEFAULT_OPTIONS = {
-  title: {},
-  tooltip: {},
-  legend: { top: 'bottom' },
-  xAxis: {
-    data: [],
+  title: {
+  },
+    tooltip: {},
+  legend: {top: 'bottom'},
+    xAxis: {
+      name: 'Día',
+          data: [],
   },
   yAxis: [
     {
+
       type: 'value',
-      name: 'Recibidas',
-      min: 0,
-      max: 50000,
-      interval: 10000,
+      name: 'Nº de Llamadas',
       axisLabel: {
-        formatter: '{value}',
-      },
-    },
-    {
-      type: 'value',
-      name: 'Atendidas',
-      min: 0,
-      max: 100,
-      interval: 20,
-      axisLabel: {
-        formatter: '{value} %',
-      },
-    },
-  ],
+          formatter: '{value}'
+
+      }
+    }
+],
   series: [
     {
       name: 'Llamadas recibidas',
-      type: 'bar',
-      label: {
-        show: true,
-        position: 'inside',
-      },
-      data: [],
+      type: "line",
+      data: []
     },
     {
-      name: '% Llamadas atendidas',
+      name: 'Llamadas atendidas',
       type: 'line',
-      yAxisIndex: 1,
-      label: {
-        show: true,
-        position: 'up',
-      },
-      data: [],
-    },
+      data: []
+  },
   ],
 };
 
-const CallsChart = () => {
-  const metricsByDate = useAppSelector(state => state.dailyCallsMetricsByDate.entities);
+const ReceivedAndAttendedChart = () => {
+  const metricsByMonth = useAppSelector(state => state.dailyCallsMetricsByMonth.entities);
+
+  // eslint-disable-next-line no-console
+  console.log(`metricsByMonth ${metricsByMonth}`)
 
   const [option, setOption] = useState(DEFAULT_OPTIONS);
 
   const getData = () => {
     const newOption = cloneDeep(option); // immutable
 
-    const d = new Date("2015-03-25");
-
-    const x: any[] = metricsByDate.map(metric => new Date(metric.metricDate).getMonth() + 1);
-    const data: any[] = metricsByDate.map(metric => metric.totalReceivedCalls);
-    const data1: any[] = metricsByDate.map(metric => ((metric.totalAttendedCalls / metric.totalReceivedCalls) * 100).toFixed(2));
+    const x: any[] = metricsByMonth.map(metric => metric.metricDate);
+    const data: any[] = metricsByMonth.map(metric => metric.totalReceivedCalls);
+    const data1: any[] = metricsByMonth.map(metric => metric.totalAttendedCalls);
 
     newOption.xAxis.data.length = 0;
     newOption.xAxis.data.push(...x);
@@ -97,9 +80,9 @@ const CallsChart = () => {
 
   useEffect(() => {
     getData();
-  }, [metricsByDate]);
+  }, [metricsByMonth]);
 
   return <ReactECharts option={option} lazyUpdate={true} />;
 };
 
-export default CallsChart;
+export default ReceivedAndAttendedChart;

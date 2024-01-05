@@ -3,6 +3,7 @@ package com.quality.app.service;
 import com.quality.app.domain.DailyCalls;
 import com.quality.app.repository.DailyCallsRepository;
 import com.quality.app.service.dto.DailyCallsDTO;
+import com.quality.app.service.dto.metrics.DailyCallsMetricsDTO;
 import com.quality.app.service.dto.metrics.IDailyCallsMetrics;
 import com.quality.app.service.dto.metrics.IDailyCallsMetricsByDate;
 import com.quality.app.service.mapper.DailyCallsMapper;
@@ -19,6 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -134,7 +137,7 @@ public class DailyCallsService {
      * @param file the file
      * @throws IOException the io exception
      */
-    public void updateDataFromFile(MultipartFile file) throws IOException {
+    public void updateDataFromFile(MultipartFile file) throws Exception {
         // Load the Excel file
         Workbook workbook = new XSSFWorkbook(file.getInputStream());
         Sheet sheet = workbook.getSheetAt(0);
@@ -199,9 +202,21 @@ public class DailyCallsService {
      * @param finish the finish
      * @return the metrics by date range
      */
-    public IDailyCallsMetrics getMetricsByDateRange(Date start, Date finish) {
+    public DailyCallsMetricsDTO getMetricsByDateRange(Date start, Date finish) {
 
-        return dailyCallsRepository.getDailyCallMetricsByDate(start, finish);
+        IDailyCallsMetrics current = dailyCallsRepository.getDailyCallMetricsSummaryByDate(start, finish);
+
+        Calendar startCalendar = Calendar.getInstance();
+        startCalendar.setTime(start);
+        startCalendar.add(Calendar.YEAR, -1);
+
+        Calendar finishCalendar = Calendar.getInstance();
+        finishCalendar.setTime(finish);
+        finishCalendar.add(Calendar.YEAR, -1);
+
+        IDailyCallsMetrics previous = dailyCallsRepository.getDailyCallMetricsSummaryByDate(startCalendar.getTime(), finishCalendar.getTime());
+
+        return new DailyCallsMetricsDTO(current, previous);
     }
 
     /**
@@ -215,7 +230,7 @@ public class DailyCallsService {
      */
     public IDailyCallsMetrics getMetricsByDateRangeAndPeriod(Date start, Date finish, Integer period, String datePeriod) {
 
-        IDailyCallsMetrics dailyCallsMetrics = dailyCallsRepository.getDailyCallMetricsByDate(start, finish);
+        IDailyCallsMetrics dailyCallsMetrics = dailyCallsRepository.getDailyCallMetricsSummaryByDate(start, finish);
         IDailyCallsMetrics dailyCallsMetrics1 = dailyCallsRepository.getDailyCallMetricsByDateAndPeriod(start, finish, period);
 
 
@@ -225,5 +240,10 @@ public class DailyCallsService {
     public List<IDailyCallsMetricsByDate> getMetricsByYearGroupByMonth(Integer year) {
 
         return dailyCallsRepository.getMetricsByYearGroupByMonth(year);
+    }
+
+    public List<IDailyCallsMetricsByDate> getMetricsByDate(LocalDate start, LocalDate finish) {
+
+        return dailyCallsRepository.getDailyCallMetricsByDate(start, finish);
     }
 }

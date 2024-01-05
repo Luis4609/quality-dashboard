@@ -46,7 +46,6 @@ export const updateEntity = createAsyncThunk(
   'dailyCalls/update_entity',
   async (entity: IDailyCalls, thunkAPI) => {
     const result = await axios.put<IDailyCalls>(`${apiUrl}/${entity.id}`, cleanEntity(entity));
-    thunkAPI.dispatch(getEntities({}));
     return result;
   },
   { serializeError: serializeAxiosError },
@@ -72,17 +71,6 @@ export const deleteEntity = createAsyncThunk(
   },
   { serializeError: serializeAxiosError },
 );
-
-export const uploadExcelEntity = createAsyncThunk(
-  'dailyCalls/update_excel',
-  async (file: File | FormData, thunkAPI) => {
-    const result = await axios.post<File>(`${apiUrl}/upload-file`, file);
-    thunkAPI.dispatch(getEntities({}));
-    return result;
-  },
-  { serializeError: serializeAxiosError },
-);
-
 
 // slice
 

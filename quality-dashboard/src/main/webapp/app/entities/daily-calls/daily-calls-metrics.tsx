@@ -1,7 +1,7 @@
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import React, { useEffect, useState } from 'react';
 import { Translate } from 'react-jhipster';
-import { Col, Container, Row } from 'reactstrap';
+import { Col, Container, Input, Row } from 'reactstrap';
 
 import MetricCardComponent from 'app/shared/Components/MetricCardComponent';
 import { BarElement, CategoryScale, Chart as ChartJS, Legend, LineElement, LinearScale, PointElement, Title, Tooltip } from 'chart.js';
@@ -18,6 +18,8 @@ import { CanvasRenderer } from 'echarts/renderers';
 import CallsChart from './components/CallsChart';
 import { getMetricsWithDate } from './daily-calls-metrics-date.reducer';
 import { atendidasSVDIOption } from './metrics/ChartsOptions';
+import { getMetricsByMonth } from './daily-calls-metrics-by-month.reducer';
+import ReceivedAndAttendedChart from './components/ReceivedAndAttendedChart';
 
 // Register the required components
 echarts.use([TitleComponent, TooltipComponent, GridComponent, BarChart, CanvasRenderer]);
@@ -77,73 +79,51 @@ export const optionsMultiAxis = {
 export const DailyCallsMetrics = () => {
   // State and variables
 
-  const [startDate, setStartDate] = useState(new Date());
+  const date = new Date();
+  // Get year, month, and day part from the date
+  const year = date.toLocaleString('default', { year: 'numeric' });
+  const month = date.toLocaleString('default', { month: '2-digit' });
+  const day = date.toLocaleString('default', { day: '2-digit' });
+
+  //TODO validate dates
+  // Generate yyyy-mm-dd date string
+  const formattedCurrentDate = year + '-' + month + '-' + day;
+
+  const formattedStartDate = year + '-' + month + '-' + "01";
+
+  const [startDate, setStarDate] = useState(formattedStartDate);
+
+  const [currentDate, setCurrentDate] = useState(formattedCurrentDate);
+
+  // eslint-disable-next-line no-console
+  console.log(`${formattedCurrentDate} -- ${currentDate}`);
 
   const dailyCallsList = useAppSelector(state => state.dailyCalls.entities);
-  const metricsWithDate = useAppSelector(state => state.dailyCallsMetricsByDate.entities);
   const dailyCallsMetrics = useAppSelector(state => state.dailyCallsMetrics.entity);
 
-  const loading = useAppSelector(state => state.dailyCalls.loading);
+  const metricsByMonth = useAppSelector(state => state.dailyCallsMetricsByMonth.entities);
 
   const labels = dailyCallsList.map((dailyCalls: { day: any }) => dailyCalls.day);
 
   const dispatch = useAppDispatch();
 
   const getAllMetrics = () => {
-    dispatch(getMetrics('2023-10-10'));
+    dispatch(getMetrics({startDate, endDate: currentDate}));
   };
 
   useEffect(() => {
     getAllMetrics();
-  }, [startDate]);
+  }, [startDate, currentDate]);
 
   const getAllMetricsByDate = () => {
-    dispatch(getMetricsWithDate(2023));
+    dispatch(getMetricsWithDate(Number(year)));
+    dispatch(getMetricsByMonth(month));
   };
 
   useEffect(() => {
     getAllMetricsByDate();
   }, []);
 
-  const data = {
-    labels,
-    datasets: [
-      {
-        label: 'Received Calls',
-        data: dailyCallsList.map(dailyCalls => dailyCalls.totalDailyReceivedCalls),
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
-      },
-      {
-        label: 'Attended Calls',
-        data: dailyCallsList.map(dailyCalls => dailyCalls.totalDailyAttendedCalls),
-        backgroundColor: 'rgba(53, 162, 235, 0.5)',
-      },
-    ],
-  };
-
-  const dataPercentage = {
-    labels,
-    datasets: [
-      {
-        type: 'bar' as const,
-        label: 'Received Calls',
-        data: dailyCallsList.map(dailyCalls => dailyCalls.totalDailyReceivedCalls),
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
-        borderColor: 'white',
-        borderWidth: 2,
-        yAxisID: 'y',
-      },
-      {
-        type: 'line' as const,
-        label: 'Percentege of Attended Calls',
-        data: dailyCallsList.map(dailyCalls => (dailyCalls.totalDailyAttendedCalls / dailyCalls.totalDailyReceivedCalls) * 100),
-        borderColor: 'rgba(53, 162, 235, 0.5)',
-        borderWidth: 2,
-        fill: false,
-        yAxisID: 'y1',
-      },
-    ],
-  };
 
   return (
     <>
@@ -154,48 +134,27 @@ export const DailyCallsMetrics = () => {
           </h2>
         </Col>
       </Row>
+
       <Container>
         <Row>
           <Col>
-            <Bar options={options} data={data} />
-          </Col>
-          <Col>
-            <Chart type="bar" options={optionsMultiAxis} data={dataPercentage} />
-          </Col>
-        </Row>
-
-        <Row>
-          <Col>
-            {/* <ReactECharts
-              option={this.getOption()}
-              notMerge={true}
-              lazyUpdate={true}
-              theme={'theme_name'}
-              onChartReady={this.onChartReadyCallback}
-              onEvents={EventsDict}
-              opts={}
-            /> */}
-            <ReactECharts option={atendidasSVDIOption} />
-          </Col>
-          <Col>
-            <CallsChart></CallsChart>
-          </Col>
-        </Row>
-
-        <Row>
-          <Col>
             <label>Pick start date: </label>
-            <input type="date"></input>
+            <Input type="date" value={startDate} onChange={(e) => setStarDate(e.target.value)}/>
+          </Col>
+
+          <Col>
+            <label>Pick end date: </label>
+            <Input type="date" value={currentDate} onChange={(e) => setCurrentDate(e.target.value)}/>
           </Col>
         </Row>
-
         <Row>
           <Col>
             <MetricCardComponent
               color="primary"
               title="Llamadas recibidas"
-              footer="-22.717 año anterior"
-              data={dailyCallsMetrics.totalReceivedCalls}
+              footer="año anterior"
+              previousData={dailyCallsMetrics.previous.totalReceivedCalls}
+              data={dailyCallsMetrics.current.totalReceivedCalls}
             ></MetricCardComponent>
           </Col>
           <Col>
@@ -203,15 +162,17 @@ export const DailyCallsMetrics = () => {
               color="danger"
               title="Llamadas atendidas"
               footer={''}
-              data={dailyCallsMetrics.totalAttendedCalls}
+              previousData={dailyCallsMetrics.previous.totalAttendedCalls}
+              data={dailyCallsMetrics.current.totalAttendedCalls}
             ></MetricCardComponent>
           </Col>
           <Col>
             <MetricCardComponent
               color="success"
               title="Llamadas perdidas"
-              footer="-22.717 año anterior"
-              data={dailyCallsMetrics.totalLostCalls}
+              footer="año anterior"
+              previousData={dailyCallsMetrics.previous.totalLostCalls}
+              data={dailyCallsMetrics.current.totalLostCalls}
             ></MetricCardComponent>
           </Col>
         </Row>
@@ -220,25 +181,48 @@ export const DailyCallsMetrics = () => {
             <MetricCardComponent
               color="primary"
               title="Llamadas atendidas agentes externos"
-              footer="-22.717 año anterior"
-              data={dailyCallsMetrics.totalAttendedCallsExternalAgent}
+              footer="año anterior"
+              previousData={dailyCallsMetrics.previous.totalAttendedCallsExternalAgent}
+              data={dailyCallsMetrics.current.totalAttendedCallsExternalAgent}
             ></MetricCardComponent>
           </Col>
           <Col>
             <MetricCardComponent
               color="danger"
               title="Llamadas atendidas agentes internos"
-              footer="-22.717 año anterior"
-              data={dailyCallsMetrics.totalAttendedCallsInternalAgent}
+              footer="año anterior"
+              previousData={dailyCallsMetrics.previous.totalAttendedCallsInternalAgent}
+              data={dailyCallsMetrics.current.totalAttendedCallsInternalAgent}
             ></MetricCardComponent>
           </Col>
           <Col>
             <MetricCardComponent
               color="primary"
               title="Llamadas atendidas (media - agente/dia)"
-              footer="-22.717 año anterior"
+              footer="año anterior"
+              previousData={-100000}
               data={1}
             ></MetricCardComponent>
+          </Col>
+        </Row>
+
+        <Row>
+          {/* <Col> */}
+          {/* <ReactECharts
+              option={this.getOption()}
+              notMerge={true}
+              lazyUpdate={true}
+              theme={'theme_name'}
+              onChartReady={this.onChartReadyCallback}
+              onEvents={EventsDict}
+              opts={}
+            /> */}
+          {/* </Col> */}
+          <Col>
+            <ReceivedAndAttendedChart></ReceivedAndAttendedChart>
+          </Col>
+          <Col>
+            <CallsChart></CallsChart>
           </Col>
         </Row>
       </Container>

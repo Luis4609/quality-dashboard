@@ -96,7 +96,7 @@ public interface DailyCallsRepository extends JpaRepository<DailyCalls, Long>, J
             WHERE daily_calls.day between ?1 AND ?2""",
         nativeQuery = true
     )
-    IDailyCallsMetrics getDailyCallMetricsByDate(Date start, Date end);
+    IDailyCallsMetrics getDailyCallMetricsSummaryByDate(Date start, Date end);
 
     /**
      * Gets daily call metrics by date and period.
@@ -124,8 +124,19 @@ public interface DailyCallsRepository extends JpaRepository<DailyCalls, Long>, J
      */
     @Query(value = """
         SELECT SUM(total_daily_received_calls) AS totalReceivedCalls, SUM(total_daily_attended_calls) AS totalAttendedCalls, SUM(total_daily_missed_calls) AS totalLostCalls,
-        SUM(total_daily_attended_calls_external_agent) AS totalAttendedCallsExternalAgent, SUM(total_daily_attended_calls_internal_agent) AS totalAttendedCallsInternalAgent, month(day) AS metricDate
+        SUM(total_daily_attended_calls_external_agent) AS totalAttendedCallsExternalAgent, SUM(total_daily_attended_calls_internal_agent) AS totalAttendedCallsInternalAgent, day AS metricDate
         FROM daily_calls WHERE year(day) = ?1 group by month(day)""",
         nativeQuery = true)
     List<IDailyCallsMetricsByDate> getMetricsByYearGroupByMonth(Integer year);
+
+
+    @Query(
+        value = """
+            SELECT (total_daily_received_calls) AS totalReceivedCalls, (total_daily_attended_calls) AS totalAttendedCalls, (total_daily_missed_calls) AS totalLostCalls,
+            (total_daily_attended_calls_external_agent) AS totalAttendedCallsExternalAgent, (total_daily_attended_calls_internal_agent) AS totalAttendedCallsInternalAgent, day AS metricDate
+            FROM qualitydashboard.daily_calls
+            WHERE daily_calls.day between ?1 AND ?2""",
+        nativeQuery = true
+    )
+    List<IDailyCallsMetricsByDate> getDailyCallMetricsByDate(LocalDate start, LocalDate end);
 }

@@ -3,7 +3,6 @@ import { IDailyCallsMetrics, IDailyCallsMetricsByDate, defaultValueMetrics } fro
 import { EntityState, createEntitySlice, serializeAxiosError } from 'app/shared/reducers/reducer.utils';
 import axios from 'axios';
 
-
 const initialState: EntityState<IDailyCallsMetricsByDate> = {
   loading: false,
   errorMessage: null,
@@ -18,11 +17,11 @@ const apiUrl = 'api/daily-calls';
 
 // Actions
 
-export const getMetricsWithDate = createAsyncThunk(
-  'dailyCallsMetricsByDate/fetch_metrics_date',
-  async (year: number) => {
-    const requestUrl = `${apiUrl}/metrics/year?year=${year}`;
-    const result = axios.get<IDailyCallsMetrics[]>(requestUrl);
+export const getMetricsByMonth = createAsyncThunk(
+  'dailyCallsMetricsByMonth/fetch_metrics_by_month',
+  async (month: string) => {
+    const requestUrl = `${apiUrl}/metrics/month?month=${month}`;
+    const result = axios.get<IDailyCallsMetricsByDate[]>(requestUrl);
     return result;
   },
   { serializeError: serializeAxiosError },
@@ -30,22 +29,22 @@ export const getMetricsWithDate = createAsyncThunk(
 
 // slice
 
-export const DailyCallsMetricsByDateSlice = createEntitySlice({
-  name: 'dailyCallsMetricsByDate',
+export const DailyCallsMetricsSlice = createEntitySlice({
+  name: 'dailyCallsMetricsByMonth',
   initialState,
   extraReducers(builder) {
     builder
-      .addCase(getMetricsWithDate.fulfilled, (state, action) => {
+      .addCase(getMetricsByMonth.fulfilled, (state, action) => {
         state.loading = false;
         state.entities = action.payload.data;
       })
-      .addMatcher(isPending(getMetricsWithDate), state => {
+      .addMatcher(isPending(getMetricsByMonth), state => {
         state.errorMessage = null;
         state.updateSuccess = false;
         state.loading = true;
       })
-      .addMatcher(isFulfilled(getMetricsWithDate), (state, action) => {
-        const { data, headers } = action.payload;
+      .addMatcher(isFulfilled(getMetricsByMonth), (state, action) => {
+        const { data } = action.payload;
 
         return {
           ...state,
@@ -56,7 +55,7 @@ export const DailyCallsMetricsByDateSlice = createEntitySlice({
   },
 });
 
-export const { reset } = DailyCallsMetricsByDateSlice.actions;
+export const { reset } = DailyCallsMetricsSlice.actions;
 
 // Reducer
-export default DailyCallsMetricsByDateSlice.reducer;
+export default DailyCallsMetricsSlice.reducer;

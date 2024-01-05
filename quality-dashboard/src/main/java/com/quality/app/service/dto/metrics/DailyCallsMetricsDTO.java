@@ -2,65 +2,38 @@ package com.quality.app.service.dto.metrics;
 
 public class DailyCallsMetricsDTO {
 
-    private Integer totalReceivedCalls;
-    private Integer totalAttendedCalls;
-    private Integer totalLostCalls;
-
-    private Integer totalAttendedCallsExternalAgent;
-
-    private Integer totalDailyAttendedCallsInternalAgent;
+    private IDailyCallsMetrics current;
+    private IDailyCallsMetrics previous;
 
     public DailyCallsMetricsDTO() {
     }
 
-    public Integer getTotalReceivedCalls() {
-        return totalReceivedCalls;
+    public DailyCallsMetricsDTO(IDailyCallsMetrics current, IDailyCallsMetrics previous) {
+        this.current = current;
+        this.previous = previous;
     }
 
-    public void setTotalReceivedCalls(Integer totalReceivedCalls) {
-        this.totalReceivedCalls = totalReceivedCalls;
+    public IDailyCallsMetrics getCurrent() {
+        return current;
     }
 
-    public Integer getTotalAttendedCalls() {
-        return totalAttendedCalls;
+    public void setCurrent(IDailyCallsMetrics current) {
+        this.current = current;
     }
 
-    public void setTotalAttendedCalls(Integer totalAttendedCalls) {
-        this.totalAttendedCalls = totalAttendedCalls;
+    public IDailyCallsMetrics getPrevious() {
+        return previous;
     }
 
-    public Integer getTotalLostCalls() {
-        return totalLostCalls;
-    }
-
-    public void setTotalLostCalls(Integer totalLostCalls) {
-        this.totalLostCalls = totalLostCalls;
-    }
-
-    public Integer getTotalAttendedCallsExternalAgent() {
-        return totalAttendedCallsExternalAgent;
-    }
-
-    public void setTotalAttendedCallsExternalAgent(Integer totalAttendedCallsExternalAgent) {
-        this.totalAttendedCallsExternalAgent = totalAttendedCallsExternalAgent;
-    }
-
-    public Integer getTotalDailyAttendedCallsInternalAgent() {
-        return totalDailyAttendedCallsInternalAgent;
-    }
-
-    public void setTotalDailyAttendedCallsInternalAgent(Integer totalDailyAttendedCallsInternalAgent) {
-        this.totalDailyAttendedCallsInternalAgent = totalDailyAttendedCallsInternalAgent;
+    public void setPrevious(IDailyCallsMetrics previous) {
+        this.previous = previous;
     }
 
     @Override
     public String toString() {
         return "DailyCallsMetricsDTO{" +
-            "totalReceivedCalls=" + totalReceivedCalls +
-            ", totalAttendedCalls=" + totalAttendedCalls +
-            ", totalLostCalls=" + totalLostCalls +
-            ", totalAttendedCallsExternalAgent=" + totalAttendedCallsExternalAgent +
-            ", totalDailyAttendedCallsInternalAgent=" + totalDailyAttendedCallsInternalAgent +
+            "current=" + current +
+            ", previous=" + previous +
             '}';
     }
 }

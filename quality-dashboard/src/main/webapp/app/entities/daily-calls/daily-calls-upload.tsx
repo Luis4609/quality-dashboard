@@ -1,16 +1,25 @@
 import { useAppDispatch, useAppSelector } from 'app/config/store';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Translate } from 'react-jhipster';
-import { useNavigate } from 'react-router-dom';
-import { Button, Col, Form, FormGroup, FormText, Input, Label, Row } from 'reactstrap';
-import { uploadExcelEntity } from './daily-calls.reducer';
+import { Button, Col, Form, Input, Label, Row } from 'reactstrap';
+import { useNavigate } from 'react-router';
+import { uploadExcelEntity } from './daily-calls-upload.reducer';
 
 export const DailyCallsUpload = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const uploading = useAppSelector(state => state.dailyCalls.uploading);
-  const uploadingSuccess = useAppSelector(state => state.dailyCalls.uploadingSuccess);
+  const updateSuccess = useAppSelector(state => state.dailyCalls.updateSuccess);
+
+  const handleClose = () => {
+    navigate('/daily-calls' + location.search);
+  };
+
+  useEffect(() => {
+    if (updateSuccess) {
+      handleClose();
+    }
+  }, [updateSuccess]);
 
   const [file, setFile] = useState<any>();
 
@@ -21,9 +30,6 @@ export const DailyCallsUpload = () => {
   };
 
   const handleUpload = () => {
-    // eslint-disable-next-line no-console
-    console.log('Uploading file...');
-
     const formData = new FormData();
     formData.append('file', file);
 

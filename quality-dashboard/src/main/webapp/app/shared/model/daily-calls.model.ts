@@ -22,7 +22,7 @@ export interface IDailyCallsMetrics {
   totalAttendedCalls?: number;
   totalLostCalls?: number;
   totalAttendedCallsExternalAgent?: number;
-  totalAttendedCallsInternalAgent?: number
+  totalAttendedCallsInternalAgent?: number;
 }
 
 export const defaultValueMetrics: Readonly<IDailyCallsMetrics> = {};
@@ -33,7 +33,29 @@ export interface IDailyCallsMetricsByDate {
   totalLostCalls?: number;
   totalAttendedCallsExternalAgent?: number;
   totalAttendedCallsInternalAgent?: number;
-  metricDate?: number
+  metricDate?: number;
 }
 
 export const defaultValueMetricsByDate: Readonly<IDailyCallsMetricsByDate> = {};
+
+export interface IDailyCallsMetricsWithPrevious {
+  current?: IDailyCallsMetrics;
+  previous?: IDailyCallsMetrics;
+}
+
+export const defaultValueMetricsWithPrevious: Readonly<IDailyCallsMetricsWithPrevious> = {
+  current: {
+    totalReceivedCalls: 0,
+    totalAttendedCalls: 0,
+    totalLostCalls: 0,
+    totalAttendedCallsExternalAgent: 0,
+    totalAttendedCallsInternalAgent: 0,
+  },
+  previous: {
+    totalReceivedCalls: 0,
+    totalAttendedCalls: 0,
+    totalLostCalls: 0,
+    totalAttendedCallsExternalAgent: 0,
+    totalAttendedCallsInternalAgent: 0,
+  },
+};

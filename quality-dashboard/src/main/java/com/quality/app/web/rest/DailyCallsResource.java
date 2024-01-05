@@ -5,9 +5,11 @@ import com.quality.app.service.DailyCallsQueryService;
 import com.quality.app.service.DailyCallsService;
 import com.quality.app.service.criteria.DailyCallsCriteria;
 import com.quality.app.service.dto.DailyCallsDTO;
+import com.quality.app.service.dto.metrics.DailyCallsMetricsDTO;
 import com.quality.app.service.dto.metrics.IDailyCallsMetrics;
 import com.quality.app.service.dto.metrics.IDailyCallsMetricsByDate;
 import com.quality.app.web.rest.errors.BadRequestAlertException;
+import com.quality.app.web.rest.errors.UploadFileAlertException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.slf4j.Logger;
@@ -25,13 +27,10 @@ import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
-import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.time.LocalDate;
+import java.util.*;
 
 /**
  * REST controller for managing {@link com.quality.app.domain.DailyCalls}.
@@ -215,16 +214,18 @@ public class DailyCallsResource {
      * @return the response entity
      */
     @PostMapping("/upload-file")
-    public ResponseEntity<String> uploadExcelFile(@RequestParam MultipartFile file) {
+    public ResponseEntity<String> uploadExcelFile(@RequestParam MultipartFile file) throws URISyntaxException {
+
         try {
             dailyCallsService.updateDataFromFile(file);
-        } catch (IOException e) {
-            //TODO handle exception
-            throw new RuntimeException(e);
+
+        } catch (Exception e) {
+            throw new UploadFileAlertException("Invalid file", ENTITY_NAME, "fileinvalid");
         }
+
         return ResponseEntity
             .ok()
-            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, file.getName()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, file.getName()))
             .build();
     }
 
@@ -234,9 +235,9 @@ public class DailyCallsResource {
      * @return the daily calls metrics
      */
     @GetMapping("/metrics")
-    public ResponseEntity<IDailyCallsMetrics> getDailyCallsMetrics(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date start) {
+    public ResponseEntity<DailyCallsMetricsDTO> getDailyCallsMetrics(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date start, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date finish) {
 
-        return ResponseEntity.ok().body(dailyCallsService.getMetricsByDateRange(start, new Date()));
+        return ResponseEntity.ok().body(dailyCallsService.getMetricsByDateRange(start, finish));
     }
 
 
@@ -251,5 +252,17 @@ public class DailyCallsResource {
     public ResponseEntity<List<IDailyCallsMetricsByDate>> getCallsByYearGroupByMonth(@RequestParam Integer year) {
 
         return ResponseEntity.ok().body(dailyCallsService.getMetricsByYearGroupByMonth(year));
+    }
+
+    @GetMapping("/metrics/month")
+    public ResponseEntity<List<IDailyCallsMetricsByDate>> getCallsMetricsByMonth(@RequestParam Integer month) {
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+
+        LocalDate startDate = LocalDate.of(calendar.get(Calendar.YEAR), month, 1);
+        LocalDate finishDate = LocalDate.of(calendar.get(Calendar.YEAR), month, startDate.lengthOfMonth());
+
+        return ResponseEntity.ok().body(dailyCallsService.getMetricsByDate(startDate, finishDate));
     }
 }
