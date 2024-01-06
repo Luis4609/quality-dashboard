@@ -19,7 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -134,7 +133,7 @@ public class DailyCallsService {
      * Update data from file.
      *
      * @param file the file
-     * @throws IOException the io exception
+     * @throws Exception the exception
      */
     public void updateDataFromFile(MultipartFile file) throws Exception {
         // Load the Excel file
@@ -184,17 +183,6 @@ public class DailyCallsService {
     }
 
     /**
-     * Gets metrics.
-     *
-     * @return the metrics
-     */
-    public void getMetrics() {
-        Object[] result = dailyCallsRepository.getMainCallsMetrics();
-
-
-    }
-
-    /**
      * Gets metrics by date range.
      *
      * @param start  the start
@@ -229,18 +217,28 @@ public class DailyCallsService {
      */
     public IDailyCallsMetrics getMetricsByDateRangeAndPeriod(Date start, Date finish, Integer period, String datePeriod) {
 
-        IDailyCallsMetrics dailyCallsMetrics = dailyCallsRepository.getDailyCallMetricsSummaryByDate(start, finish);
-        IDailyCallsMetrics dailyCallsMetrics1 = dailyCallsRepository.getDailyCallMetricsByDateAndPeriod(start, finish, period);
-
-
         return dailyCallsRepository.getDailyCallMetricsByDateAndPeriod(start, finish, period);
     }
 
+    /**
+     * Gets metrics by year group by month.
+     *
+     * @param start  the start
+     * @param finish the finish
+     * @return the metrics by year group by month
+     */
     public List<IDailyCallsMetricsByDate> getMetricsByYearGroupByMonth(Date start, Date finish) {
 
         return dailyCallsRepository.getMetricsByYearGroupByMonth(start, finish);
     }
 
+    /**
+     * Gets metrics by date.
+     *
+     * @param start  the start
+     * @param finish the finish
+     * @return the metrics by date
+     */
     public List<IDailyCallsMetricsByDate> getMetricsByDate(Date start, Date finish) {
 
         return dailyCallsRepository.getDailyCallMetricsByDate(start, finish);

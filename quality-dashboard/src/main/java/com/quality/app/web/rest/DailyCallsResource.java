@@ -56,11 +56,7 @@ public class DailyCallsResource {
      * @param dailyCallsRepository   the daily calls repository
      * @param dailyCallsQueryService the daily calls query service
      */
-    public DailyCallsResource(
-        DailyCallsService dailyCallsService,
-        DailyCallsRepository dailyCallsRepository,
-        DailyCallsQueryService dailyCallsQueryService
-    ) {
+    public DailyCallsResource(DailyCallsService dailyCallsService, DailyCallsRepository dailyCallsRepository, DailyCallsQueryService dailyCallsQueryService) {
         this.dailyCallsService = dailyCallsService;
         this.dailyCallsRepository = dailyCallsRepository;
         this.dailyCallsQueryService = dailyCallsQueryService;
@@ -80,10 +76,7 @@ public class DailyCallsResource {
             throw new BadRequestAlertException("A new dailyCalls cannot already have an ID", ENTITY_NAME, "idexists");
         }
         DailyCallsDTO result = dailyCallsService.save(dailyCallsDTO);
-        return ResponseEntity
-            .created(new URI("/api/daily-calls/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
-            .body(result);
+        return ResponseEntity.created(new URI("/api/daily-calls/" + result.getId())).headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString())).body(result);
     }
 
     /**
@@ -95,10 +88,7 @@ public class DailyCallsResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/{id}")
-    public ResponseEntity<DailyCallsDTO> updateDailyCalls(
-        @PathVariable(value = "id", required = false) final Long id,
-        @Valid @RequestBody DailyCallsDTO dailyCallsDTO
-    ) throws URISyntaxException {
+    public ResponseEntity<DailyCallsDTO> updateDailyCalls(@PathVariable(value = "id", required = false) final Long id, @Valid @RequestBody DailyCallsDTO dailyCallsDTO) throws URISyntaxException {
         log.debug("REST request to update DailyCalls : {}, {}", id, dailyCallsDTO);
         if (dailyCallsDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -112,10 +102,7 @@ public class DailyCallsResource {
         }
 
         DailyCallsDTO result = dailyCallsService.update(dailyCallsDTO);
-        return ResponseEntity
-            .ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, dailyCallsDTO.getId().toString()))
-            .body(result);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, dailyCallsDTO.getId().toString())).body(result);
     }
 
     /**
@@ -127,10 +114,7 @@ public class DailyCallsResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/{id}", consumes = {"application/json", "application/merge-patch+json"})
-    public ResponseEntity<DailyCallsDTO> partialUpdateDailyCalls(
-        @PathVariable(value = "id", required = false) final Long id,
-        @NotNull @RequestBody DailyCallsDTO dailyCallsDTO
-    ) throws URISyntaxException {
+    public ResponseEntity<DailyCallsDTO> partialUpdateDailyCalls(@PathVariable(value = "id", required = false) final Long id, @NotNull @RequestBody DailyCallsDTO dailyCallsDTO) throws URISyntaxException {
         log.debug("REST request to partial update DailyCalls partially : {}, {}", id, dailyCallsDTO);
         if (dailyCallsDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -145,10 +129,7 @@ public class DailyCallsResource {
 
         Optional<DailyCallsDTO> result = dailyCallsService.partialUpdate(dailyCallsDTO);
 
-        return ResponseUtil.wrapOrNotFound(
-            result,
-            HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, dailyCallsDTO.getId().toString())
-        );
+        return ResponseUtil.wrapOrNotFound(result, HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, dailyCallsDTO.getId().toString()));
     }
 
     /**
@@ -159,10 +140,7 @@ public class DailyCallsResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of dailyCalls in body.
      */
     @GetMapping("")
-    public ResponseEntity<List<DailyCallsDTO>> getAllDailyCalls(
-        DailyCallsCriteria criteria,
-        @org.springdoc.core.annotations.ParameterObject Pageable pageable
-    ) {
+    public ResponseEntity<List<DailyCallsDTO>> getAllDailyCalls(DailyCallsCriteria criteria, @org.springdoc.core.annotations.ParameterObject Pageable pageable) {
         log.debug("REST request to get DailyCalls by criteria: {}", criteria);
 
         Page<DailyCallsDTO> page = dailyCallsQueryService.findByCriteria(criteria, pageable);
@@ -205,21 +183,17 @@ public class DailyCallsResource {
     public ResponseEntity<Void> deleteDailyCalls(@PathVariable Long id) {
         log.debug("REST request to delete DailyCalls : {}", id);
         dailyCallsService.delete(id);
-        return ResponseEntity
-            .noContent()
-            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
-            .build();
+        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
     }
 
     /**
      * Upload excel file response entity.
      *
      * @param file the file
-     * @return the response entity
-     * @throws URISyntaxException the uri syntax exception
+     * @return {@link ResponseEntity} with status {@code 200 (OK)}.
      */
     @PostMapping("/upload-file")
-    public ResponseEntity<String> uploadExcelFile(@RequestParam MultipartFile file) throws URISyntaxException {
+    public ResponseEntity<String> uploadExcelFile(@RequestParam MultipartFile file) {
 
         try {
             dailyCallsService.updateDataFromFile(file);
@@ -227,10 +201,7 @@ public class DailyCallsResource {
             throw new UploadFileAlertException("Invalid file", ENTITY_NAME, "fileinvalid");
         }
 
-        return ResponseEntity
-            .ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, file.getName()))
-            .build();
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, file.getName())).build();
     }
 
     /**
@@ -269,9 +240,7 @@ public class DailyCallsResource {
      * @return the daily calls metrics
      */
     @GetMapping("/metrics/period")
-    public ResponseEntity<IDailyCallsMetrics> getDailyCallsMetrics(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date start, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date end,
-                                                                   @RequestParam Integer period, @RequestParam String datePeriod) {
-
+    public ResponseEntity<IDailyCallsMetrics> getDailyCallsMetrics(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date start, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date end, @RequestParam Integer period, @RequestParam String datePeriod) {
         return ResponseEntity.ok().body(dailyCallsService.getMetricsByDateRangeAndPeriod(start, end, period, datePeriod));
     }
 
@@ -287,6 +256,4 @@ public class DailyCallsResource {
 
         return ResponseEntity.ok().body(dailyCallsService.getMetricsByYearGroupByMonth(start, finish));
     }
-
-
 }
