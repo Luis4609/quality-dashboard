@@ -1,15 +1,14 @@
-import { useAppSelector } from 'app/config/store';
 import React, { useEffect, useState } from 'react';
 
 import ReactECharts from 'echarts-for-react';
 
 // Import the echarts core module, which provides the necessary interfaces for using echarts.
+import { IDailyCallsMetricsByDate } from 'app/shared/model/daily-calls.model';
 import { BarChart } from 'echarts/charts';
 import { GridComponent, TitleComponent, TooltipComponent } from 'echarts/components';
 import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
 import { cloneDeep } from 'lodash';
-import { IDailyCallsMetrics, IDailyCallsMetricsByDate } from 'app/shared/model/daily-calls.model';
 
 // Register the required components
 echarts.use([TitleComponent, TooltipComponent, GridComponent, BarChart, CanvasRenderer]);

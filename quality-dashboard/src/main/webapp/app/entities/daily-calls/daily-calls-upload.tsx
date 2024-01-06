@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Translate } from 'react-jhipster';
 import { Button, Col, Form, Input, Label, Row } from 'reactstrap';
 import { useNavigate } from 'react-router';
-import { uploadExcelEntity } from './daily-calls-upload.reducer';
+import { uploadExcelEntity } from './reducer/daily-calls-upload.reducer';
 
 export const DailyCallsUpload = () => {
   const dispatch = useAppDispatch();

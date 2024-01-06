@@ -20,7 +20,6 @@ export const uploadExcelEntity = createAsyncThunk(
   'dailyCallsUploadExcel/update_excel',
   async (entity: File | FormData) => {
     const result = await axios.post<File>(`${apiUrl}/upload-file`, entity);
-
     return result;
   },
   { serializeError: serializeAxiosError },

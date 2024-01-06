@@ -1,7 +1,13 @@
 import { createAsyncThunk, isFulfilled, isPending } from '@reduxjs/toolkit';
-import { IDailyCallsMetrics, IDailyCallsMetricsWithPrevious, defaultValueMetrics, defaultValueMetricsWithPrevious } from 'app/shared/model/daily-calls.model';
+import {
+  IDailyCallsMetrics,
+  IDailyCallsMetricsWithPrevious,
+  defaultValueMetrics,
+  defaultValueMetricsWithPrevious,
+} from 'app/shared/model/daily-calls.model';
 import { EntityState, IQueryParams, createEntitySlice, serializeAxiosError } from 'app/shared/reducers/reducer.utils';
 import axios from 'axios';
+import { IDateRangeParams } from './daily-calls-types';
 
 const initialState: EntityState<IDailyCallsMetricsWithPrevious> = {
   loading: false,
@@ -13,20 +19,13 @@ const initialState: EntityState<IDailyCallsMetricsWithPrevious> = {
   updateSuccess: false,
 };
 
-// interface IDateRangeParams {
-//   startDate?: string;
-//   endDate?: string;
-// }
-
-export type IDateRangeParams = { startDate?: string; endDate?: string; };
-
 const apiUrl = 'api/daily-calls';
 
 // Actions
 
 export const getMetrics = createAsyncThunk(
   'dailyCallsMetrics/fetch_metrics',
-  async ({startDate, endDate}: IDateRangeParams) => {
+  async ({ startDate, endDate }: IDateRangeParams) => {
     const requestUrl = `${apiUrl}/metrics/summary?start=${startDate}&finish=${endDate}`;
     const result = axios.get<IDailyCallsMetricsWithPrevious>(requestUrl);
     return result;

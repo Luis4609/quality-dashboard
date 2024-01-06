@@ -1,32 +1,18 @@
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import React, { useEffect, useState } from 'react';
-import { ValidatedField, translate } from 'react-jhipster';
+import { translate } from 'react-jhipster';
 import { Col, Container, Row } from 'reactstrap';
 
-import MetricCardComponent from 'app/shared/Components/MetricCardComponent';
-import { BarElement, CategoryScale, Chart as ChartJS, Legend, LineElement, LinearScale, PointElement, Title, Tooltip } from 'chart.js';
-import { getMetrics } from '../daily-calls-metrics.reducer';
+import MetricCardComponent from 'app/shared/components/MetricCardComponent';
+import DatePickerComponent from 'app/shared/components/DatePickerComponent';
 
-// Import the echarts core module, which provides the necessary interfaces for using echarts.
-import { BarChart } from 'echarts/charts';
-import { GridComponent, TitleComponent, TooltipComponent } from 'echarts/components';
-import * as echarts from 'echarts/core';
+import { getMetrics } from '../reducer/daily-calls-metrics.reducer';
 
-import { CanvasRenderer } from 'echarts/renderers';
 import { toast } from 'react-toastify';
 import CallsChart from '../components/CallsChart';
 import ReceivedAndAttendedChart from '../components/ReceivedAndAttendedChart';
-import { getMetricsByMonth } from '../daily-calls-metrics-by-month.reducer';
-import { getMetricsWithDate } from '../daily-calls-metrics-date.reducer';
-
-// Register the required components
-echarts.use([TitleComponent, TooltipComponent, GridComponent, BarChart, CanvasRenderer]);
-
-echarts.registerTheme('my_theme', {
-  backgroundColor: '#f4cccc',
-});
-
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, PointElement, LineElement);
+import { getMetricsByMonth } from '../reducer/daily-calls-metrics-by-month.reducer';
+import { getMetricsWithDate } from '../reducer/daily-calls-metrics-date.reducer';
 
 export const DailyCallsDashboard = () => {
   // Get year, month, and day part from the date
@@ -57,7 +43,7 @@ export const DailyCallsDashboard = () => {
       toast.error(translate('qualitydashboardApp.dailyCalls.metrics.validation.canNotBeEmpty'));
     } else {
       getAllMetrics();
-      toast.success(translate('qualitydashboardApp.dailyCalls.metrics.dashboardUpdated'), { autoClose: 4000 });
+      // toast.success(translate('qualitydashboardApp.dailyCalls.metrics.dashboardUpdated'), { autoClose: 4000 });
     }
   }, [startDate, currentDate]);
 
@@ -69,104 +55,85 @@ export const DailyCallsDashboard = () => {
   };
 
   return (
-    <>
-      <Container>
-        <Row>
-          <Col>
-            <ValidatedField
-              label={translate('qualitydashboardApp.dailyCalls.metrics.startDateInput')}
-              id="daily-calls-metrics-startDateInput"
-              value={startDate}
-              name="startDateInput"
-              data-cy="startDateInput"
-              type="date"
-              validate={{
-                required: { value: true, message: translate('entity.validation.required') },
-              }}
-              onChange={e => setStarDate(e.target.value)}
-            />
-          </Col>
-          <Col>
-            <ValidatedField
-              label={translate('qualitydashboardApp.dailyCalls.metrics.endDateInput')}
-              value={currentDate}
-              id="daily-calls-metrics-endDateInput"
-              name="endDateInput"
-              data-cy="endDateInput"
-              type="date"
-              validate={{
-                required: { value: true, message: translate('entity.validation.required') },
-              }}
-              onChange={e => setCurrentDate(e.target.value)}
-            />
-          </Col>
-        </Row>
-
-        <Row>
-          <Col>
-            <MetricCardComponent
-              color="primary"
-              title="Llamadas recibidas"
-              footer="año anterior"
-              previousData={dailyCallsMetrics.previous.totalReceivedCalls}
-              data={dailyCallsMetrics.current.totalReceivedCalls}
-            ></MetricCardComponent>
-          </Col>
-          <Col>
-            <MetricCardComponent
-              color="danger"
-              title="Llamadas atendidas"
-              footer={'año anterior'}
-              previousData={dailyCallsMetrics.previous.totalAttendedCalls}
-              data={dailyCallsMetrics.current.totalAttendedCalls}
-            ></MetricCardComponent>
-          </Col>
-          <Col>
-            <MetricCardComponent
-              color="success"
-              title="Llamadas perdidas"
-              footer="año anterior"
-              previousData={dailyCallsMetrics.previous.totalLostCalls}
-              data={dailyCallsMetrics.current.totalLostCalls}
-            ></MetricCardComponent>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <MetricCardComponent
-              color="primary"
-              title="Llamadas atendidas agentes externos"
-              footer="año anterior"
-              previousData={dailyCallsMetrics.previous.totalAttendedCallsExternalAgent}
-              data={dailyCallsMetrics.current.totalAttendedCallsExternalAgent}
-            ></MetricCardComponent>
-          </Col>
-          <Col>
-            <MetricCardComponent
-              color="danger"
-              title="Llamadas atendidas agentes internos"
-              footer="año anterior"
-              previousData={dailyCallsMetrics.previous.totalAttendedCallsInternalAgent}
-              data={dailyCallsMetrics.current.totalAttendedCallsInternalAgent}
-            ></MetricCardComponent>
-          </Col>
-          <Col></Col>
-        </Row>
-
-        <Row>
-          <Col>
-            <ReceivedAndAttendedChart
-              metricsByMonth={metricsByMonth}
-              startDate={startDate}
-              endDate={currentDate}
-            ></ReceivedAndAttendedChart>
-          </Col>
-          <Col>
-            <CallsChart metricsYTD={metricsYTD} startDate={startDate} endDate={currentDate}></CallsChart>
-          </Col>
-        </Row>
-      </Container>
-    </>
+    <Container style={{marginTop: '1em'}}>
+      {/* Date Pickers section */}
+      <Row>
+        <Col>
+          <DatePickerComponent
+            date={startDate}
+            setDate={setStarDate}
+            text={'qualitydashboardApp.dailyCalls.metrics.startDateInput'}
+          ></DatePickerComponent>
+        </Col>
+        <Col>
+          <DatePickerComponent
+            date={currentDate}
+            setDate={setCurrentDate}
+            text={'qualitydashboardApp.dailyCalls.metrics.endDateInput'}
+          ></DatePickerComponent>
+        </Col>
+      </Row>
+      {/* METRICS section */}
+      <Row>
+        <Col>
+          <MetricCardComponent
+            color="primary"
+            title="Llamadas recibidas"
+            footer="año anterior"
+            previousData={dailyCallsMetrics.previous.totalReceivedCalls}
+            data={dailyCallsMetrics.current.totalReceivedCalls}
+          ></MetricCardComponent>
+        </Col>
+        <Col>
+          <MetricCardComponent
+            color="danger"
+            title="Llamadas atendidas"
+            footer={'año anterior'}
+            previousData={dailyCallsMetrics.previous.totalAttendedCalls}
+            data={dailyCallsMetrics.current.totalAttendedCalls}
+          ></MetricCardComponent>
+        </Col>
+        <Col>
+          <MetricCardComponent
+            color="success"
+            title="Llamadas perdidas"
+            footer="año anterior"
+            previousData={dailyCallsMetrics.previous.totalLostCalls}
+            data={dailyCallsMetrics.current.totalLostCalls}
+          ></MetricCardComponent>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <MetricCardComponent
+            color="primary"
+            title="Llamadas atendidas agentes externos"
+            footer="año anterior"
+            previousData={dailyCallsMetrics.previous.totalAttendedCallsExternalAgent}
+            data={dailyCallsMetrics.current.totalAttendedCallsExternalAgent}
+          ></MetricCardComponent>
+        </Col>
+        <Col>
+          <MetricCardComponent
+            color="danger"
+            title="Llamadas atendidas agentes internos"
+            footer="año anterior"
+            previousData={dailyCallsMetrics.previous.totalAttendedCallsInternalAgent}
+            data={dailyCallsMetrics.current.totalAttendedCallsInternalAgent}
+          ></MetricCardComponent>
+        </Col>
+        <Col></Col>
+      </Row>
+      {/* CHARTS section */}
+      <Row>
+        <Col>
+          <ReceivedAndAttendedChart metricsByMonth={metricsByMonth} startDate={startDate} endDate={currentDate}></ReceivedAndAttendedChart>
+        </Col>
+        <Col>
+          <CallsChart metricsYTD={metricsYTD} startDate={startDate} endDate={currentDate}></CallsChart>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 

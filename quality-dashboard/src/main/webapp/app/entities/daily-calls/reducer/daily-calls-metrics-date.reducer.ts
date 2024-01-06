@@ -1,5 +1,5 @@
 import { createAsyncThunk, isFulfilled, isPending } from '@reduxjs/toolkit';
-import { IDailyCallsMetrics, IDailyCallsMetricsByDate, defaultValueMetrics } from 'app/shared/model/daily-calls.model';
+import { IDailyCallsMetricsByDate, defaultValueMetrics } from 'app/shared/model/daily-calls.model';
 import { EntityState, createEntitySlice, serializeAxiosError } from 'app/shared/reducers/reducer.utils';
 import axios from 'axios';
 import { IDateRangeParams } from './daily-calls-metrics.reducer';

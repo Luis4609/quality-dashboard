@@ -22,9 +22,9 @@
         "infoText": "Upload the excel file with the Daily Calls data"
       },
       "metrics": {
-        "title": "Daily Calls Metricas",
-        "startDateInput": "Start date",
-        "endDateInput": "End date",
+        "title": "Calls Metrics",
+        "startDateInput": "Start date:",
+        "endDateInput": "End date:",
         "dashboardUpdated": "El dashboard se ha actualizado correctamente",
         "validation": {
           "required": "Los campos fecha de inicio y fecha final son obligatorios",

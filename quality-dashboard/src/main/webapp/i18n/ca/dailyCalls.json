@@ -21,7 +21,15 @@
         "infoText": "Carregueu el fitxer Excel amb les dades de les trucades diàries"
       },
       "metrics": {
-        "title": "Daily Calls Metricas"
+        "title": "Daily Calls Metricas",
+        "startDateInput": "Data d'inici:",
+        "endDateInput": "Data final:",
+        "dashboardUpdated": "El dashboard se ha actualizado correctamente",
+        "validation": {
+          "required": "Els camps data d'inici i data final són obligatoris",
+          "startDateLessThanEndDate": "La data inicial ha de ser anterior a la data final",
+          "canNotBeEmpty": "Els camps data d'inici i data final no poden estar buits"
+        }
       },
       "detail": {
         "title": "Daily Calls"

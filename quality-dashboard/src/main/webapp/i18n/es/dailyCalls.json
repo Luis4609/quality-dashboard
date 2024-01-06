@@ -23,32 +23,32 @@
       },
       "metrics": {
         "title": "Daily Calls Metricas",
-        "startDateInput": "Fecha de inicio",
-        "endDateInput": "Fecha final",
+        "startDateInput": "Fecha de inicio:",
+        "endDateInput": "Fecha final:",
         "dashboardUpdated": "El dashboard se ha actualizado correctamente",
         "validation": {
           "required": "Los campos fecha de inicio y fecha final son obligatorios",
           "startDateLessThanEndDate": "La fecha de inicio tiene que ser anterior a la fecha final",
-          "canNotBeEmpty": "Los campos fecha de inicio y fecha final no pueden estar vacios"
+          "canNotBeEmpty": "Los campos fecha de inicio y fecha final no pueden estar vacíos"
         }
       },
       "detail": {
         "title": "Daily Calls"
       },
       "id": "ID",
-      "day": "Day",
-      "totalDailyReceivedCalls": "Total Daily Received Calls",
-      "totalDailyAttendedCalls": "Total Daily Attended Calls",
-      "totalDailyMissedCalls": "Total Daily Missed Calls",
-      "totalDailyReceivedCallsExternalAgent": "Total Daily Received Calls External Agent",
-      "totalDailyAttendedCallsExternalAgent": "Total Daily Attended Calls External Agent",
-      "totalDailyReceivedCallsInternalAgent": "Total Daily Received Calls Internal Agent",
-      "totalDailyAttendedCallsInternalAgent": "Total Daily Attended Calls Internal Agent",
-      "totalDailyCallsTimeInMin": "Total Daily Calls Time In Min",
-      "totalDailyCallsTimeExternalAgentInMin": "Total Daily Calls Time External Agent In Min",
-      "totalDailyCallsTimeInternalAgentInMin": "Total Daily Calls Time Internal Agent In Min",
-      "avgDailyOperationTimeExternalAgentInMin": "Avg Daily Operation Time External Agent In Min",
-      "avgDailyOperationTimeInternalAgentInMin": "Avg Daily Operation Time Internal Agent In Min"
+      "day": "Fecha",
+      "totalDailyReceivedCalls": "Llamadas recibidas",
+      "totalDailyAttendedCalls": "Llamadas atendidas",
+      "totalDailyMissedCalls": "Llamadas perdidas",
+      "totalDailyReceivedCallsExternalAgent": "Llamadas recibidas agente externo",
+      "totalDailyAttendedCallsExternalAgent": "Llamadas atendidas agente externo",
+      "totalDailyReceivedCallsInternalAgent": "Llamadas recibidas agente interno",
+      "totalDailyAttendedCallsInternalAgent": "Llamadas atendidas agente interno",
+      "totalDailyCallsTimeInMin": "Tiempo en llamadas (min)",
+      "totalDailyCallsTimeExternalAgentInMin": "Tiempo en llamadas agente externo (min)",
+      "totalDailyCallsTimeInternalAgentInMin": "Tiempo en llamadas agente interno (min)",
+      "avgDailyOperationTimeExternalAgentInMin": "Media diaria por agente externo (min)",
+      "avgDailyOperationTimeInternalAgentInMin": "Media diaria por agente interno (min)"
     }
   }
 }
