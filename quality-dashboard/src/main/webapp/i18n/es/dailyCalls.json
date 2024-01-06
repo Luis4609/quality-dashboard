@@ -22,7 +22,15 @@
         "infoText": "Subir un fichero excel con los datos relacionados con las Llamadas diarias"
       },
       "metrics": {
-        "title": "Daily Calls Metricas"
+        "title": "Daily Calls Metricas",
+        "startDateInput": "Fecha de inicio",
+        "endDateInput": "Fecha final",
+        "dashboardUpdated": "El dashboard se ha actualizado correctamente",
+        "validation": {
+          "required": "Los campos fecha de inicio y fecha final son obligatorios",
+          "startDateLessThanEndDate": "La fecha de inicio tiene que ser anterior a la fecha final",
+          "canNotBeEmpty": "Los campos fecha de inicio y fecha final no pueden estar vacios"
+        }
       },
       "detail": {
         "title": "Daily Calls"

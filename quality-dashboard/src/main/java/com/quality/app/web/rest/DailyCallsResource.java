@@ -29,8 +29,10 @@ import tech.jhipster.web.util.ResponseUtil;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.time.LocalDate;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 /**
  * REST controller for managing {@link com.quality.app.domain.DailyCalls}.
@@ -47,6 +49,13 @@ public class DailyCallsResource {
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
+    /**
+     * Instantiates a new Daily calls resource.
+     *
+     * @param dailyCallsService      the daily calls service
+     * @param dailyCallsRepository   the daily calls repository
+     * @param dailyCallsQueryService the daily calls query service
+     */
     public DailyCallsResource(
         DailyCallsService dailyCallsService,
         DailyCallsRepository dailyCallsRepository,
@@ -82,9 +91,7 @@ public class DailyCallsResource {
      *
      * @param id            the id of the dailyCallsDTO to save.
      * @param dailyCallsDTO the dailyCallsDTO to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated dailyCallsDTO,
-     * or with status {@code 400 (Bad Request)} if the dailyCallsDTO is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the dailyCallsDTO couldn't be updated.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated dailyCallsDTO, or with status {@code 400 (Bad Request)} if the dailyCallsDTO is not valid, or with status {@code 500 (Internal Server Error)} if the dailyCallsDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/{id}")
@@ -116,10 +123,7 @@ public class DailyCallsResource {
      *
      * @param id            the id of the dailyCallsDTO to save.
      * @param dailyCallsDTO the dailyCallsDTO to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated dailyCallsDTO,
-     * or with status {@code 400 (Bad Request)} if the dailyCallsDTO is not valid,
-     * or with status {@code 404 (Not Found)} if the dailyCallsDTO is not found,
-     * or with status {@code 500 (Internal Server Error)} if the dailyCallsDTO couldn't be updated.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated dailyCallsDTO, or with status {@code 400 (Bad Request)} if the dailyCallsDTO is not valid, or with status {@code 404 (Not Found)} if the dailyCallsDTO is not found, or with status {@code 500 (Internal Server Error)} if the dailyCallsDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/{id}", consumes = {"application/json", "application/merge-patch+json"})
@@ -150,8 +154,8 @@ public class DailyCallsResource {
     /**
      * {@code GET  /daily-calls} : get all the dailyCalls.
      *
-     * @param pageable the pagination information.
      * @param criteria the criteria which the requested entities should match.
+     * @param pageable the pagination information.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of dailyCalls in body.
      */
     @GetMapping("")
@@ -212,13 +216,13 @@ public class DailyCallsResource {
      *
      * @param file the file
      * @return the response entity
+     * @throws URISyntaxException the uri syntax exception
      */
     @PostMapping("/upload-file")
     public ResponseEntity<String> uploadExcelFile(@RequestParam MultipartFile file) throws URISyntaxException {
 
         try {
             dailyCallsService.updateDataFromFile(file);
-
         } catch (Exception e) {
             throw new UploadFileAlertException("Invalid file", ENTITY_NAME, "fileinvalid");
         }
@@ -230,17 +234,40 @@ public class DailyCallsResource {
     }
 
     /**
-     * Gets daily calls metrics.
+     * Gets calls metrics group by month.
      *
-     * @return the daily calls metrics
+     * @param start  the start
+     * @param finish the finish
+     * @return the calls metrics by month
      */
     @GetMapping("/metrics")
-    public ResponseEntity<DailyCallsMetricsDTO> getDailyCallsMetrics(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date start, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date finish) {
+    public ResponseEntity<List<IDailyCallsMetricsByDate>> getCallsMetricsGroupByMonth(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date start, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date finish) {
 
-        return ResponseEntity.ok().body(dailyCallsService.getMetricsByDateRange(start, finish));
+        return ResponseEntity.ok().body(dailyCallsService.getMetricsByDate(start, finish));
     }
 
+    /**
+     * Gets daily calls metrics summary by date range.
+     *
+     * @param start  the start
+     * @param finish the finish
+     * @return the daily calls metrics
+     */
+    @GetMapping("/metrics/summary")
+    public ResponseEntity<DailyCallsMetricsDTO> getDailyCallsMetrics(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date start, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date finish) {
 
+        return ResponseEntity.ok().body(dailyCallsService.getMetricsSummaryByDateRange(start, finish));
+    }
+
+    /**
+     * Gets daily calls metrics.
+     *
+     * @param start      the start
+     * @param end        the end
+     * @param period     the period
+     * @param datePeriod the date period
+     * @return the daily calls metrics
+     */
     @GetMapping("/metrics/period")
     public ResponseEntity<IDailyCallsMetrics> getDailyCallsMetrics(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date start, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date end,
                                                                    @RequestParam Integer period, @RequestParam String datePeriod) {
@@ -248,21 +275,18 @@ public class DailyCallsResource {
         return ResponseEntity.ok().body(dailyCallsService.getMetricsByDateRangeAndPeriod(start, end, period, datePeriod));
     }
 
+    /**
+     * Gets calls metrics by year group by month.
+     *
+     * @param start  the start
+     * @param finish the finish
+     * @return the calls metrics by year group by month
+     */
     @GetMapping("/metrics/year")
-    public ResponseEntity<List<IDailyCallsMetricsByDate>> getCallsByYearGroupByMonth(@RequestParam Integer year) {
+    public ResponseEntity<List<IDailyCallsMetricsByDate>> getCallsMetricsByDateRangeGroupByMonth(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date start, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date finish) {
 
-        return ResponseEntity.ok().body(dailyCallsService.getMetricsByYearGroupByMonth(year));
+        return ResponseEntity.ok().body(dailyCallsService.getMetricsByYearGroupByMonth(start, finish));
     }
 
-    @GetMapping("/metrics/month")
-    public ResponseEntity<List<IDailyCallsMetricsByDate>> getCallsMetricsByMonth(@RequestParam Integer month) {
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new Date());
-
-        LocalDate startDate = LocalDate.of(calendar.get(Calendar.YEAR), month, 1);
-        LocalDate finishDate = LocalDate.of(calendar.get(Calendar.YEAR), month, startDate.lengthOfMonth());
-
-        return ResponseEntity.ok().body(dailyCallsService.getMetricsByDate(startDate, finishDate));
-    }
 }

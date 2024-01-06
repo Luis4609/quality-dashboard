@@ -119,15 +119,17 @@ public interface DailyCallsRepository extends JpaRepository<DailyCalls, Long>, J
     /**
      * Gets metrics by year group by month.
      *
-     * @param year the year
+     * @param start
+     * @param end
      * @return the metrics by year group by month
      */
     @Query(value = """
         SELECT SUM(total_daily_received_calls) AS totalReceivedCalls, SUM(total_daily_attended_calls) AS totalAttendedCalls, SUM(total_daily_missed_calls) AS totalLostCalls,
         SUM(total_daily_attended_calls_external_agent) AS totalAttendedCallsExternalAgent, SUM(total_daily_attended_calls_internal_agent) AS totalAttendedCallsInternalAgent, day AS metricDate
-        FROM daily_calls WHERE year(day) = ?1 group by month(day)""",
+        FROM daily_calls WHERE daily_calls.day between ?1 AND ?2
+        group by month(daily_calls.day)""",
         nativeQuery = true)
-    List<IDailyCallsMetricsByDate> getMetricsByYearGroupByMonth(Integer year);
+    List<IDailyCallsMetricsByDate> getMetricsByYearGroupByMonth(Date start, Date end);
 
 
     @Query(
@@ -138,5 +140,5 @@ public interface DailyCallsRepository extends JpaRepository<DailyCalls, Long>, J
             WHERE daily_calls.day between ?1 AND ?2""",
         nativeQuery = true
     )
-    List<IDailyCallsMetricsByDate> getDailyCallMetricsByDate(LocalDate start, LocalDate end);
+    List<IDailyCallsMetricsByDate> getDailyCallMetricsByDate(Date start, Date end);
 }

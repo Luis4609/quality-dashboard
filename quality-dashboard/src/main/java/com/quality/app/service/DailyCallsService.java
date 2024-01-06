@@ -20,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -202,7 +201,7 @@ public class DailyCallsService {
      * @param finish the finish
      * @return the metrics by date range
      */
-    public DailyCallsMetricsDTO getMetricsByDateRange(Date start, Date finish) {
+    public DailyCallsMetricsDTO getMetricsSummaryByDateRange(Date start, Date finish) {
 
         IDailyCallsMetrics current = dailyCallsRepository.getDailyCallMetricsSummaryByDate(start, finish);
 
@@ -237,12 +236,12 @@ public class DailyCallsService {
         return dailyCallsRepository.getDailyCallMetricsByDateAndPeriod(start, finish, period);
     }
 
-    public List<IDailyCallsMetricsByDate> getMetricsByYearGroupByMonth(Integer year) {
+    public List<IDailyCallsMetricsByDate> getMetricsByYearGroupByMonth(Date start, Date finish) {
 
-        return dailyCallsRepository.getMetricsByYearGroupByMonth(year);
+        return dailyCallsRepository.getMetricsByYearGroupByMonth(start, finish);
     }
 
-    public List<IDailyCallsMetricsByDate> getMetricsByDate(LocalDate start, LocalDate finish) {
+    public List<IDailyCallsMetricsByDate> getMetricsByDate(Date start, Date finish) {
 
         return dailyCallsRepository.getDailyCallMetricsByDate(start, finish);
     }

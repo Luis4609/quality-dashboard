@@ -27,7 +27,7 @@ const apiUrl = 'api/daily-calls';
 export const getMetrics = createAsyncThunk(
   'dailyCallsMetrics/fetch_metrics',
   async ({startDate, endDate}: IDateRangeParams) => {
-    const requestUrl = `${apiUrl}/metrics?start=${startDate}&finish=${endDate}`;
+    const requestUrl = `${apiUrl}/metrics/summary?start=${startDate}&finish=${endDate}`;
     const result = axios.get<IDailyCallsMetricsWithPrevious>(requestUrl);
     return result;
   },

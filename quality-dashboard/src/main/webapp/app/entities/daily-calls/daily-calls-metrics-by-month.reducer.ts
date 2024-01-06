@@ -2,6 +2,7 @@ import { createAsyncThunk, isFulfilled, isPending } from '@reduxjs/toolkit';
 import { IDailyCallsMetrics, IDailyCallsMetricsByDate, defaultValueMetrics } from 'app/shared/model/daily-calls.model';
 import { EntityState, createEntitySlice, serializeAxiosError } from 'app/shared/reducers/reducer.utils';
 import axios from 'axios';
+import { IDateRangeParams } from './daily-calls-metrics.reducer';
 
 const initialState: EntityState<IDailyCallsMetricsByDate> = {
   loading: false,
@@ -19,8 +20,8 @@ const apiUrl = 'api/daily-calls';
 
 export const getMetricsByMonth = createAsyncThunk(
   'dailyCallsMetricsByMonth/fetch_metrics_by_month',
-  async (month: string) => {
-    const requestUrl = `${apiUrl}/metrics/month?month=${month}`;
+  async ({startDate, endDate}: IDateRangeParams) => {
+    const requestUrl = `${apiUrl}/metrics?start=${startDate}&finish=${endDate}`;
     const result = axios.get<IDailyCallsMetricsByDate[]>(requestUrl);
     return result;
   },

@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import React, { useEffect, useState } from 'react';
-import { Translate } from 'react-jhipster';
+import { Translate, ValidatedField, ValidatedForm, isNumber, translate } from 'react-jhipster';
 import { Col, Container, Input, Row } from 'reactstrap';
 
 import MetricCardComponent from 'app/shared/Components/MetricCardComponent';
@@ -20,6 +20,8 @@ import { getMetricsWithDate } from './daily-calls-metrics-date.reducer';
 import { atendidasSVDIOption } from './metrics/ChartsOptions';
 import { getMetricsByMonth } from './daily-calls-metrics-by-month.reducer';
 import ReceivedAndAttendedChart from './components/ReceivedAndAttendedChart';
+import { toast } from 'react-toastify';
+import DailyCallsDashboard from './components/DailyCallsDashboard';
 
 // Register the required components
 echarts.use([TitleComponent, TooltipComponent, GridComponent, BarChart, CanvasRenderer]);
@@ -79,52 +81,6 @@ export const optionsMultiAxis = {
 export const DailyCallsMetrics = () => {
   // State and variables
 
-  const date = new Date();
-  // Get year, month, and day part from the date
-  const year = date.toLocaleString('default', { year: 'numeric' });
-  const month = date.toLocaleString('default', { month: '2-digit' });
-  const day = date.toLocaleString('default', { day: '2-digit' });
-
-  //TODO validate dates
-  // Generate yyyy-mm-dd date string
-  const formattedCurrentDate = year + '-' + month + '-' + day;
-
-  const formattedStartDate = year + '-' + month + '-' + "01";
-
-  const [startDate, setStarDate] = useState(formattedStartDate);
-
-  const [currentDate, setCurrentDate] = useState(formattedCurrentDate);
-
-  // eslint-disable-next-line no-console
-  console.log(`${formattedCurrentDate} -- ${currentDate}`);
-
-  const dailyCallsList = useAppSelector(state => state.dailyCalls.entities);
-  const dailyCallsMetrics = useAppSelector(state => state.dailyCallsMetrics.entity);
-
-  const metricsByMonth = useAppSelector(state => state.dailyCallsMetricsByMonth.entities);
-
-  const labels = dailyCallsList.map((dailyCalls: { day: any }) => dailyCalls.day);
-
-  const dispatch = useAppDispatch();
-
-  const getAllMetrics = () => {
-    dispatch(getMetrics({startDate, endDate: currentDate}));
-  };
-
-  useEffect(() => {
-    getAllMetrics();
-  }, [startDate, currentDate]);
-
-  const getAllMetricsByDate = () => {
-    dispatch(getMetricsWithDate(Number(year)));
-    dispatch(getMetricsByMonth(month));
-  };
-
-  useEffect(() => {
-    getAllMetricsByDate();
-  }, []);
-
-
   return (
     <>
       <Row>
@@ -134,98 +90,7 @@ export const DailyCallsMetrics = () => {
           </h2>
         </Col>
       </Row>
-
-      <Container>
-        <Row>
-          <Col>
-            <label>Pick start date: </label>
-            <Input type="date" value={startDate} onChange={(e) => setStarDate(e.target.value)}/>
-          </Col>
-
-          <Col>
-            <label>Pick end date: </label>
-            <Input type="date" value={currentDate} onChange={(e) => setCurrentDate(e.target.value)}/>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <MetricCardComponent
-              color="primary"
-              title="Llamadas recibidas"
-              footer="año anterior"
-              previousData={dailyCallsMetrics.previous.totalReceivedCalls}
-              data={dailyCallsMetrics.current.totalReceivedCalls}
-            ></MetricCardComponent>
-          </Col>
-          <Col>
-            <MetricCardComponent
-              color="danger"
-              title="Llamadas atendidas"
-              footer={''}
-              previousData={dailyCallsMetrics.previous.totalAttendedCalls}
-              data={dailyCallsMetrics.current.totalAttendedCalls}
-            ></MetricCardComponent>
-          </Col>
-          <Col>
-            <MetricCardComponent
-              color="success"
-              title="Llamadas perdidas"
-              footer="año anterior"
-              previousData={dailyCallsMetrics.previous.totalLostCalls}
-              data={dailyCallsMetrics.current.totalLostCalls}
-            ></MetricCardComponent>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <MetricCardComponent
-              color="primary"
-              title="Llamadas atendidas agentes externos"
-              footer="año anterior"
-              previousData={dailyCallsMetrics.previous.totalAttendedCallsExternalAgent}
-              data={dailyCallsMetrics.current.totalAttendedCallsExternalAgent}
-            ></MetricCardComponent>
-          </Col>
-          <Col>
-            <MetricCardComponent
-              color="danger"
-              title="Llamadas atendidas agentes internos"
-              footer="año anterior"
-              previousData={dailyCallsMetrics.previous.totalAttendedCallsInternalAgent}
-              data={dailyCallsMetrics.current.totalAttendedCallsInternalAgent}
-            ></MetricCardComponent>
-          </Col>
-          <Col>
-            <MetricCardComponent
-              color="primary"
-              title="Llamadas atendidas (media - agente/dia)"
-              footer="año anterior"
-              previousData={-100000}
-              data={1}
-            ></MetricCardComponent>
-          </Col>
-        </Row>
-
-        <Row>
-          {/* <Col> */}
-          {/* <ReactECharts
-              option={this.getOption()}
-              notMerge={true}
-              lazyUpdate={true}
-              theme={'theme_name'}
-              onChartReady={this.onChartReadyCallback}
-              onEvents={EventsDict}
-              opts={}
-            /> */}
-          {/* </Col> */}
-          <Col>
-            <ReceivedAndAttendedChart></ReceivedAndAttendedChart>
-          </Col>
-          <Col>
-            <CallsChart></CallsChart>
-          </Col>
-        </Row>
-      </Container>
+        <DailyCallsDashboard></DailyCallsDashboard>
     </>
   );
 };

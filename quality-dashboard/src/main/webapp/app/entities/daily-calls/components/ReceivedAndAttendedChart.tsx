@@ -9,6 +9,8 @@ import { GridComponent, TitleComponent, TooltipComponent } from 'echarts/compone
 import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
 import { cloneDeep } from 'lodash';
+import { IDailyCallsMetricsByDate } from 'app/shared/model/daily-calls.model';
+import { text } from '@fortawesome/fontawesome-svg-core';
 
 // Register the required components
 echarts.use([TitleComponent, TooltipComponent, GridComponent, BarChart, CanvasRenderer]);
@@ -18,53 +20,52 @@ echarts.registerTheme('my_theme', {
 });
 
 const DEFAULT_OPTIONS = {
-  title: {
-  },
-    tooltip: {},
-  legend: {top: 'bottom'},
-    xAxis: {
-      name: 'Día',
-          data: [],
+  title: { text: 'Llamadas - Recibidas y Atendidas', textStyle: { fontSize: 14 } },
+  tooltip: {},
+  legend: { top: 'bottom' },
+  xAxis: {
+    name: 'Día',
+    data: [],
   },
   yAxis: [
     {
-
       type: 'value',
       name: 'Nº de Llamadas',
       axisLabel: {
-          formatter: '{value}'
-
-      }
-    }
-],
+        formatter: '{value}',
+      },
+    },
+  ],
   series: [
     {
       name: 'Llamadas recibidas',
-      type: "line",
-      data: []
+      type: 'line',
+      data: [],
     },
     {
       name: 'Llamadas atendidas',
       type: 'line',
-      data: []
-  },
+      data: [],
+    },
   ],
 };
 
-const ReceivedAndAttendedChart = () => {
-  const metricsByMonth = useAppSelector(state => state.dailyCallsMetricsByMonth.entities);
+const ReceivedAndAttendedChart = (props: { metricsByMonth: IDailyCallsMetricsByDate[]; startDate: string; endDate: string }) => {
+  // const metricsByMonth = useAppSelector(state => state.dailyCallsMetricsByMonth.entities);
 
   // eslint-disable-next-line no-console
-  console.log(`metricsByMonth ${metricsByMonth}`)
+  console.log(`metricsByMonth ${props.metricsByMonth}`);
 
   const [option, setOption] = useState(DEFAULT_OPTIONS);
 
   const getData = () => {
     const newOption = cloneDeep(option); // immutable
 
-    const x: any[] = metricsByMonth.map(metric => metric.metricDate);
-    const data: any[] = metricsByMonth.map(metric => metric.totalReceivedCalls);
-    const data1: any[] = metricsByMonth.map(metric => metric.totalAttendedCalls);
+    newOption.title.text = `Llamadas - Recibidas y Atendidas (${props.startDate} - ${props.endDate})`;
+
+    const x: any[] = props.metricsByMonth.map(metric => metric.metricDate);
+    const data: any[] = props.metricsByMonth.map(metric => metric.totalReceivedCalls);
+    const data1: any[] = props.metricsByMonth.map(metric => metric.totalAttendedCalls);
 
     newOption.xAxis.data.length = 0;
     newOption.xAxis.data.push(...x);
@@ -80,7 +81,7 @@ const ReceivedAndAttendedChart = () => {
 
   useEffect(() => {
     getData();
-  }, [metricsByMonth]);
+  }, [props.metricsByMonth]);
 
   return <ReactECharts option={option} lazyUpdate={true} />;
 };

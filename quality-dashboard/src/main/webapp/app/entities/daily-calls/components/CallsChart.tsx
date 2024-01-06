@@ -9,6 +9,7 @@ import { GridComponent, TitleComponent, TooltipComponent } from 'echarts/compone
 import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
 import { cloneDeep } from 'lodash';
+import { IDailyCallsMetrics, IDailyCallsMetricsByDate } from 'app/shared/model/daily-calls.model';
 
 // Register the required components
 echarts.use([TitleComponent, TooltipComponent, GridComponent, BarChart, CanvasRenderer]);
@@ -18,7 +19,7 @@ echarts.registerTheme('my_theme', {
 });
 
 const DEFAULT_OPTIONS = {
-  title: {},
+  title: { text: 'Llamadas - Recibidas y Porcentaje atención', textStyle: { fontSize: 14 } },
   tooltip: {},
   legend: { top: 'bottom' },
   xAxis: {
@@ -28,9 +29,6 @@ const DEFAULT_OPTIONS = {
     {
       type: 'value',
       name: 'Recibidas',
-      min: 0,
-      max: 50000,
-      interval: 10000,
       axisLabel: {
         formatter: '{value}',
       },
@@ -69,19 +67,27 @@ const DEFAULT_OPTIONS = {
   ],
 };
 
-const CallsChart = () => {
-  const metricsByDate = useAppSelector(state => state.dailyCallsMetricsByDate.entities);
-
+const CallsChart = (props: { metricsYTD: IDailyCallsMetricsByDate[]; startDate: string; endDate: string }) => {
   const [option, setOption] = useState(DEFAULT_OPTIONS);
 
   const getData = () => {
     const newOption = cloneDeep(option); // immutable
 
-    const d = new Date("2015-03-25");
+    // eslint-disable-next-line prefer-const
+    let initialDate = new Date(props.startDate);
 
-    const x: any[] = metricsByDate.map(metric => new Date(metric.metricDate).getMonth() + 1);
-    const data: any[] = metricsByDate.map(metric => metric.totalReceivedCalls);
-    const data1: any[] = metricsByDate.map(metric => ((metric.totalAttendedCalls / metric.totalReceivedCalls) * 100).toFixed(2));
+    newOption.title.text = `Llamadas - Recibidas y Porcentaje atención (${initialDate.toLocaleString('default', {
+      month: 'long',
+      year: 'numeric',
+    })} - ${new Date(props.endDate).toLocaleString('default', { month: 'long', year: 'numeric' })})`;
+
+    const x: any[] = props.metricsYTD.map(metric => {
+      let displayDate = (new Date(metric.metricDate).getMonth() + 1).toString();
+      displayDate += "/" + (new Date(metric.metricDate).getFullYear()).toString();
+      return displayDate
+    });
+    const data: any[] = props.metricsYTD.map(metric => metric.totalReceivedCalls);
+    const data1: any[] = props.metricsYTD.map(metric => ((metric.totalAttendedCalls / metric.totalReceivedCalls) * 100).toFixed(2));
 
     newOption.xAxis.data.length = 0;
     newOption.xAxis.data.push(...x);
@@ -97,7 +103,7 @@ const CallsChart = () => {
 
   useEffect(() => {
     getData();
-  }, [metricsByDate]);
+  }, [props.metricsYTD]);
 
   return <ReactECharts option={option} lazyUpdate={true} />;
 };

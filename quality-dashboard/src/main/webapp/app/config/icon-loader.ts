@@ -33,7 +33,12 @@ import {
   faUsersCog,
   faWrench,
   faFileArrowUp,
-  faChartSimple
+  faArrowUp,
+  faPhone,
+  faChartSimple,
+  faArrowDown,
+  faCircleDot,
+  faSquare
 } from '@fortawesome/free-solid-svg-icons';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -74,6 +79,11 @@ export const loadIcons = () => {
     faUsersCog,
     faWrench,
     faFileArrowUp,
-    faChartSimple
+    faArrowUp,
+    faArrowDown,
+    faPhone,
+    faChartSimple,
+    faCircleDot,
+    faSquare
   );
 };
