@@ -1,14 +1,11 @@
 package com.quality.app.service;
 
-import com.quality.app.domain.DailyCalls;
 import com.quality.app.domain.DailyChats;
 import com.quality.app.repository.DailyChatsRepository;
 import com.quality.app.service.dto.DailyChatsDTO;
+import com.quality.app.service.dto.metrics.chats.IChatsMetrics;
+import com.quality.app.service.dto.metrics.chats.IChatsMetricsSummary;
 import com.quality.app.service.mapper.DailyChatsMapper;
-
-import java.io.IOException;
-import java.util.Optional;
-
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -20,6 +17,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Service Implementation for managing {@link com.quality.app.domain.DailyChats}.
@@ -133,8 +135,6 @@ public class DailyChatsService {
      */
     public void updateDataFromFile(MultipartFile file) throws IOException {
 
-        //TODO return?
-
         // Load the Excel file
         Workbook workbook = new XSSFWorkbook(file.getInputStream());
         Sheet sheet = workbook.getSheetAt(0);
@@ -159,5 +159,41 @@ public class DailyChatsService {
             dailyChatsRepository.save(dailyChatsFromExcel);
         }
         workbook.close();
+    }
+
+    /**
+     * Gets metrics by date.
+     *
+     * @param start  the start
+     * @param finish the finish
+     * @return the metrics by date
+     */
+    public List<IChatsMetrics> getMetricsByDate(Date start, Date finish) {
+
+        return dailyChatsRepository.getMetricsByDate(start, finish);
+    }
+
+    /**
+     * Gets metrics summary by date.
+     *
+     * @param start  the start
+     * @param finish the finish
+     * @return the metrics summary by date
+     */
+    public IChatsMetricsSummary getMetricsSummaryByDate(Date start, Date finish) {
+
+        return dailyChatsRepository.getMetricsSummaryByDate(start, finish);
+    }
+
+    /**
+     * Gets metrics by date group by month.
+     *
+     * @param start  the start
+     * @param finish the finish
+     * @return the metrics by date group by month
+     */
+    public List<IChatsMetrics> getMetricsByDateGroupByMonth(Date start, Date finish) {
+
+        return dailyChatsRepository.getMetricsByDateGroupByMonth(start, finish);
     }
 }

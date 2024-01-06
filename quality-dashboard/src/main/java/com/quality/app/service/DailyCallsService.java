@@ -3,9 +3,9 @@ package com.quality.app.service;
 import com.quality.app.domain.DailyCalls;
 import com.quality.app.repository.DailyCallsRepository;
 import com.quality.app.service.dto.DailyCallsDTO;
-import com.quality.app.service.dto.metrics.DailyCallsMetricsDTO;
-import com.quality.app.service.dto.metrics.IDailyCallsMetrics;
-import com.quality.app.service.dto.metrics.IDailyCallsMetricsByDate;
+import com.quality.app.service.dto.metrics.calls.DailyCallsMetricsDTO;
+import com.quality.app.service.dto.metrics.calls.IDailyCallsMetrics;
+import com.quality.app.service.dto.metrics.calls.IDailyCallsMetricsByDate;
 import com.quality.app.service.mapper.DailyCallsMapper;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -227,9 +227,9 @@ public class DailyCallsService {
      * @param finish the finish
      * @return the metrics by year group by month
      */
-    public List<IDailyCallsMetricsByDate> getMetricsByYearGroupByMonth(Date start, Date finish) {
+    public List<IDailyCallsMetricsByDate> getMetricsByDateGroupByMonth(Date start, Date finish) {
 
-        return dailyCallsRepository.getMetricsByYearGroupByMonth(start, finish);
+        return dailyCallsRepository.getMetricsByDateGroupByMonth(start, finish);
     }
 
     /**

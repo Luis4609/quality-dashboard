@@ -1,8 +1,8 @@
 package com.quality.app.repository;
 
 import com.quality.app.domain.DailyCalls;
-import com.quality.app.service.dto.metrics.IDailyCallsMetrics;
-import com.quality.app.service.dto.metrics.IDailyCallsMetricsByDate;
+import com.quality.app.service.dto.metrics.calls.IDailyCallsMetrics;
+import com.quality.app.service.dto.metrics.calls.IDailyCallsMetricsByDate;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -129,7 +129,7 @@ public interface DailyCallsRepository extends JpaRepository<DailyCalls, Long>, J
         FROM daily_calls WHERE daily_calls.day between ?1 AND ?2
         group by month(daily_calls.day)""",
         nativeQuery = true)
-    List<IDailyCallsMetricsByDate> getMetricsByYearGroupByMonth(Date start, Date end);
+    List<IDailyCallsMetricsByDate> getMetricsByDateGroupByMonth(Date start, Date end);
 
 
     @Query(

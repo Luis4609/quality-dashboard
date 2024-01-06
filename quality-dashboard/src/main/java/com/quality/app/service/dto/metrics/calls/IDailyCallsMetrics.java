@@ -1,4 +1,4 @@
-package com.quality.app.service.dto.metrics;
+package com.quality.app.service.dto.metrics.calls;
 
 public interface IDailyCallsMetrics {
 

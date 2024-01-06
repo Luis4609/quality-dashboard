@@ -38,7 +38,8 @@ import {
   faChartSimple,
   faArrowDown,
   faCircleDot,
-  faSquare
+  faSquare,
+  faEquals
 } from '@fortawesome/free-solid-svg-icons';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -84,6 +85,7 @@ export const loadIcons = () => {
     faPhone,
     faChartSimple,
     faCircleDot,
-    faSquare
+    faSquare,
+    faEquals
   );
 };

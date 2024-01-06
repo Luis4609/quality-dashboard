@@ -5,9 +5,9 @@ import com.quality.app.service.DailyCallsQueryService;
 import com.quality.app.service.DailyCallsService;
 import com.quality.app.service.criteria.DailyCallsCriteria;
 import com.quality.app.service.dto.DailyCallsDTO;
-import com.quality.app.service.dto.metrics.DailyCallsMetricsDTO;
-import com.quality.app.service.dto.metrics.IDailyCallsMetrics;
-import com.quality.app.service.dto.metrics.IDailyCallsMetricsByDate;
+import com.quality.app.service.dto.metrics.calls.DailyCallsMetricsDTO;
+import com.quality.app.service.dto.metrics.calls.IDailyCallsMetrics;
+import com.quality.app.service.dto.metrics.calls.IDailyCallsMetricsByDate;
 import com.quality.app.web.rest.errors.BadRequestAlertException;
 import com.quality.app.web.rest.errors.UploadFileAlertException;
 import jakarta.validation.Valid;
@@ -254,6 +254,6 @@ public class DailyCallsResource {
     @GetMapping("/metrics/year")
     public ResponseEntity<List<IDailyCallsMetricsByDate>> getCallsMetricsByDateRangeGroupByMonth(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date start, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date finish) {
 
-        return ResponseEntity.ok().body(dailyCallsService.getMetricsByYearGroupByMonth(start, finish));
+        return ResponseEntity.ok().body(dailyCallsService.getMetricsByDateGroupByMonth(start, finish));
     }
 }

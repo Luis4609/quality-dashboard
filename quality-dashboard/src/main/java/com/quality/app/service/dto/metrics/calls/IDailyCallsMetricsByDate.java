@@ -1,4 +1,4 @@
-package com.quality.app.service.dto.metrics;
+package com.quality.app.service.dto.metrics.calls;
 
 import java.sql.Date;
 

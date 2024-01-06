@@ -4,8 +4,8 @@ import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import sinon from 'sinon';
 
-import { EntityState } from 'app/shared/reducers/reducer.utils';
-import { IDailyCalls, defaultValue } from 'app/shared/model/daily-calls.model';
+import { EntityState } from '../../shared/reducers/reducer.utils';
+import { IDailyCalls, defaultValue } from '../../shared/model/daily-calls.model';
 import reducer, {
   createEntity,
   deleteEntity,

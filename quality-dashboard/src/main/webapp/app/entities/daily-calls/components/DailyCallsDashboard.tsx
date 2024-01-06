@@ -6,13 +6,13 @@ import { Col, Container, Row } from 'reactstrap';
 import MetricCardComponent from 'app/shared/components/MetricCardComponent';
 import DatePickerComponent from 'app/shared/components/DatePickerComponent';
 
-import { getMetrics } from '../reducer/daily-calls-metrics.reducer';
+import { getMetrics } from '../reducers/daily-calls-metrics.reducer';
 
 import { toast } from 'react-toastify';
 import CallsChart from '../components/CallsChart';
 import ReceivedAndAttendedChart from '../components/ReceivedAndAttendedChart';
-import { getMetricsByMonth } from '../reducer/daily-calls-metrics-by-month.reducer';
-import { getMetricsWithDate } from '../reducer/daily-calls-metrics-date.reducer';
+import { getMetricsByMonth } from '../reducers/daily-calls-metrics-by-month.reducer';
+import { getMetricsWithDate } from '../reducers/daily-calls-metrics-date.reducer';
 
 export const DailyCallsDashboard = () => {
   // Get year, month, and day part from the date
@@ -55,7 +55,7 @@ export const DailyCallsDashboard = () => {
   };
 
   return (
-    <Container style={{marginTop: '1em'}}>
+    <Container style={{ marginTop: '1em' }}>
       {/* Date Pickers section */}
       <Row>
         <Col>
