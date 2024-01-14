@@ -55,7 +55,9 @@ export const App = () => {
               <AppRoutes />
             </ErrorBoundary>
           </Card>
-          <Footer />
+          <Card className="jh-card" style={{marginTop: '1em'}}>
+            <Footer />
+          </Card>
         </div>
       </div>
     </BrowserRouter>

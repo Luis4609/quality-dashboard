@@ -1,13 +1,15 @@
 import './home.scss';
 
 import React, { useState } from 'react';
-import { Translate } from 'react-jhipster';
-import { Button, Card, CardText, CardTitle, Col, Nav, NavItem, NavLink, Row, TabContent, TabPane } from 'reactstrap';
+import { Translate, translate } from 'react-jhipster';
+import { Col, Nav, NavItem, NavLink, Row, TabContent, TabPane } from 'reactstrap';
 
-import { useAppSelector } from 'app/config/store';
-import DailyCallsMetrics from 'app/entities/daily-calls/daily-calls-metrics';
-import classnames from 'classnames';
+import { useAppDispatch, useAppSelector } from 'app/config/store';
 import DailyCallsDashboard from 'app/entities/daily-calls/components/DailyCallsDashboard';
+import DailyChatsDashboard from 'app/entities/daily-chats/components/DailyChatsDashboard';
+import classnames from 'classnames';
+import { toast } from 'react-toastify';
+import { updateWelcomeMessage } from 'app/shared/reducers/authentication';
 
 function a11yProps(index: number) {
   return {
@@ -18,6 +20,9 @@ function a11yProps(index: number) {
 
 export const Home = () => {
   const account = useAppSelector(state => state.authentication.account);
+  const welcomeMessageShown = useAppSelector(state => state.authentication.welcomeMessageShown);
+
+  const dispatch = useAppDispatch();
 
   // State for current active Tab
   const [currentActiveTab, setCurrentActiveTab] = useState('1');
@@ -27,6 +32,17 @@ export const Home = () => {
     if (currentActiveTab !== tab) setCurrentActiveTab(tab);
   };
 
+  if (account.login !== undefined && !welcomeMessageShown) {
+    const welcomeMessage = toast.success(`${translate('home.logged.welcomeMessage')} ${account.login}`, {
+      autoClose: 4000,
+      toastId: `${account.login}`,
+    });
+    dispatch(updateWelcomeMessage());
+  }
+
+  // eslint-disable-next-line no-console
+  console.log(account);
+
   return (
     <>
       <Row>
@@ -34,6 +50,14 @@ export const Home = () => {
           <h2 data-cy="">
             <Translate contentKey="home.title">Dashboard</Translate>
           </h2>
+          {/* {account?.login ? (
+          ) : (
+            <div>
+              <Link to="/register" className="btn btn-primary mr-1">
+                Log in or Register new account
+              </Link>
+            </div>
+          )} */}
         </Col>
       </Row>
       <Row>
@@ -65,26 +89,10 @@ export const Home = () => {
         </Nav>
         <TabContent activeTab={currentActiveTab}>
           <TabPane tabId="1">
-            {/* <DailyCallsMetrics></DailyCallsMetrics> */}
             <DailyCallsDashboard></DailyCallsDashboard>
           </TabPane>
           <TabPane tabId="2">
-            <Row>
-              <Col sm="6">
-                <Card body>
-                  <CardTitle>Special Title Treatment</CardTitle>
-                  <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-                  <Button>Go somewhere</Button>
-                </Card>
-              </Col>
-              <Col sm="6">
-                <Card body>
-                  <CardTitle>Special Title Treatment</CardTitle>
-                  <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-                  <Button>Go somewhere</Button>
-                </Card>
-              </Col>
-            </Row>
+            <DailyChatsDashboard></DailyChatsDashboard>
           </TabPane>
         </TabContent>
       </Row>

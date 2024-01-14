@@ -1,9 +1,10 @@
 {
   "home": {
-    "title": "Quality Dashboard",
+    "title": "Dashboard de Calidad",
     "subtitle": "Esta es su página de inicio",
     "logged": {
-      "message": "Está conectado como \"{{username}}\"."
+      "message": "Hola \"{{username}}\".",
+      "welcomeMessage": "Hola "
     }
   }
 }

@@ -2,28 +2,29 @@
   "qualitydashboardApp": {
     "dailyChats": {
       "home": {
-        "title": "Daily Chats",
+        "title": "Chats",
         "refreshListLabel": "Refrescar lista",
-        "createLabel": "Crear nuevo Daily Chats",
-        "createOrEditLabel": "Crear o editar Daily Chats",
-        "notFound": "Ningún Daily Chats encontrado"
+        "createLabel": "Crear Chat",
+        "editLabel": "Editar Chat",
+        "notFound": "Ningún Chat encontrado",
+        "uploadExcel": "Subir archivo"
       },
-      "created": "Un nuevo Daily Chats ha sido creado con el identificador {{ param }}",
-      "updated": "Un Daily Chats ha sido actualizado con el identificador {{ param }}",
-      "deleted": "Un Daily Chats ha sido eliminado con el identificador {{ param }}",
+      "created": "Un nuevo Chat ha sido creado con el identificador {{ param }}",
+      "updated": "Un Chat ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Chat ha sido eliminado con el identificador {{ param }}",
       "delete": {
-        "question": "¿Seguro que quiere eliminar Daily Chats {{ id }}?"
+        "question": "¿Seguro que quiere eliminar Chat {{ id }}?"
       },
       "detail": {
-        "title": "Daily Chats"
+        "title": "Chat"
       },
       "id": "ID",
-      "day": "Day",
-      "totalDailyReceivedChats": "Total Daily Received Chats",
-      "totalDailyConversationChatsTimeInMin": "Total Daily Conversation Chats Time In Min",
-      "totalDailyAttendedChats": "Total Daily Attended Chats",
-      "totalDailyMissedChats": "Total Daily Missed Chats",
-      "avgDailyConversationChatsTimeInMin": "Avg Daily Conversation Chats Time In Min"
+      "day": "Día",
+      "totalDailyReceivedChats": "Recibidos",
+      "totalDailyConversationChatsTimeInMin": "Total de tiempo de conversación (min)",
+      "totalDailyAttendedChats": "Atendidos",
+      "totalDailyMissedChats": "Perdidos",
+      "avgDailyConversationChatsTimeInMin": "Media diaria de conversación (min)"
     }
   }
 }

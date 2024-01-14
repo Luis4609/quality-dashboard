@@ -1,23 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import { Button, Row, Col, FormText } from 'reactstrap';
-import { isNumber, Translate, translate, ValidatedField, ValidatedForm } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { useEffect } from 'react';
+import { Translate, ValidatedField, ValidatedForm, isNumber, translate } from 'react-jhipster';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Button, Col, Row } from 'reactstrap';
 
-import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
-import { mapIdList } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
-import { IDailyChats } from 'app/shared/model/daily-chats.model';
-import { getEntity, updateEntity, createEntity, reset } from './daily-chats.reducer';
+import { createEntity, getEntity, reset, updateEntity } from './daily-chats.reducer';
 
 export const DailyChatsUpdate = () => {
   const dispatch = useAppDispatch();
 
+  const location = useLocation();
   const navigate = useNavigate();
 
   const { id } = useParams<'id'>();
   const isNew = id === undefined;
+  const isEdit = location.pathname.includes('edit');
 
   const dailyChatsEntity = useAppSelector(state => state.dailyChats.entity);
   const loading = useAppSelector(state => state.dailyChats.loading);
@@ -86,9 +85,19 @@ export const DailyChatsUpdate = () => {
     <div>
       <Row className="justify-content-center">
         <Col md="8">
-          <h2 id="qualitydashboardApp.dailyChats.home.createOrEditLabel" data-cy="DailyChatsCreateUpdateHeading">
-            <Translate contentKey="qualitydashboardApp.dailyChats.home.createOrEditLabel">Create or edit a DailyChats</Translate>
-          </h2>
+          {isEdit ? (
+            <>
+              <h2 id="qualitydashboardApp.dailyChats.home.editLabel" data-cy="DailyChatsCreateUpdateHeading">
+                <Translate contentKey="qualitydashboardApp.dailyChats.home.editLabel">Edit a DailyChats</Translate>
+              </h2>
+            </>
+          ) : (
+            <>
+              <h2 id="qualitydashboardApp.dailyChats.home.createLabel" data-cy="DailyChatsCreateUpdateHeading">
+                <Translate contentKey="qualitydashboardApp.dailyChats.home.createLabel">Create a DailyChats</Translate>
+              </h2>
+            </>
+          )}
         </Col>
       </Row>
       <Row className="justify-content-center">

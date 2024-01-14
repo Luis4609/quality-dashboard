@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { getEntity, deleteEntity } from './daily-chats.reducer';
+import DailyChatsDetail from './daily-chats-detail';
 
 export const DailyChatsDeleteDialog = () => {
   const dispatch = useAppDispatch();
@@ -40,28 +41,31 @@ export const DailyChatsDeleteDialog = () => {
   };
 
   return (
-    <Modal isOpen toggle={handleClose}>
-      <ModalHeader toggle={handleClose} data-cy="dailyChatsDeleteDialogHeading">
-        <Translate contentKey="entity.delete.title">Confirm delete operation</Translate>
-      </ModalHeader>
-      <ModalBody id="qualitydashboardApp.dailyChats.delete.question">
-        <Translate contentKey="qualitydashboardApp.dailyChats.delete.question" interpolate={{ id: dailyChatsEntity.id }}>
-          Are you sure you want to delete this DailyChats?
-        </Translate>
-      </ModalBody>
-      <ModalFooter>
-        <Button color="secondary" onClick={handleClose}>
-          <FontAwesomeIcon icon="ban" />
-          &nbsp;
-          <Translate contentKey="entity.action.cancel">Cancel</Translate>
-        </Button>
-        <Button id="jhi-confirm-delete-dailyChats" data-cy="entityConfirmDeleteButton" color="danger" onClick={confirmDelete}>
-          <FontAwesomeIcon icon="trash" />
-          &nbsp;
-          <Translate contentKey="entity.action.delete">Delete</Translate>
-        </Button>
-      </ModalFooter>
-    </Modal>
+    <>
+      <DailyChatsDetail></DailyChatsDetail>
+      <Modal isOpen toggle={handleClose}>
+        <ModalHeader toggle={handleClose} data-cy="dailyChatsDeleteDialogHeading">
+          <Translate contentKey="entity.delete.title">Confirm delete operation</Translate>
+        </ModalHeader>
+        <ModalBody id="qualitydashboardApp.dailyChats.delete.question">
+          <Translate contentKey="qualitydashboardApp.dailyChats.delete.question" interpolate={{ id: dailyChatsEntity.id }}>
+            Are you sure you want to delete this DailyChats?
+          </Translate>
+        </ModalBody>
+        <ModalFooter>
+          <Button color="secondary" onClick={handleClose}>
+            <FontAwesomeIcon icon="ban" />
+            &nbsp;
+            <Translate contentKey="entity.action.cancel">Cancel</Translate>
+          </Button>
+          <Button id="jhi-confirm-delete-dailyChats" data-cy="entityConfirmDeleteButton" color="danger" onClick={confirmDelete}>
+            <FontAwesomeIcon icon="trash" />
+            &nbsp;
+            <Translate contentKey="entity.action.delete">Delete</Translate>
+          </Button>
+        </ModalFooter>
+      </Modal>
+    </>
   );
 };
 

@@ -103,9 +103,9 @@ export const UserManagement = () => {
             <FontAwesomeIcon icon="sync" spin={loading} />{' '}
             <Translate contentKey="userManagement.home.refreshListLabel">Refresh List</Translate>
           </Button>
-          <Link to="new" className="btn btn-primary jh-create-entity">
+          {/* <Link to="new" className="btn btn-primary jh-create-entity">
             <FontAwesomeIcon icon="plus" /> <Translate contentKey="userManagement.home.createLabel">Create a new user</Translate>
-          </Link>
+          </Link> */}
         </div>
       </h2>
       <Table responsive striped>

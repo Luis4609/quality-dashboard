@@ -26,6 +26,7 @@ export const DailyChatsDetail = () => {
           <Translate contentKey="qualitydashboardApp.dailyChats.detail.title">DailyChats</Translate>
         </h2>
         <dl className="jh-entity-details">
+          
           <dt>
             <span id="id">
               <Translate contentKey="global.field.id">ID</Translate>

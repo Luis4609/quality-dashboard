@@ -18,7 +18,7 @@ export const DailyCalls = () => {
   const navigate = useNavigate();
 
   const [paginationState, setPaginationState] = useState(
-    overridePaginationStateWithQueryParams(getPaginationState(pageLocation, ITEMS_PER_PAGE, 'id'), pageLocation.search),
+    overridePaginationStateWithQueryParams(getPaginationState(pageLocation, ITEMS_PER_PAGE, 'day', 'desc'), pageLocation.search),
   );
 
   const dailyCallsList = useAppSelector(state => state.dailyCalls.entities);
@@ -109,11 +109,11 @@ export const DailyCalls = () => {
             &nbsp;
             <Translate contentKey="qualitydashboardApp.dailyCalls.home.uploadExcel">Upload data</Translate>
           </Link>
-          <Link to="/daily-calls/metrics" className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
+          {/* <Link to="/daily-calls/metrics" className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
             <FontAwesomeIcon icon="chart-simple" />
             &nbsp;
             <Translate contentKey="qualitydashboardApp.dailyCalls.home.metrics">Go to metrics</Translate>
-          </Link>
+          </Link> */}
         </div>
       </h2>
       <div className="table-responsive">

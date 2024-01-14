@@ -19,6 +19,7 @@ export const initialState = {
   redirectMessage: null as unknown as string,
   sessionHasBeenFetched: false,
   logoutUrl: null as unknown as string,
+  welcomeMessageShown: false
 };
 
 export type AuthenticationState = Readonly<typeof initialState>;
@@ -90,6 +91,11 @@ export const clearAuthentication = messageKey => dispatch => {
   dispatch(clearAuth());
 };
 
+export const updateWelcomeMessage: () => AppThunk = () => dispatch => {
+  dispatch(updateWelcomeMessageAction())
+}
+
+
 export const AuthenticationSlice = createSlice({
   name: 'authentication',
   initialState: initialState as AuthenticationState,
@@ -113,6 +119,12 @@ export const AuthenticationSlice = createSlice({
         loading: false,
         showModalLogin: true,
         isAuthenticated: false,
+      };
+    },
+    updateWelcomeMessageAction(state) {
+      return {
+        ...state,
+        welcomeMessageShown: true
       };
     },
   },
@@ -158,7 +170,7 @@ export const AuthenticationSlice = createSlice({
   },
 });
 
-export const { logoutSession, authError, clearAuth } = AuthenticationSlice.actions;
+export const { logoutSession, authError, clearAuth, updateWelcomeMessageAction } = AuthenticationSlice.actions;
 
 // Reducer
 export default AuthenticationSlice.reducer;

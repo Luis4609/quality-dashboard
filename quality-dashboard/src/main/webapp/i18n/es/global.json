@@ -1,6 +1,6 @@
 {
   "global": {
-    "title": "Qualitydashboard",
+    "title": "Dashboard de Calidad",
     "browsehappy": "Está usando un navegador <strong>no actualizado</strong>. Por favor, <a href=\"http://browsehappy.com/?locale=es\">actualice su navegador</a> para mejorar su experiencia.",
     "menu": {
       "home": "Inicio",
@@ -8,8 +8,8 @@
       "entities": {
         "main": "Entidades",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)",
-        "dailyCalls": "Daily Calls",
-        "dailyChats": "Daily Chats"
+        "dailyCalls": "Llamadas",
+        "dailyChats": "Chats"
       },
       "account": {
         "main": "Cuenta",
@@ -144,5 +144,5 @@
       "not.image": "Se esperaba que el fichero fuera una imagen pero se encontro \"{{ fileType }}\""
     }
   },
-  "footer": "Pie de página"
+  "footer": "Aplicación Dashboard de Calidad v1.0. Todos los derechos reservados"
 }

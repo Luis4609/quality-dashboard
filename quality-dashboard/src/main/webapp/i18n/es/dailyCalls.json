@@ -2,23 +2,23 @@
   "qualitydashboardApp": {
     "dailyCalls": {
       "home": {
-        "title": "Daily Calls",
+        "title": "Llamadas",
         "refreshListLabel": "Refrescar lista",
-        "createLabel": "Crear nuevo Daily Calls",
-        "createOrEditLabel": "Crear o editar Daily Calls",
-        "notFound": "Ningún Daily Calls encontrado",
-        "uploadExcel": "Subir excel",
+        "createLabel": "Crear Llamada",
+        "editLabel": "Editar Llamada",
+        "notFound": "Ninguna Llamada encontrada",
+        "uploadExcel": "Subir archivo",
         "metrics": "Ver métricas"
       },
-      "created": "Un nuevo Daily Calls ha sido creado con el identificador {{ param }}",
-      "updated": "Un Daily Calls ha sido actualizado con el identificador {{ param }}",
-      "deleted": "Un Daily Calls ha sido eliminado con el identificador {{ param }}",
+      "created": "Una nueva Llamada ha sido creada con el identificador {{ param }}",
+      "updated": "Una Llamada ha sido actualizada con el identificador {{ param }}",
+      "deleted": "Una Llamada ha sido eliminada con el identificador {{ param }}",
       "delete": {
-        "question": "¿Seguro que quiere eliminar Daily Calls {{ id }}?"
+        "question": "¿Seguro que quiere eliminar la Llamada {{ id }}?"
       },
       "upload": {
-        "title": "Daily Calls subir excel con los datos",
-        "button": "Añadir fichero",
+        "title": "Llamadas - Subir archivo con datos",
+        "button": "Subir archivo",
         "infoText": "Subir un fichero excel con los datos relacionados con las Llamadas diarias"
       },
       "metrics": {
@@ -37,16 +37,16 @@
       },
       "id": "ID",
       "day": "Fecha",
-      "totalDailyReceivedCalls": "Llamadas recibidas",
-      "totalDailyAttendedCalls": "Llamadas atendidas",
-      "totalDailyMissedCalls": "Llamadas perdidas",
-      "totalDailyReceivedCallsExternalAgent": "Llamadas recibidas agente externo",
-      "totalDailyAttendedCallsExternalAgent": "Llamadas atendidas agente externo",
-      "totalDailyReceivedCallsInternalAgent": "Llamadas recibidas agente interno",
-      "totalDailyAttendedCallsInternalAgent": "Llamadas atendidas agente interno",
-      "totalDailyCallsTimeInMin": "Tiempo en llamadas (min)",
-      "totalDailyCallsTimeExternalAgentInMin": "Tiempo en llamadas agente externo (min)",
-      "totalDailyCallsTimeInternalAgentInMin": "Tiempo en llamadas agente interno (min)",
+      "totalDailyReceivedCalls": "Recibidas",
+      "totalDailyAttendedCalls": "Atendidas",
+      "totalDailyMissedCalls": "Perdidas",
+      "totalDailyReceivedCallsExternalAgent": "Recibidas agente externo",
+      "totalDailyAttendedCallsExternalAgent": "Atendidas agente externo",
+      "totalDailyReceivedCallsInternalAgent": "Recibidas agente interno",
+      "totalDailyAttendedCallsInternalAgent": "Atendidas agente interno",
+      "totalDailyCallsTimeInMin": "Tiempo (min)",
+      "totalDailyCallsTimeExternalAgentInMin": "Tiempo agente externo (min)",
+      "totalDailyCallsTimeInternalAgentInMin": "Tiempo agente interno (min)",
       "avgDailyOperationTimeExternalAgentInMin": "Media diaria por agente externo (min)",
       "avgDailyOperationTimeInternalAgentInMin": "Media diaria por agente interno (min)"
     }

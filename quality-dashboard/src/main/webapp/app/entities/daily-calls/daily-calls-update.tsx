@@ -15,6 +15,7 @@ export const DailyCallsUpdate = () => {
 
   const { id } = useParams<'id'>();
   const isNew = id === undefined;
+  const isEdit = location.pathname.includes('edit');
 
   const dailyCallsEntity = useAppSelector(state => state.dailyCalls.entity);
   const loading = useAppSelector(state => state.dailyCalls.loading);
@@ -110,9 +111,19 @@ export const DailyCallsUpdate = () => {
     <div>
       <Row className="justify-content-center">
         <Col md="8">
-          <h2 id="qualitydashboardApp.dailyCalls.home.createOrEditLabel" data-cy="DailyCallsCreateUpdateHeading">
-            <Translate contentKey="qualitydashboardApp.dailyCalls.home.createOrEditLabel">Create or edit a DailyCalls</Translate>
-          </h2>
+          {isEdit ? (
+            <>
+              <h2 id="qualitydashboardApp.dailyCalls.home.editLabel" data-cy="DailyCallsCreateUpdateHeading">
+                <Translate contentKey="qualitydashboardApp.dailyCalls.home.editLabel">Edit a DailyChats</Translate>
+              </h2>
+            </>
+          ) : (
+            <>
+              <h2 id="qualitydashboardApp.dailyCalls.home.createLabel" data-cy="DailyCallsCreateUpdateHeading">
+                <Translate contentKey="qualitydashboardApp.dailyCalls.home.createLabel">Create a DailyChats</Translate>
+              </h2>
+            </>
+          )}
         </Col>
       </Row>
       <Row className="justify-content-center">

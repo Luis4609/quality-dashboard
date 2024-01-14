@@ -18,7 +18,7 @@ export const DailyChats = () => {
   const navigate = useNavigate();
 
   const [paginationState, setPaginationState] = useState(
-    overridePaginationStateWithQueryParams(getPaginationState(pageLocation, ITEMS_PER_PAGE, 'id'), pageLocation.search),
+    overridePaginationStateWithQueryParams(getPaginationState(pageLocation, ITEMS_PER_PAGE, 'day', 'desc'), pageLocation.search),
   );
 
   const dailyChatsList = useAppSelector(state => state.dailyChats.entities);
@@ -107,13 +107,13 @@ export const DailyChats = () => {
           <Link to="/daily-chats/upload" className="btn btn-primary jh-create-entity me-2" id="jh-create-entity" data-cy="entityCreateButton">
             <FontAwesomeIcon icon="file-arrow-up" />
             &nbsp;
-            <Translate contentKey="qualitydashboardApp.dailyCalls.home.uploadExcel">Upload data</Translate>
+            <Translate contentKey="qualitydashboardApp.dailyChats.home.uploadExcel">Upload data</Translate>
           </Link>
-          <Link to="/daily-chats/metrics" className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
+          {/* <Link to="/daily-chats/metrics" className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
             <FontAwesomeIcon icon="chart-simple" />
             &nbsp;
-            <Translate contentKey="qualitydashboardApp.dailyCalls.home.metrics">Go to metrics</Translate>
-          </Link>
+            <Translate contentKey="qualitydashboardApp.dailyChats.home.metrics">Go to metrics</Translate>
+          </Link> */}
         </div>
       </h2>
       <div className="table-responsive">

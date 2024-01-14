@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from 'app/config/store';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, lazy, Suspense } from 'react';
 import { translate } from 'react-jhipster';
 import { Col, Container, Row } from 'reactstrap';
 
@@ -13,18 +13,11 @@ import CallsChart from '../components/CallsChart';
 import ReceivedAndAttendedChart from '../components/ReceivedAndAttendedChart';
 import { getMetricsByMonth } from '../reducers/daily-calls-metrics-by-month.reducer';
 import { getMetricsWithDate } from '../reducers/daily-calls-metrics-date.reducer';
+import { formattedCurrentDate, formattedStartDate } from 'app/shared/services/DateService';
+
+// const LazyMetricCard = lazy(() => import './ReceivedAndAttendedChart')
 
 export const DailyCallsDashboard = () => {
-  // Get year, month, and day part from the date
-  const date = new Date();
-  const year = date.toLocaleString('default', { year: 'numeric' });
-  const month = date.toLocaleString('default', { month: '2-digit' });
-  const day = date.toLocaleString('default', { day: '2-digit' });
-
-  // Generate yyyy-mm-dd date string
-  const formattedCurrentDate = year + '-' + month + '-' + day;
-  const formattedStartDate = year + '-' + month + '-' + '01';
-
   // State and variables
   const [startDate, setStarDate] = useState<string>(formattedStartDate);
   const [currentDate, setCurrentDate] = useState<string>(formattedCurrentDate);
