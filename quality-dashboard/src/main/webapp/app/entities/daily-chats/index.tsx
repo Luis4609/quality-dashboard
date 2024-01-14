@@ -8,6 +8,7 @@ import DailyChatsDetail from './daily-chats-detail';
 import DailyChatsUpdate from './daily-chats-update';
 import DailyChatsDeleteDialog from './daily-chats-delete-dialog';
 import DailyChatsMetrics from './daily-chats-metrics';
+import DailyChatsUpload from './daily-chats-upload';
 
 const DailyChatsRoutes = () => (
   <ErrorBoundaryRoutes>

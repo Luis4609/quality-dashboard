@@ -71,7 +71,7 @@ export const Home = () => {
                 toggle('1');
               }}
             >
-              Métricas de llamadas
+              <Translate contentKey="home.metrics.callsTabTitle">Métricas de Llamadas</Translate>
             </NavLink>
           </NavItem>
           <NavItem>
@@ -83,7 +83,7 @@ export const Home = () => {
                 toggle('2');
               }}
             >
-              Métricas de chats
+              <Translate contentKey="home.metrics.chatsTabTitle">Métricas de Chats</Translate>
             </NavLink>
           </NavItem>
         </Nav>

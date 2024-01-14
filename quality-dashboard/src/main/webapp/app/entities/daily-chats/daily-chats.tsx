@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button, Table } from 'reactstrap';
-import { Translate, TextFormat, getPaginationState, JhiPagination, JhiItemCount } from 'react-jhipster';
+import { Translate, TextFormat, getPaginationState, JhiPagination, JhiItemCount, translate } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSort, faSortUp, faSortDown } from '@fortawesome/free-solid-svg-icons';
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
@@ -10,6 +10,8 @@ import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-u
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
 import { getEntities } from './daily-chats.reducer';
+import { FileUpload } from 'primereact/fileupload';
+import { uploadExcelEntity } from './reducers/daily-chats-upload.reducer';
 
 export const DailyChats = () => {
   const dispatch = useAppDispatch();
@@ -90,6 +92,18 @@ export const DailyChats = () => {
     }
   };
 
+  const fileRef = useRef(null);
+
+  const handleUpload = event => {
+    const formData = new FormData();
+    formData.append('file', event.files[0]);
+
+    dispatch(uploadExcelEntity(formData));
+
+    // delete current file
+    fileRef.current.clear();
+  };
+
   return (
     <div>
       <h2 id="daily-chats-heading" data-cy="DailyChatsHeading">
@@ -104,16 +118,19 @@ export const DailyChats = () => {
             &nbsp;
             <Translate contentKey="qualitydashboardApp.dailyChats.home.createLabel">Create new Daily Chats</Translate>
           </Link>
-          <Link to="/daily-chats/upload" className="btn btn-primary jh-create-entity me-2" id="jh-create-entity" data-cy="entityCreateButton">
-            <FontAwesomeIcon icon="file-arrow-up" />
-            &nbsp;
-            <Translate contentKey="qualitydashboardApp.dailyChats.home.uploadExcel">Upload data</Translate>
-          </Link>
-          {/* <Link to="/daily-chats/metrics" className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
-            <FontAwesomeIcon icon="chart-simple" />
-            &nbsp;
-            <Translate contentKey="qualitydashboardApp.dailyChats.home.metrics">Go to metrics</Translate>
-          </Link> */}
+
+          <Button color="primary">
+            <FileUpload
+              ref={fileRef}
+              mode="basic"
+              name="chats-upload"
+              accept="/*"
+              maxFileSize={1000000}
+              customUpload
+              uploadHandler={handleUpload}
+              chooseLabel={translate('qualitydashboardApp.dailyChats.home.uploadExcel')}
+            />
+          </Button>
         </div>
       </h2>
       <div className="table-responsive">

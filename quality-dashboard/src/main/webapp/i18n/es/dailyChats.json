@@ -12,8 +12,14 @@
       "created": "Un nuevo Chat ha sido creado con el identificador {{ param }}",
       "updated": "Un Chat ha sido actualizado con el identificador {{ param }}",
       "deleted": "Un Chat ha sido eliminado con el identificador {{ param }}",
+      "fileUploaded": "La entidad Chats se ha actualizado al subir el archivo: {{ param }}",
       "delete": {
         "question": "¿Seguro que quiere eliminar Chat {{ id }}?"
+      },
+      "upload": {
+        "title": "Chats - Subir archivo con datos",
+        "button": "Subir archivo",
+        "infoText": "Subir un fichero excel con los datos relacionados con los Chats diarios"
       },
       "detail": {
         "title": "Chat"

@@ -13,6 +13,7 @@
       "created": "Una nueva Llamada ha sido creada con el identificador {{ param }}",
       "updated": "Una Llamada ha sido actualizada con el identificador {{ param }}",
       "deleted": "Una Llamada ha sido eliminada con el identificador {{ param }}",
+      "fileUploaded": "La entidad Llamadas se ha actualizado al subir el archivo: {{ param }}",
       "delete": {
         "question": "¿Seguro que quiere eliminar la Llamada {{ id }}?"
       },
@@ -29,8 +30,10 @@
         "validation": {
           "required": "Los campos fecha de inicio y fecha final son obligatorios",
           "startDateLessThanEndDate": "La fecha de inicio tiene que ser anterior a la fecha final",
-          "canNotBeEmpty": "Los campos fecha de inicio y fecha final no pueden estar vacíos"
-        }
+          "canNotBeEmpty": "Los campos fecha de inicio y fecha final no pueden estar vacíos",
+          "endDateLessThanStartDate": "La fecha final tiene que ser posterior a la fecha de inicio"
+        },
+        "refreshMetricsLabel": "Refrescar"
       },
       "detail": {
         "title": "Daily Calls"

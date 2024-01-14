@@ -1,8 +1,13 @@
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import React, { useEffect, useState } from 'react';
-import { Translate } from 'react-jhipster';
-import { Button, Col, Form, Input, Label, Row } from 'reactstrap';
+import { Translate, translate } from 'react-jhipster';
+import { Button, Card, Col, Form, Input, Label, Row } from 'reactstrap';
 import { useNavigate } from 'react-router';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { uploadExcelEntity } from './reducers/daily-chats-upload.reducer';
+
+import { FileUpload } from 'primereact/fileupload';
+import { toast } from 'react-toastify';
 
 export const DailyChatsUpload = () => {
   const dispatch = useAppDispatch();
@@ -10,15 +15,15 @@ export const DailyChatsUpload = () => {
 
   const updateSuccess = useAppSelector(state => state.dailyChats.updateSuccess);
 
-  const handleClose = () => {
-    navigate('/daily-chats' + location.search);
-  };
+  // const handleClose = () => {
+  //   navigate('/daily-chats' + location.search);
+  // };
 
-  useEffect(() => {
-    if (updateSuccess) {
-      handleClose();
-    }
-  }, [updateSuccess]);
+  // useEffect(() => {
+  //   if (updateSuccess) {
+  //     handleClose();
+  //   }
+  // }, [updateSuccess]);
 
   const [file, setFile] = useState<any>();
 
@@ -28,37 +33,68 @@ export const DailyChatsUpload = () => {
     }
   };
 
-  const handleUpload = () => {
-    const formData = new FormData();
-    formData.append('file', file);
+  // const handleUpload = () => {
+  //   const formData = new FormData();
+  //   formData.append('file', file);
 
-    // dispatch(uploadExcelEntity(formData));
+  //   dispatch(uploadExcelEntity(formData));
+  // };
+
+  const onUpload = () => {
+    // eslint-disable-next-line no-console
+    console.log('Uploading file');
+  };
+
+  const handleUpload = event => {
+    const file2 = event.files[0];
+
+    const formData = new FormData();
+    formData.append('file', file2);
+
+    dispatch(uploadExcelEntity(formData));
   };
 
   return (
     <>
       <Row className="justify-content-center">
-        <Col>
+        <Col md="8">
           <h2 data-cy="dailyChatsUploadExcel">
             <Translate contentKey="qualitydashboardApp.dailyChats.upload.title">DailyChats Upload data from Excel</Translate>
           </h2>
         </Col>
       </Row>
-      <Form encType="multipart/form">
-        <Row className="row-cols-lg-auto g-3 align-items-center">
-          <Col>
+
+      <Row className="justify-content-center">
+        <Col md="8">
+          <Form encType="multipart/form" onSubmit={handleUpload}>
             <Label className="visually-hidden" for="excelUpload">
-              Select DailyChats Excel
+              Select Daily chats Excel
             </Label>
-            <Input id="excelUpload" name="excel" type="file" onChange={handleFileChange}/>
-          </Col>
-          <Col>
-            <Button color="primary" type="submit" onClick={handleUpload}>
-              Upload File
+            <Input id="excelUpload" name="excel" type="file" onChange={handleFileChange} style={{ marginBottom: '1em' }} />
+
+            <Button color="primary" type="submit" data-cy="entityCreateSaveButton">
+              <FontAwesomeIcon icon="file-arrow-up" />
+              &nbsp;
+              <Translate contentKey="qualitydashboardApp.dailyChats.upload.button">Upload file</Translate>
             </Button>
-          </Col>
-        </Row>
-      </Form>
+          </Form>
+        </Col>
+      </Row>
+
+      <Button color="primary">
+        <FileUpload
+          mode="basic"
+          name="upload-chats"
+          url="/api/daily-chats/upload-file"
+          accept="/*"
+          maxFileSize={1000000}
+          customUpload
+          uploadHandler={handleUpload}
+          emptyTemplate={<p className="m-0">Drag and drop files to here to upload.</p>}
+          auto
+          chooseLabel={translate('qualitydashboardApp.dailyChats.home.uploadExcel')}
+        />
+      </Button>
     </>
   );
 };

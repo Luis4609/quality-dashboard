@@ -1,7 +1,7 @@
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import React, { useEffect, useState, lazy, Suspense } from 'react';
-import { translate } from 'react-jhipster';
-import { Col, Container, Row } from 'reactstrap';
+import { Translate, translate } from 'react-jhipster';
+import { Button, Col, Container, Row } from 'reactstrap';
 
 import MetricCardComponent from 'app/shared/components/MetricCardComponent';
 import DatePickerComponent from 'app/shared/components/DatePickerComponent';
@@ -14,6 +14,7 @@ import ReceivedAndAttendedChart from '../components/ReceivedAndAttendedChart';
 import { getMetricsByMonth } from '../reducers/daily-calls-metrics-by-month.reducer';
 import { getMetricsWithDate } from '../reducers/daily-calls-metrics-date.reducer';
 import { formattedCurrentDate, formattedStartDate } from 'app/shared/services/DateService';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 // const LazyMetricCard = lazy(() => import './ReceivedAndAttendedChart')
 
@@ -21,6 +22,7 @@ export const DailyCallsDashboard = () => {
   // State and variables
   const [startDate, setStarDate] = useState<string>(formattedStartDate);
   const [currentDate, setCurrentDate] = useState<string>(formattedCurrentDate);
+  const [isSearchDisable, setSearchDisable] = useState(false);
 
   // use app context
   const dailyCallsMetrics = useAppSelector(state => state.dailyCallsMetrics.entity);
@@ -30,15 +32,32 @@ export const DailyCallsDashboard = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    getAllMetrics();
+  }, []);
+
+  useEffect(() => {
     if (startDate > currentDate) {
       toast.error(translate('qualitydashboardApp.dailyCalls.metrics.validation.startDateLessThanEndDate'));
+      setSearchDisable(true);
     } else if (startDate === undefined || startDate.length === 0 || currentDate === undefined || currentDate.length === 0) {
       toast.error(translate('qualitydashboardApp.dailyCalls.metrics.validation.canNotBeEmpty'));
+      setSearchDisable(true);
     } else {
-      getAllMetrics();
-      // toast.success(translate('qualitydashboardApp.dailyCalls.metrics.dashboardUpdated'), { autoClose: 4000 });
+      setSearchDisable(false);
     }
-  }, [startDate, currentDate]);
+  }, [startDate]);
+
+  useEffect(() => {
+    if (startDate > currentDate) {
+      toast.error(translate('qualitydashboardApp.dailyCalls.metrics.validation.endDateLessThanStartDate'));
+      setSearchDisable(true);
+    } else if (startDate === undefined || startDate.length === 0 || currentDate === undefined || currentDate.length === 0) {
+      toast.error(translate('qualitydashboardApp.dailyCalls.metrics.validation.canNotBeEmpty'));
+      setSearchDisable(true);
+    } else {
+      setSearchDisable(false);
+    }
+  }, [currentDate]);
 
   // dispatch, calls to APIs
   const getAllMetrics = () => {
@@ -50,20 +69,22 @@ export const DailyCallsDashboard = () => {
   return (
     <Container style={{ marginTop: '1em' }}>
       {/* Date Pickers section */}
-      <Row>
-        <Col>
+      <Row className='align-items-center mb-3' >
           <DatePickerComponent
             date={startDate}
             setDate={setStarDate}
             text={'qualitydashboardApp.dailyCalls.metrics.startDateInput'}
           ></DatePickerComponent>
-        </Col>
-        <Col>
           <DatePickerComponent
             date={currentDate}
             setDate={setCurrentDate}
             text={'qualitydashboardApp.dailyCalls.metrics.endDateInput'}
           ></DatePickerComponent>
+        <Col >
+          <Button color="primary" onClick={getAllMetrics} disabled={isSearchDisable} >
+            <FontAwesomeIcon icon="sync" />
+            <Translate contentKey="qualitydashboardApp.dailyCalls.metrics.refreshMetricsLabel">Search</Translate>
+          </Button>
         </Col>
       </Row>
       {/* METRICS section */}

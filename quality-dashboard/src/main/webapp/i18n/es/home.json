@@ -5,6 +5,10 @@
     "logged": {
       "message": "Hola \"{{username}}\".",
       "welcomeMessage": "Hola "
+    },
+    "metrics": {
+      "callsTabTitle": "Métricas de Llamadas",
+      "chatsTabTitle": "Métricas de Chats"
     }
   }
 }

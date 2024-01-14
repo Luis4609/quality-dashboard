@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button, Table } from 'reactstrap';
-import { Translate, TextFormat, getPaginationState, JhiPagination, JhiItemCount } from 'react-jhipster';
+import { Translate, TextFormat, getPaginationState, JhiPagination, JhiItemCount, translate } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSort, faSortUp, faSortDown } from '@fortawesome/free-solid-svg-icons';
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
@@ -10,6 +10,8 @@ import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-u
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
 import { getEntities } from './daily-calls.reducer';
+import { FileUpload } from 'primereact/fileupload';
+import { uploadExcelEntity } from './reducers/daily-calls-upload.reducer';
 
 export const DailyCalls = () => {
   const dispatch = useAppDispatch();
@@ -90,6 +92,18 @@ export const DailyCalls = () => {
     }
   };
 
+  const fileRef = useRef(null);
+
+  const handleUpload = event => {
+    const formData = new FormData();
+    formData.append('file', event.files[0]);
+
+    dispatch(uploadExcelEntity(formData));
+
+    // delete current file
+    fileRef.current.clear();
+  };
+
   return (
     <div>
       <h2 id="daily-calls-heading" data-cy="DailyCallsHeading">
@@ -104,16 +118,18 @@ export const DailyCalls = () => {
             &nbsp;
             <Translate contentKey="qualitydashboardApp.dailyCalls.home.createLabel">Create new Daily Calls</Translate>
           </Link>
-          <Link to="/daily-calls/upload" className="btn btn-primary jh-create-entity me-2" id="jh-create-entity" data-cy="entityCreateButton">
-            <FontAwesomeIcon icon="file-arrow-up" />
-            &nbsp;
-            <Translate contentKey="qualitydashboardApp.dailyCalls.home.uploadExcel">Upload data</Translate>
-          </Link>
-          {/* <Link to="/daily-calls/metrics" className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
-            <FontAwesomeIcon icon="chart-simple" />
-            &nbsp;
-            <Translate contentKey="qualitydashboardApp.dailyCalls.home.metrics">Go to metrics</Translate>
-          </Link> */}
+          <Button color="primary">
+            <FileUpload
+              ref={fileRef}
+              mode="basic"
+              name="calls-upload"
+              accept="/*"
+              maxFileSize={1000000}
+              customUpload
+              uploadHandler={handleUpload}
+              chooseLabel={translate('qualitydashboardApp.dailyCalls.home.uploadExcel')}
+            />
+          </Button>
         </div>
       </h2>
       <div className="table-responsive">

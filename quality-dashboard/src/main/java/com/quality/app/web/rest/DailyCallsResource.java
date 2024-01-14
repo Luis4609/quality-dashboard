@@ -10,6 +10,7 @@ import com.quality.app.service.dto.metrics.calls.IDailyCallsMetrics;
 import com.quality.app.service.dto.metrics.calls.IDailyCallsMetricsByDate;
 import com.quality.app.web.rest.errors.BadRequestAlertException;
 import com.quality.app.web.rest.errors.UploadFileAlertException;
+import com.quality.app.web.rest.util.QualityHeaderUtil;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.slf4j.Logger;
@@ -201,7 +202,7 @@ public class DailyCallsResource {
             throw new UploadFileAlertException("Invalid file", ENTITY_NAME, "fileinvalid");
         }
 
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, file.getName())).build();
+        return ResponseEntity.ok().headers(QualityHeaderUtil.createEntityUploadAlert(applicationName, true, ENTITY_NAME, file.getOriginalFilename())).body("File successfully uploaded");
     }
 
     /**

@@ -6,15 +6,10 @@ import com.quality.app.service.DailyChatsService;
 import com.quality.app.service.criteria.DailyChatsCriteria;
 import com.quality.app.service.dto.DailyChatsDTO;
 import com.quality.app.web.rest.errors.BadRequestAlertException;
+import com.quality.app.web.rest.errors.UploadFileAlertException;
+import com.quality.app.web.rest.util.QualityHeaderUtil;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
-
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,6 +24,13 @@ import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+
 /**
  * REST controller for managing {@link com.quality.app.domain.DailyChats}.
  */
@@ -36,18 +38,13 @@ import tech.jhipster.web.util.ResponseUtil;
 @RequestMapping("/api/daily-chats")
 public class DailyChatsResource {
 
-    private final Logger log = LoggerFactory.getLogger(DailyChatsResource.class);
-
     private static final String ENTITY_NAME = "dailyChats";
-
+    private final Logger log = LoggerFactory.getLogger(DailyChatsResource.class);
+    private final DailyChatsService dailyChatsService;
+    private final DailyChatsRepository dailyChatsRepository;
+    private final DailyChatsQueryService dailyChatsQueryService;
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
-
-    private final DailyChatsService dailyChatsService;
-
-    private final DailyChatsRepository dailyChatsRepository;
-
-    private final DailyChatsQueryService dailyChatsQueryService;
 
     public DailyChatsResource(
         DailyChatsService dailyChatsService,
@@ -82,7 +79,7 @@ public class DailyChatsResource {
     /**
      * {@code PUT  /daily-chats/:id} : Updates an existing dailyChats.
      *
-     * @param id the id of the dailyChatsDTO to save.
+     * @param id            the id of the dailyChatsDTO to save.
      * @param dailyChatsDTO the dailyChatsDTO to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated dailyChatsDTO,
      * or with status {@code 400 (Bad Request)} if the dailyChatsDTO is not valid,
@@ -116,7 +113,7 @@ public class DailyChatsResource {
     /**
      * {@code PATCH  /daily-chats/:id} : Partial updates given fields of an existing dailyChats, field will ignore if it is null
      *
-     * @param id the id of the dailyChatsDTO to save.
+     * @param id            the id of the dailyChatsDTO to save.
      * @param dailyChatsDTO the dailyChatsDTO to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated dailyChatsDTO,
      * or with status {@code 400 (Bad Request)} if the dailyChatsDTO is not valid,
@@ -124,7 +121,7 @@ public class DailyChatsResource {
      * or with status {@code 500 (Internal Server Error)} if the dailyChatsDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PatchMapping(value = "/{id}", consumes = {"application/json", "application/merge-patch+json"})
     public ResponseEntity<DailyChatsDTO> partialUpdateDailyChats(
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody DailyChatsDTO dailyChatsDTO
@@ -219,13 +216,12 @@ public class DailyChatsResource {
     public ResponseEntity<String> uploadExcelFile(@RequestParam MultipartFile file) {
         try {
             dailyChatsService.updateDataFromFile(file);
-        } catch (IOException e) {
-            //TODO handle exception
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            throw new UploadFileAlertException("Invalid file", ENTITY_NAME, "fileinvalid");
         }
         return ResponseEntity
             .ok()
-            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, file.getName()))
-            .build();
+            .headers(QualityHeaderUtil.createEntityUploadAlert(applicationName, true, ENTITY_NAME, file.getOriginalFilename()))
+            .body("File successfully uploaded");
     }
 }
