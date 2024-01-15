@@ -1,5 +1,6 @@
 import dailyCalls from 'app/entities/daily-calls/daily-calls.reducer';
 import dailyChats from 'app/entities/daily-chats/daily-chats.reducer';
+import metricThreshold from 'app/entities/metric-threshold/metric-threshold.reducer';
 import dailyCallsMetrics from './daily-calls/reducers/daily-calls-metrics.reducer';
 import dailyCallsMetricsByDate from './daily-calls/reducers/daily-calls-metrics-date.reducer';
 import dailyCallsUploadExcel from './daily-calls/reducers/daily-calls-upload.reducer';
@@ -13,6 +14,7 @@ const entitiesReducers = {
   dailyCallsMetricsByDate,
   dailyCallsMetricsByMonth,
   dailyCallsUploadExcel,
+  metricThreshold,
   /* jhipster-needle-add-reducer-combine - JHipster will add reducer here */
 };
 

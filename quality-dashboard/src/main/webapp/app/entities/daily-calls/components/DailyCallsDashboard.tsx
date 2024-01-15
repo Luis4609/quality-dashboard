@@ -15,6 +15,8 @@ import { getMetricsByMonth } from '../reducers/daily-calls-metrics-by-month.redu
 import { getMetricsWithDate } from '../reducers/daily-calls-metrics-date.reducer';
 import { formattedCurrentDate, formattedStartDate } from 'app/shared/services/DateService';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { PDFViewer } from '@react-pdf/renderer';
+import PdfDocument from 'app/shared/components/PdfDocument';
 
 // const LazyMetricCard = lazy(() => import './ReceivedAndAttendedChart')
 
@@ -69,19 +71,19 @@ export const DailyCallsDashboard = () => {
   return (
     <Container style={{ marginTop: '1em' }}>
       {/* Date Pickers section */}
-      <Row className='align-items-center mb-3' >
-          <DatePickerComponent
-            date={startDate}
-            setDate={setStarDate}
-            text={'qualitydashboardApp.dailyCalls.metrics.startDateInput'}
-          ></DatePickerComponent>
-          <DatePickerComponent
-            date={currentDate}
-            setDate={setCurrentDate}
-            text={'qualitydashboardApp.dailyCalls.metrics.endDateInput'}
-          ></DatePickerComponent>
-        <Col >
-          <Button color="primary" onClick={getAllMetrics} disabled={isSearchDisable} >
+      <Row className="align-items-center mb-3">
+        <DatePickerComponent
+          date={startDate}
+          setDate={setStarDate}
+          text={'qualitydashboardApp.dailyCalls.metrics.startDateInput'}
+        ></DatePickerComponent>
+        <DatePickerComponent
+          date={currentDate}
+          setDate={setCurrentDate}
+          text={'qualitydashboardApp.dailyCalls.metrics.endDateInput'}
+        ></DatePickerComponent>
+        <Col>
+          <Button color="primary" onClick={getAllMetrics} disabled={isSearchDisable}>
             <FontAwesomeIcon icon="sync" />
             <Translate contentKey="qualitydashboardApp.dailyCalls.metrics.refreshMetricsLabel">Search</Translate>
           </Button>

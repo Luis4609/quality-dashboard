@@ -1,0 +1,27 @@
+{
+  "qualitydashboardApp": {
+    "metricThreshold": {
+      "home": {
+        "title": "Metric Thresholds",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Metric Threshold",
+        "createOrEditLabel": "Create or edit a Metric Threshold",
+        "notFound": "No Metric Thresholds found"
+      },
+      "created": "A new Metric Threshold is created with identifier {{ param }}",
+      "updated": "A Metric Threshold is updated with identifier {{ param }}",
+      "deleted": "A Metric Threshold is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Metric Threshold {{ id }}?"
+      },
+      "detail": {
+        "title": "Metric Threshold"
+      },
+      "id": "ID",
+      "entityName": "Entity Name",
+      "metricName": "Metric Name",
+      "successPercentage": "Success Percentage",
+      "dangerPercentage": "Danger Percentage"
+    }
+  }
+}

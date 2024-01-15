@@ -9,7 +9,8 @@
         "main": "Entities",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)",
         "dailyCalls": "Daily Calls",
-        "dailyChats": "Daily Chats"
+        "dailyChats": "Daily Chats",
+        "metricThreshold": "Metric Threshold"
       },
       "account": {
         "main": "Account",

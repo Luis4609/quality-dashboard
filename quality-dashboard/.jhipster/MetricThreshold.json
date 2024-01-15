@@ -1,0 +1,32 @@
+{
+  "changelogDate": "20240115095701",
+  "dto": "mapstruct",
+  "entityTableName": "metric_threshold",
+  "fields": [
+    {
+      "fieldName": "entityName",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "metricName",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "successPercentage",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "dangerPercentage",
+      "fieldType": "Double"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "MetricThreshold",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}
