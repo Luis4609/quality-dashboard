@@ -33,7 +33,8 @@
           "canNotBeEmpty": "Los campos fecha de inicio y fecha final no pueden estar vacíos",
           "endDateLessThanStartDate": "La fecha final tiene que ser posterior a la fecha de inicio"
         },
-        "refreshMetricsLabel": "Refrescar"
+        "refreshMetricsLabel": "Refrescar",
+        "downloadPdf": "PDF"
       },
       "detail": {
         "title": "Daily Calls"

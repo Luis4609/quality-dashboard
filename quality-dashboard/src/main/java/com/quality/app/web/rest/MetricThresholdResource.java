@@ -8,11 +8,6 @@ import com.quality.app.service.dto.MetricThresholdDTO;
 import com.quality.app.web.rest.errors.BadRequestAlertException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,6 +21,12 @@ import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+
 /**
  * REST controller for managing {@link com.quality.app.domain.MetricThreshold}.
  */
@@ -33,18 +34,13 @@ import tech.jhipster.web.util.ResponseUtil;
 @RequestMapping("/api/metric-thresholds")
 public class MetricThresholdResource {
 
-    private final Logger log = LoggerFactory.getLogger(MetricThresholdResource.class);
-
     private static final String ENTITY_NAME = "metricThreshold";
-
+    private final Logger log = LoggerFactory.getLogger(MetricThresholdResource.class);
+    private final MetricThresholdService metricThresholdService;
+    private final MetricThresholdRepository metricThresholdRepository;
+    private final MetricThresholdQueryService metricThresholdQueryService;
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
-
-    private final MetricThresholdService metricThresholdService;
-
-    private final MetricThresholdRepository metricThresholdRepository;
-
-    private final MetricThresholdQueryService metricThresholdQueryService;
 
     public MetricThresholdResource(
         MetricThresholdService metricThresholdService,
@@ -80,7 +76,7 @@ public class MetricThresholdResource {
     /**
      * {@code PUT  /metric-thresholds/:id} : Updates an existing metricThreshold.
      *
-     * @param id the id of the metricThresholdDTO to save.
+     * @param id                 the id of the metricThresholdDTO to save.
      * @param metricThresholdDTO the metricThresholdDTO to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated metricThresholdDTO,
      * or with status {@code 400 (Bad Request)} if the metricThresholdDTO is not valid,
@@ -114,7 +110,7 @@ public class MetricThresholdResource {
     /**
      * {@code PATCH  /metric-thresholds/:id} : Partial updates given fields of an existing metricThreshold, field will ignore if it is null
      *
-     * @param id the id of the metricThresholdDTO to save.
+     * @param id                 the id of the metricThresholdDTO to save.
      * @param metricThresholdDTO the metricThresholdDTO to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated metricThresholdDTO,
      * or with status {@code 400 (Bad Request)} if the metricThresholdDTO is not valid,
@@ -122,7 +118,7 @@ public class MetricThresholdResource {
      * or with status {@code 500 (Internal Server Error)} if the metricThresholdDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PatchMapping(value = "/{id}", consumes = {"application/json", "application/merge-patch+json"})
     public ResponseEntity<MetricThresholdDTO> partialUpdateMetricThreshold(
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody MetricThresholdDTO metricThresholdDTO
@@ -189,6 +185,21 @@ public class MetricThresholdResource {
         log.debug("REST request to get MetricThreshold : {}", id);
         Optional<MetricThresholdDTO> metricThresholdDTO = metricThresholdService.findOne(id);
         return ResponseUtil.wrapOrNotFound(metricThresholdDTO);
+    }
+
+    /**
+     * {@code GET  /metric-thresholds/:id} : get the "id" metricThreshold.
+     *
+     * @param name the id of the metricThresholdDTO to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the metricThresholdDTO, or with status {@code 404 (Not Found)}.
+     */
+    @GetMapping("/by-entity-name/{name}")
+    public ResponseEntity<List<MetricThresholdDTO>> getMetricsThresholdByEntityName(@PathVariable String name) {
+        log.debug("REST request to get getMetricsThresholdByEntityName : {}", name);
+
+        return ResponseEntity
+            .ok()
+            .body(metricThresholdService.findByEntityName(name));
     }
 
     /**

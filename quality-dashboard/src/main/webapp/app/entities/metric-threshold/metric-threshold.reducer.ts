@@ -8,6 +8,7 @@ const initialState: EntityState<IMetricThreshold> = {
   loading: false,
   errorMessage: null,
   entities: [],
+  thresholds: [],
   entity: defaultValue,
   updating: false,
   totalItems: 0,
@@ -28,6 +29,15 @@ export const getEntity = createAsyncThunk(
   async (id: string | number) => {
     const requestUrl = `${apiUrl}/${id}`;
     return axios.get<IMetricThreshold>(requestUrl);
+  },
+  { serializeError: serializeAxiosError },
+);
+
+export const getEntitiesByName = createAsyncThunk(
+  'metricThreshold/fetch_by_entity_name',
+  async (entityName: string) => {
+    const requestUrl = `${apiUrl}/by-entity-name/${entityName}`;
+    return axios.get<IMetricThreshold[]>(requestUrl);
   },
   { serializeError: serializeAxiosError },
 );
@@ -99,6 +109,15 @@ export const MetricThresholdSlice = createEntitySlice({
           totalItems: parseInt(headers['x-total-count'], 10),
         };
       })
+      .addMatcher(isFulfilled(getEntitiesByName), (state, action) => {
+        const { data } = action.payload;
+
+        return {
+          ...state,
+          loading: false,
+          thresholds: data,
+        };
+      })
       .addMatcher(isFulfilled(createEntity, updateEntity, partialUpdateEntity), (state, action) => {
         state.updating = false;
         state.loading = false;
@@ -106,6 +125,11 @@ export const MetricThresholdSlice = createEntitySlice({
         state.entity = action.payload.data;
       })
       .addMatcher(isPending(getEntities, getEntity), state => {
+        state.errorMessage = null;
+        state.updateSuccess = false;
+        state.loading = true;
+      })
+      .addMatcher(isPending(getEntitiesByName), state => {
         state.errorMessage = null;
         state.updateSuccess = false;
         state.loading = true;

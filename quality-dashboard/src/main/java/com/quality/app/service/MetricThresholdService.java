@@ -4,13 +4,16 @@ import com.quality.app.domain.MetricThreshold;
 import com.quality.app.repository.MetricThresholdRepository;
 import com.quality.app.service.dto.MetricThresholdDTO;
 import com.quality.app.service.mapper.MetricThresholdMapper;
-import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Service Implementation for managing {@link com.quality.app.domain.MetricThreshold}.
@@ -109,4 +112,20 @@ public class MetricThresholdService {
         log.debug("Request to delete MetricThreshold : {}", id);
         metricThresholdRepository.deleteById(id);
     }
+
+    /**
+     * Get one metricThreshold by id.
+     *
+     * @param name the id of the entity.
+     * @return the entity.
+     */
+    @Transactional(readOnly = true)
+    public List<MetricThresholdDTO> findByEntityName(String name) {
+        log.debug("Request to get MetricThreshold : {}", name);
+        return metricThresholdRepository.findByEntityName(name)
+            .stream()
+            .map(metricThresholdMapper::toDto)
+            .collect(Collectors.toList());
+    }
+
 }

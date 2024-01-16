@@ -1,4 +1,5 @@
 import { Document, Page, StyleSheet, Text, View } from '@react-pdf/renderer';
+import { useAppSelector } from 'app/config/store';
 import React from 'react';
 
 // Create styles
@@ -14,8 +15,11 @@ const styles = StyleSheet.create({
   },
 });
 
+// // use app context
+
 // Create Document Component
 const PdfDocument = () => {
+
   return (
     <Document>
       <Page size="A4" style={styles.page}>

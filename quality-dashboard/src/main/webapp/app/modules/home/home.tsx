@@ -2,7 +2,7 @@ import './home.scss';
 
 import React, { useState } from 'react';
 import { Translate, translate } from 'react-jhipster';
-import { Col, Nav, NavItem, NavLink, Row, TabContent, TabPane } from 'reactstrap';
+import { Col, Container, Nav, NavItem, NavLink, Row, TabContent, TabPane } from 'reactstrap';
 
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import DailyCallsDashboard from 'app/entities/daily-calls/components/DailyCallsDashboard';
@@ -10,6 +10,8 @@ import DailyChatsDashboard from 'app/entities/daily-chats/components/DailyChatsD
 import classnames from 'classnames';
 import { toast } from 'react-toastify';
 import { updateWelcomeMessage } from 'app/shared/reducers/authentication';
+import { PDFViewer } from '@react-pdf/renderer';
+import PdfDocument from 'app/shared/components/PdfDocument';
 
 function a11yProps(index: number) {
   return {
@@ -50,14 +52,6 @@ export const Home = () => {
           <h2 data-cy="">
             <Translate contentKey="home.title">Dashboard</Translate>
           </h2>
-          {/* {account?.login ? (
-          ) : (
-            <div>
-              <Link to="/register" className="btn btn-primary mr-1">
-                Log in or Register new account
-              </Link>
-            </div>
-          )} */}
         </Col>
       </Row>
       <Row>
@@ -86,6 +80,18 @@ export const Home = () => {
               <Translate contentKey="home.metrics.chatsTabTitle">Métricas de Chats</Translate>
             </NavLink>
           </NavItem>
+          <NavItem>
+            <NavLink
+              className={classnames({
+                active: currentActiveTab === '3',
+              })}
+              onClick={() => {
+                toggle('3');
+              }}
+            >
+              <Translate contentKey="home.metrics.pdf">Generar PDF</Translate>
+            </NavLink>
+          </NavItem>
         </Nav>
         <TabContent activeTab={currentActiveTab}>
           <TabPane tabId="1">
@@ -93,6 +99,13 @@ export const Home = () => {
           </TabPane>
           <TabPane tabId="2">
             <DailyChatsDashboard></DailyChatsDashboard>
+          </TabPane>
+          <TabPane tabId="3">
+            <Container>
+              <PDFViewer>
+                <PdfDocument></PdfDocument>
+              </PDFViewer>
+            </Container>
           </TabPane>
         </TabContent>
       </Row>

@@ -8,7 +8,8 @@
     },
     "metrics": {
       "callsTabTitle": "Métricas de Llamadas",
-      "chatsTabTitle": "Métricas de Chats"
+      "chatsTabTitle": "Métricas de Chats",
+      "pdf": "Generar PDF"
     }
   }
 }
