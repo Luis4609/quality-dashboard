@@ -26,6 +26,7 @@
         "title": "Daily Calls Metricas",
         "startDateInput": "Fecha de inicio:",
         "endDateInput": "Fecha final:",
+        "previousPeriodLabel": "año anterior",
         "dashboardUpdated": "El dashboard se ha actualizado correctamente",
         "validation": {
           "required": "Los campos fecha de inicio y fecha final son obligatorios",
@@ -34,7 +35,16 @@
           "endDateLessThanStartDate": "La fecha final tiene que ser posterior a la fecha de inicio"
         },
         "refreshMetricsLabel": "Refrescar",
-        "downloadPdf": "PDF"
+        "downloadPdf": "PDF",
+        "cards": {
+          "totalDailyReceivedCalls": "Llamadas recibidas",
+          "totalDailyAttendedCalls": "Llamadas atendidas",
+          "totalDailyMissedCalls": "Llamadas perdidas",
+          "totalDailyReceivedCallsExternalAgent": "Llamadas recibidas agente externo",
+          "totalDailyAttendedCallsExternalAgent": "Llamadas atendidas agente externo",
+          "totalDailyReceivedCallsInternalAgent": "Llamadas recibidas agente interno",
+          "totalDailyAttendedCallsInternalAgent": "Llamadas atendidas agente interno"
+        }
       },
       "detail": {
         "title": "Daily Calls"

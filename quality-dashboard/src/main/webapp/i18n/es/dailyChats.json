@@ -21,6 +21,28 @@
         "button": "Subir archivo",
         "infoText": "Subir un fichero excel con los datos relacionados con los Chats diarios"
       },
+      "metrics": {
+        "title": "Daily Chats Metricas",
+        "startDateInput": "Fecha de inicio:",
+        "endDateInput": "Fecha final:",
+        "previousPeriodLabel": "año anterior",
+        "dashboardUpdated": "El dashboard se ha actualizado correctamente",
+        "validation": {
+          "required": "Los campos fecha de inicio y fecha final son obligatorios",
+          "startDateLessThanEndDate": "La fecha de inicio tiene que ser anterior a la fecha final",
+          "canNotBeEmpty": "Los campos fecha de inicio y fecha final no pueden estar vacíos",
+          "endDateLessThanStartDate": "La fecha final tiene que ser posterior a la fecha de inicio"
+        },
+        "refreshMetricsLabel": "Refrescar",
+        "downloadPdf": "PDF",
+        "cards": {
+          "totalDailyReceivedChats": "Chats recibidos",
+          "totalDailyAttendedChats": "Chats atendidos",
+          "totalDailyMissedChats": "Chats perdidos",
+          "totalDailyConversationChatsTimeInMin": "Tiempo total de atención por chat",
+          "avgDailyConversationChatsTimeInMin": "Tiempo medio por chat"
+        }
+      },
       "detail": {
         "title": "Chat"
       },

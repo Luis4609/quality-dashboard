@@ -5,6 +5,10 @@ import dailyCallsMetrics from './daily-calls/reducers/daily-calls-metrics.reduce
 import dailyCallsMetricsByDate from './daily-calls/reducers/daily-calls-metrics-date.reducer';
 import dailyCallsUploadExcel from './daily-calls/reducers/daily-calls-upload.reducer';
 import dailyCallsMetricsByMonth from './daily-calls/reducers/daily-calls-metrics-by-month.reducer';
+import dailyChatsMetrics from 'app/entities/daily-chats/reducers/daily-chats-metrics.reducer';
+import dailyChatsMetricsSummary from 'app/entities/daily-chats/reducers/daily-chats-metrics.reducer';
+import dailyChatsMetricsWithPrevious from 'app/entities/daily-chats/reducers/daily-chats-metrics-with-previous.reducer';
+import dailyChatsMetricsGroupByMonth from 'app/entities/daily-chats/reducers/daily-chats-metrics-group-by-month.reducer';
 /* jhipster-needle-add-reducer-import - JHipster will add reducer here */
 
 const entitiesReducers = {
@@ -15,6 +19,10 @@ const entitiesReducers = {
   dailyCallsMetricsByMonth,
   dailyCallsUploadExcel,
   metricThreshold,
+  dailyChatsMetrics,
+  dailyChatsMetricsSummary,
+  dailyChatsMetricsWithPrevious,
+  dailyChatsMetricsGroupByMonth,
   /* jhipster-needle-add-reducer-combine - JHipster will add reducer here */
 };
 

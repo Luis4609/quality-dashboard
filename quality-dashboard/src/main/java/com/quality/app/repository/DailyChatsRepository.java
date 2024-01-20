@@ -31,12 +31,13 @@ public interface DailyChatsRepository extends JpaRepository<DailyChats, Long>, J
         SELECT (total_daily_received_chats) AS totalReceivedChats, (total_daily_conversation_chats_time_in_min) AS totalDailyConversationChatsTime, (total_daily_attended_chats) AS totalAttendedChats,
         (total_daily_missed_chats) AS totalMissedChats, (avg_daily_conversation_chats_time_in_min) AS avgConversationChats, day AS metricDate
         FROM qualitydashboard.daily_chats
-        WHERE daily_chats.day between ?1 AND ?2""", nativeQuery = true)
+        WHERE daily_chats.day between ?1 AND ?2
+        GROUP BY month(daily_chats.day)""", nativeQuery = true)
     List<IChatsMetrics> getMetricsByDateGroupByMonth(Date start, Date finish);
 
     @Query(value = """
-        SELECT (total_daily_received_chats) AS totalReceivedChats, (total_daily_conversation_chats_time_in_min) AS totalDailyConversationChatsTime, (total_daily_attended_chats) AS totalAttendedChats,
-        (total_daily_missed_chats) AS totalMissedChats, (avg_daily_conversation_chats_time_in_min) AS avgConversationChats
+        SELECT SUM(total_daily_received_chats) AS totalReceivedChats, SUM(total_daily_conversation_chats_time_in_min) AS totalDailyConversationChatsTime, SUM(total_daily_attended_chats) AS totalAttendedChats,
+        SUM(total_daily_missed_chats) AS totalMissedChats, SUM(avg_daily_conversation_chats_time_in_min) AS avgConversationChats
         FROM qualitydashboard.daily_chats
         WHERE daily_chats.day between ?1 AND ?2""", nativeQuery = true)
     IChatsMetricsSummary getMetricsSummaryByDate(Date start, Date finish);

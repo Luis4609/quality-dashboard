@@ -18,49 +18,75 @@ echarts.registerTheme('my_theme', {
 });
 
 const DEFAULT_OPTIONS = {
-  title: { text: 'Llamadas - Recibidas y Atendidas', textStyle: { fontSize: 14 } },
+  title: { text: 'Chats - Recibidos y Porcentaje atención', textStyle: { fontSize: 14 } },
   tooltip: {},
   legend: { top: 'bottom' },
   xAxis: {
-    name: 'Día',
     data: [],
   },
   yAxis: [
     {
       type: 'value',
-      name: 'Nº de Llamadas',
+      name: 'Recibidos',
       axisLabel: {
         formatter: '{value}',
+      },
+    },
+    {
+      type: 'value',
+      name: 'Atendidas',
+      min: 0,
+      max: 100,
+      interval: 20,
+      axisLabel: {
+        formatter: '{value} %',
       },
     },
   ],
   series: [
     {
-      name: 'Llamadas recibidas',
-      type: 'line',
+      name: 'Chats recibidos',
+      type: 'bar',
+      label: {
+        show: true,
+        position: 'inside',
+      },
       data: [],
     },
     {
-      name: 'Llamadas atendidas',
+      name: '% Chat atendidos',
       type: 'line',
+      yAxisIndex: 1,
+      label: {
+        show: true,
+        position: 'up',
+      },
       data: [],
     },
   ],
 };
 
-const ReceivedAndAttendedChart = (props: { metricsByMonth: IDailyCallsMetricsByDate[]; startDate: string; endDate: string }) => {
-  // const metricsByMonth = useAppSelector(state => state.dailyCallsMetricsByMonth.entities);
-
+const ChatsChart = (props: { metricsYTD: IDailyCallsMetricsByDate[]; startDate: string; endDate: string }) => {
   const [option, setOption] = useState(DEFAULT_OPTIONS);
 
   const getData = () => {
     const newOption = cloneDeep(option); // immutable
 
-    newOption.title.text = `Llamadas - Recibidas y Atendidas (${props.startDate} - ${props.endDate})`;
+    // eslint-disable-next-line prefer-const
+    let initialDate = new Date(props.startDate);
 
-    const x: any[] = props.metricsByMonth.map(metric => metric.metricDate);
-    const data: any[] = props.metricsByMonth.map(metric => metric.totalReceivedCalls);
-    const data1: any[] = props.metricsByMonth.map(metric => metric.totalAttendedCalls);
+    newOption.title.text = `Llamadas - Recibidas y Porcentaje atención (${initialDate.toLocaleString('default', {
+      month: 'long',
+      year: 'numeric',
+    })} - ${new Date(props.endDate).toLocaleString('default', { month: 'long', year: 'numeric' })})`;
+
+    const x: any[] = props.metricsYTD.map(metric => {
+      let displayDate = (new Date(metric.metricDate).getMonth() + 1).toString();
+      displayDate += "/" + (new Date(metric.metricDate).getFullYear()).toString();
+      return displayDate
+    });
+    const data: any[] = props.metricsYTD.map(metric => metric.totalReceivedCalls);
+    const data1: any[] = props.metricsYTD.map(metric => ((metric.totalAttendedCalls / metric.totalReceivedCalls) * 100).toFixed(2));
 
     newOption.xAxis.data.length = 0;
     newOption.xAxis.data.push(...x);
@@ -76,9 +102,9 @@ const ReceivedAndAttendedChart = (props: { metricsByMonth: IDailyCallsMetricsByD
 
   useEffect(() => {
     getData();
-  }, [props.metricsByMonth]);
+  }, [props.metricsYTD]);
 
   return <ReactECharts option={option} lazyUpdate={true} />;
 };
 
-export default ReceivedAndAttendedChart;
+export default ChatsChart;

@@ -40,6 +40,7 @@ public class QualitydashboardApp {
      */
     @PostConstruct
     public void initApplication() {
+
         Collection<String> activeProfiles = Arrays.asList(env.getActiveProfiles());
         if (
             activeProfiles.contains(JHipsterConstants.SPRING_PROFILE_DEVELOPMENT) &&

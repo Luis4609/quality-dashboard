@@ -10,7 +10,7 @@ function DatePickerComponent({ date, setDate, text }) {
           {translate(text)}
         </Label>
       </Col>
-      <Col className='col-4'>
+      <Col className='col-3'>
         <Input
           value={date}
           id={text.substring(0, 20)}

@@ -3,6 +3,7 @@ package com.quality.app.service;
 import com.quality.app.domain.DailyChats;
 import com.quality.app.repository.DailyChatsRepository;
 import com.quality.app.service.dto.DailyChatsDTO;
+import com.quality.app.service.dto.metrics.chats.DailyChatsMetricsDTO;
 import com.quality.app.service.dto.metrics.chats.IChatsMetrics;
 import com.quality.app.service.dto.metrics.chats.IChatsMetricsSummary;
 import com.quality.app.service.mapper.DailyChatsMapper;
@@ -19,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -180,9 +182,21 @@ public class DailyChatsService {
      * @param finish the finish
      * @return the metrics summary by date
      */
-    public IChatsMetricsSummary getMetricsSummaryByDate(Date start, Date finish) {
+    public DailyChatsMetricsDTO getMetricsSummaryByDate(Date start, Date finish) {
 
-        return dailyChatsRepository.getMetricsSummaryByDate(start, finish);
+        IChatsMetricsSummary current = dailyChatsRepository.getMetricsSummaryByDate(start, finish);
+
+        Calendar startCalendar = Calendar.getInstance();
+        startCalendar.setTime(start);
+        startCalendar.add(Calendar.YEAR, -1);
+
+        Calendar finishCalendar = Calendar.getInstance();
+        finishCalendar.setTime(finish);
+        finishCalendar.add(Calendar.YEAR, -1);
+
+        IChatsMetricsSummary previous = dailyChatsRepository.getMetricsSummaryByDate(startCalendar.getTime(), finishCalendar.getTime());
+
+        return new DailyChatsMetricsDTO(current, previous);
     }
 
     /**

@@ -2,6 +2,7 @@ package com.quality.app.web.rest;
 
 
 import com.quality.app.service.DailyChatsService;
+import com.quality.app.service.dto.metrics.chats.DailyChatsMetricsDTO;
 import com.quality.app.service.dto.metrics.chats.IChatsMetrics;
 import com.quality.app.service.dto.metrics.chats.IChatsMetricsSummary;
 import org.slf4j.Logger;
@@ -62,7 +63,7 @@ public class ChatsMetricsController {
      * @return the daily calls metrics
      */
     @GetMapping("/summary")
-    public ResponseEntity<IChatsMetricsSummary> getSummaryMetricsByDate(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date start, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date finish) {
+    public ResponseEntity<DailyChatsMetricsDTO> getSummaryMetricsByDate(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date start, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date finish) {
 
         return ResponseEntity.ok().body(dailyChatsService.getMetricsSummaryByDate(start, finish));
     }

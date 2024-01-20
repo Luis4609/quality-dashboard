@@ -127,7 +127,7 @@ public interface DailyCallsRepository extends JpaRepository<DailyCalls, Long>, J
         SELECT SUM(total_daily_received_calls) AS totalReceivedCalls, SUM(total_daily_attended_calls) AS totalAttendedCalls, SUM(total_daily_missed_calls) AS totalLostCalls,
         SUM(total_daily_attended_calls_external_agent) AS totalAttendedCallsExternalAgent, SUM(total_daily_attended_calls_internal_agent) AS totalAttendedCallsInternalAgent, day AS metricDate
         FROM daily_calls WHERE daily_calls.day between ?1 AND ?2
-        group by month(daily_calls.day)""",
+        GROUP BY month(daily_calls.day)""",
         nativeQuery = true)
     List<IDailyCallsMetricsByDate> getMetricsByDateGroupByMonth(Date start, Date end);
 

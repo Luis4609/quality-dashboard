@@ -1,11 +1,11 @@
-import { useAppDispatch, useAppSelector } from 'app/config/store';
-import React, { useEffect, useRef, useState } from 'react';
-import { Translate, ValidatedField, ValidatedForm, translate } from 'react-jhipster';
-import { Button, Col, Form, Input, Label, Row } from 'reactstrap';
-import { useNavigate } from 'react-router';
-import { uploadExcelEntity } from './reducers/daily-calls-upload.reducer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { FileUpload } from 'primereact/fileupload';
+import React, { useEffect, useRef, useState } from 'react';
+import { Translate } from 'react-jhipster';
+import { useNavigate } from 'react-router';
+import { Button, Col, Form, Input, Label, Row } from 'reactstrap';
+import { uploadExcelEntity } from './reducers/daily-calls-upload.reducer';
 
 export const DailyCallsUpload = () => {
   const dispatch = useAppDispatch();
@@ -38,16 +38,11 @@ export const DailyCallsUpload = () => {
     dispatch(uploadExcelEntity(formData));
 
     fileRef.current.clear();
-
   };
 
-  const onUpload = () => {
-    console.log("ESTAMOOOOOOS AQUI")
-  };
+  const onUpload = () => {};
 
   const fileRef = useRef(null);
-
-
 
   return (
     <>

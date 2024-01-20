@@ -12,6 +12,7 @@ import { toast } from 'react-toastify';
 import { updateWelcomeMessage } from 'app/shared/reducers/authentication';
 import { PDFViewer } from '@react-pdf/renderer';
 import PdfDocument from 'app/shared/components/PdfDocument';
+import { getChatsMetricsWithPrevious } from 'app/entities/daily-chats/reducers/daily-chats-metrics-with-previous.reducer';
 
 function a11yProps(index: number) {
   return {
@@ -42,8 +43,8 @@ export const Home = () => {
     dispatch(updateWelcomeMessage());
   }
 
-  // eslint-disable-next-line no-console
-  console.log(account);
+  // dispatch(getChatsMetricsWithPrevious({ startDate, endDate: currentDate}))
+
 
   return (
     <>
@@ -80,18 +81,6 @@ export const Home = () => {
               <Translate contentKey="home.metrics.chatsTabTitle">Métricas de Chats</Translate>
             </NavLink>
           </NavItem>
-          <NavItem>
-            <NavLink
-              className={classnames({
-                active: currentActiveTab === '3',
-              })}
-              onClick={() => {
-                toggle('3');
-              }}
-            >
-              <Translate contentKey="home.metrics.pdf">Generar PDF</Translate>
-            </NavLink>
-          </NavItem>
         </Nav>
         <TabContent activeTab={currentActiveTab}>
           <TabPane tabId="1">
@@ -99,13 +88,6 @@ export const Home = () => {
           </TabPane>
           <TabPane tabId="2">
             <DailyChatsDashboard></DailyChatsDashboard>
-          </TabPane>
-          <TabPane tabId="3">
-            <Container>
-              <PDFViewer>
-                <PdfDocument></PdfDocument>
-              </PDFViewer>
-            </Container>
           </TabPane>
         </TabContent>
       </Row>

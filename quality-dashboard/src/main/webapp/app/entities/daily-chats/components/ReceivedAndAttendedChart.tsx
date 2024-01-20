@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import ReactECharts from 'echarts-for-react';
 
 // Import the echarts core module, which provides the necessary interfaces for using echarts.
-import { IDailyCallsMetricsByDate } from 'app/shared/model/daily-calls.model';
+import { IDailyChatsMetrics } from 'app/shared/model/daily-chats.model';
 import { BarChart } from 'echarts/charts';
 import { GridComponent, TitleComponent, TooltipComponent } from 'echarts/components';
 import * as echarts from 'echarts/core';
@@ -18,7 +18,7 @@ echarts.registerTheme('my_theme', {
 });
 
 const DEFAULT_OPTIONS = {
-  title: { text: 'Llamadas - Recibidas y Atendidas', textStyle: { fontSize: 14 } },
+  title: { text: 'Chats - Recibidos y Atendidos', textStyle: { fontSize: 14 } },
   tooltip: {},
   legend: { top: 'bottom' },
   xAxis: {
@@ -28,7 +28,7 @@ const DEFAULT_OPTIONS = {
   yAxis: [
     {
       type: 'value',
-      name: 'Nº de Llamadas',
+      name: 'Nº de Chats',
       axisLabel: {
         formatter: '{value}',
       },
@@ -36,20 +36,19 @@ const DEFAULT_OPTIONS = {
   ],
   series: [
     {
-      name: 'Llamadas recibidas',
+      name: 'Chats recibidos',
       type: 'line',
       data: [],
     },
     {
-      name: 'Llamadas atendidas',
+      name: 'Chats atendidos',
       type: 'line',
       data: [],
     },
   ],
 };
 
-const ReceivedAndAttendedChart = (props: { metricsByMonth: IDailyCallsMetricsByDate[]; startDate: string; endDate: string }) => {
-  // const metricsByMonth = useAppSelector(state => state.dailyCallsMetricsByMonth.entities);
+const ReceivedAndAttendedChart = (props: { metricsByMonth: IDailyChatsMetrics[]; startDate: string; endDate: string }) => {
 
   const [option, setOption] = useState(DEFAULT_OPTIONS);
 
@@ -59,8 +58,8 @@ const ReceivedAndAttendedChart = (props: { metricsByMonth: IDailyCallsMetricsByD
     newOption.title.text = `Llamadas - Recibidas y Atendidas (${props.startDate} - ${props.endDate})`;
 
     const x: any[] = props.metricsByMonth.map(metric => metric.metricDate);
-    const data: any[] = props.metricsByMonth.map(metric => metric.totalReceivedCalls);
-    const data1: any[] = props.metricsByMonth.map(metric => metric.totalAttendedCalls);
+    const data: any[] = props.metricsByMonth.map(metric => metric.totalReceivedChats);
+    const data1: any[] = props.metricsByMonth.map(metric => metric.totalAttendedChats);
 
     newOption.xAxis.data.length = 0;
     newOption.xAxis.data.push(...x);
