@@ -15,8 +15,8 @@ import { getChatsMetricsByMonth } from '../reducers/daily-chats-metrics-group-by
 import { getChatsMetricsWithPrevious } from '../reducers/daily-chats-metrics-with-previous.reducer';
 import { getChatsMetrics } from '../reducers/daily-chats-metrics.reducer';
 import ChatsAttendedPercentage from './ChatsAttendedPercentageChart';
-import PdfBody from './PdfBody';
 import ReceivedAndAttendedChart from './ReceivedAndAttendedChart';
+import PdfBody from 'app/shared/components/PdfBody';
 
 function DailyChatsDashboard() {
   // State and variables

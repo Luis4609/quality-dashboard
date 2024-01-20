@@ -48,15 +48,24 @@ const DEFAULT_OPTIONS = {
   ],
 };
 
-const ReceivedAndAttendedChart = (props: { metricsByMonth: IDailyCallsMetricsByDate[]; startDate: string; endDate: string }) => {
-  // const metricsByMonth = useAppSelector(state => state.dailyCallsMetricsByMonth.entities);
-
+const ReceivedAndAttendedChart = (props: {
+  metricsByMonth: IDailyCallsMetricsByDate[];
+  startDate: string;
+  endDate: string;
+  text: { title: string; xAxisName: string; yAxisName: string; legend: string; legend2: string };
+}) => {
   const [option, setOption] = useState(DEFAULT_OPTIONS);
 
   const getData = () => {
     const newOption = cloneDeep(option); // immutable
 
-    newOption.title.text = `Llamadas - Recibidas y Atendidas (${props.startDate} - ${props.endDate})`;
+    // translate text
+    newOption.title.text = `${props.text.title} (${props.startDate} - ${props.endDate})`;
+    newOption.xAxis.name = props.text.xAxisName;
+    newOption.yAxis[0].name = props.text.yAxisName;
+    newOption.series[0].name = props.text.legend;
+    newOption.series[0].name = props.text.legend;
+    newOption.series[1].name = props.text.legend2;
 
     const x: any[] = props.metricsByMonth.map(metric => metric.metricDate);
     const data: any[] = props.metricsByMonth.map(metric => metric.totalReceivedCalls);

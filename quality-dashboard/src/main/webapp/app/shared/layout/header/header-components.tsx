@@ -17,7 +17,6 @@ export const Brand = () => (
     <span className="brand-title" style={{marginLeft: '20px'}}>
       <Translate contentKey="global.title">Qualitydashboard</Translate>
     </span>
-    {/* <span className="navbar-version">{VERSION.toLowerCase().startsWith('v') ? VERSION : `v${VERSION}`}</span> */}
   </NavbarBrand>
 );
 

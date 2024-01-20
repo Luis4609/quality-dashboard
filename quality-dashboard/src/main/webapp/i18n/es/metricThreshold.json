@@ -2,11 +2,11 @@
   "qualitydashboardApp": {
     "metricThreshold": {
       "home": {
-        "title": "Metric Thresholds",
+        "title": "Umbrales de métricas",
         "refreshListLabel": "Refrescar lista",
-        "createLabel": "Crear nuevo Metric Threshold",
-        "createOrEditLabel": "Crear o editar Metric Threshold",
-        "notFound": "Ningún Metric Thresholds encontrado"
+        "createLabel": "Crear nuevo umbral",
+        "createOrEditLabel": "Crear o editar umbral",
+        "notFound": "Ningún umbral encontrado"
       },
       "created": "Un nuevo Metric Threshold ha sido creado con el identificador {{ param }}",
       "updated": "Un Metric Threshold ha sido actualizado con el identificador {{ param }}",

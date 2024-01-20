@@ -8,11 +8,12 @@
         "createOrEditLabel": "Create or edit a Daily Calls",
         "notFound": "No Daily Calls found",
         "uploadExcel": "Upload excel",
-        "metrics": "Métricas"
+        "metrics": "Metrics"
       },
       "created": "A new Daily Calls is created with identifier {{ param }}",
       "updated": "A Daily Calls is updated with identifier {{ param }}",
       "deleted": "A Daily Calls is deleted with identifier {{ param }}",
+      "fileUploaded": "The Calls entity has been updated when uploading the file: {{ param }}",
       "delete": {
         "question": "Are you sure you want to delete Daily Calls {{ id }}?"
       },
@@ -25,11 +26,38 @@
         "title": "Calls Metrics",
         "startDateInput": "Start date:",
         "endDateInput": "End date:",
-        "dashboardUpdated": "El dashboard se ha actualizado correctamente",
+        "previousPeriodLabel": "last year",
+        "dashboardUpdated": "The dashboard has been updated successfully",
         "validation": {
-          "required": "Los campos fecha de inicio y fecha final son obligatorios",
-          "startDateLessThanEndDate": "La fecha de inicio tiene que ser anterior a la fecha final",
-          "canNotBeEmpty": "Los campos fecha de inicio y fecha final no pueden estar vacios"
+          "required": "The start date and end date fields are required",
+          "startDateLessThanEndDate": "The start date must be before the end date",
+          "canNotBeEmpty": "The start date and end date fields cannot be empty",
+          "endDateLessThanStartDate": "La fecha final tiene que ser posterior a la fecha de inicio"
+        },
+        "refreshMetricsLabel": "Refresh",
+        "downloadPdf": "PDF",
+        "cards": {
+          "totalDailyReceivedCalls": "Incoming calls",
+          "totalDailyAttendedCalls": "Calls answered",
+          "totalDailyMissedCalls": "Lost calls",
+          "totalDailyReceivedCallsExternalAgent": "Calls received from external agent",
+          "totalDailyAttendedCallsExternalAgent": "Calls answered external agent",
+          "totalDailyReceivedCallsInternalAgent": "Internal agent calls received",
+          "totalDailyAttendedCallsInternalAgent": "Calls answered internal agent"
+        },
+        "charts": {
+          "receivedAndAttendedTitle": "Calls - Received and Attended",
+          "xAxisName": "Day",
+          "yAxisName": "Number of Calls",
+          "legend": "Received Calls",
+          "legend2": "Attended Calls"
+        },
+        "percentageCharts": {
+          "attendedPercentageTitle": "Calls - Received and Attended Percentage",
+          "yAxisName2": "% Attended",
+          "yAxisName": "Received",
+          "legend": "Received Calls",
+          "legend2": "% Attended Calls"
         }
       },
       "detail": {

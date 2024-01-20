@@ -44,6 +44,20 @@
           "totalDailyAttendedCallsExternalAgent": "Llamadas atendidas agente externo",
           "totalDailyReceivedCallsInternalAgent": "Llamadas recibidas agente interno",
           "totalDailyAttendedCallsInternalAgent": "Llamadas atendidas agente interno"
+        },
+        "charts": {
+          "receivedAndAttendedTitle": "Llamadas - Receibidas y Atendidas",
+          "xAxisName": "Día",
+          "yAxisName": "Nº de Llamadas",
+          "legend": "Llamadas recibidas",
+          "legend2": "Llamadas atendidas"
+        },
+        "percentageCharts": {
+          "attendedPercentageTitle": "Llamadas - Receibidas y Porcentage Atendidas",
+          "yAxisName2": "% Atendidas",
+          "yAxisName": "Recibidas",
+          "legend": "Llamadas recibidas",
+          "legend2": "% Llamadas atendidas"
         }
       },
       "detail": {

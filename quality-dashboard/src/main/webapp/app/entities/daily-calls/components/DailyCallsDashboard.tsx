@@ -11,16 +11,16 @@ import MetricCardComponent from 'app/shared/components/MetricCardComponent';
 import { getMetrics } from '../reducers/daily-calls-metrics.reducer';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import PdfBody from 'app/entities/daily-chats/components/PdfBody';
 import { getEntitiesByName } from 'app/entities/metric-threshold/metric-threshold.reducer';
 import { formattedCurrentDate, formattedStartDate } from 'app/shared/services/DateService';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { toast } from 'react-toastify';
-import CallsChart from '../components/CallsChart';
+import ReceveidAndAttendedPercentageChart from '../components/CallsChart';
 import ReceivedAndAttendedChart from '../components/ReceivedAndAttendedChart';
 import { getMetricsByMonth } from '../reducers/daily-calls-metrics-by-month.reducer';
 import { getMetricsWithDate } from '../reducers/daily-calls-metrics-date.reducer';
+import PdfBody from 'app/shared/components/PdfBody';
 
 export const DailyCallsDashboard = () => {
   // State and variables
@@ -82,15 +82,17 @@ export const DailyCallsDashboard = () => {
     pdf.setFont('Inter-Regular');
     pdf.setFontSize(8);
 
-    // data
+    // dashboard data
     const data = await html2canvas(document.querySelector('#pdfCalls'));
     const img = data.toDataURL('image/png');
     const imgProperties = pdf.getImageProperties(img);
     const pdfWidth = pdf.internal.pageSize.getWidth();
     const pdfHeight = (imgProperties.height * pdfWidth) / imgProperties.width;
 
-    // eslint-disable-next-line no-console
-    console.log(`PDF IMG DATA: ${pdfWidth} :: ${pdfHeight}`);
+    // corporate logo
+    // const logo = new Image(pdfWidth * 0.25, 100);
+    // logo.src = 'content/images/quality-dashboard-logo2-removebg-preview.png';
+    // pdf.addImage(logo, 'PNG', 25, 0, pdfWidth * 0.25, pdfHeight * 0.10)
 
     pdf.addImage(img, 'PNG', 0, 85, pdfWidth, pdfHeight);
     // pdf.save('shipping_label.pdf');
@@ -120,11 +122,10 @@ export const DailyCallsDashboard = () => {
           <Col style={{ display: 'flex', justifyContent: 'space-evenly' }}>
             <Button color="primary" onClick={getAllMetrics} disabled={isSearchDisable}>
               <FontAwesomeIcon icon="sync" />
-              {/* <Translate contentKey="qualitydashboardApp.dailyChats.metrics.refreshMetricsLabel">Refresh</Translate> */}
             </Button>
             <Button color="secondary" onClick={createPDF} disabled={isSearchDisable}>
               <FontAwesomeIcon icon="download" />{' '}
-              <Translate contentKey="qualitydashboardApp.dailyChats.metrics.downloadPdf">Download PDF</Translate>
+              <Translate contentKey="qualitydashboardApp.dailyCalls.metrics.downloadPdf">Download PDF</Translate>
             </Button>
           </Col>
         </Row>
@@ -191,10 +192,28 @@ export const DailyCallsDashboard = () => {
                 metricsByMonth={metricsByMonth}
                 startDate={startDate}
                 endDate={currentDate}
+                text={{
+                  title: translate('qualitydashboardApp.dailyCalls.metrics.charts.receivedAndAttendedTitle'),
+                  xAxisName: translate('qualitydashboardApp.dailyCalls.metrics.charts.xAxisName'),
+                  yAxisName: translate('qualitydashboardApp.dailyCalls.metrics.charts.yAxisName'),
+                  legend: translate('qualitydashboardApp.dailyCalls.metrics.charts.legend'),
+                  legend2: translate('qualitydashboardApp.dailyCalls.metrics.charts.legend2'),
+                }}
               ></ReceivedAndAttendedChart>
             </Col>
             <Col>
-              <CallsChart metricsYTD={metricsYTD} startDate={startDate} endDate={currentDate}></CallsChart>
+              <ReceveidAndAttendedPercentageChart
+                metricsYTD={metricsYTD}
+                startDate={startDate}
+                endDate={currentDate}
+                text={{
+                  title: translate('qualitydashboardApp.dailyCalls.metrics.percentageCharts.attendedPercentageTitle'),
+                  yAxisName2: translate('qualitydashboardApp.dailyCalls.metrics.percentageCharts.yAxisName2'),
+                  yAxisName: translate('qualitydashboardApp.dailyCalls.metrics.percentageCharts.yAxisName'),
+                  legend: translate('qualitydashboardApp.dailyCalls.metrics.percentageCharts.legend'),
+                  legend2: translate('qualitydashboardApp.dailyCalls.metrics.percentageCharts.legend2'),
+                }}
+              ></ReceveidAndAttendedPercentageChart>
             </Col>
           </Row>
         </Container>
