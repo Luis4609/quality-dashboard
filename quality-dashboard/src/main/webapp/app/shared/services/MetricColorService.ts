@@ -23,7 +23,7 @@ export const getIcon = (data: number, previousData: number) => {
 };
 
 export const getBackgroundColor = (data: number, previousData: number, successPercentage: number, dangerPercentage: number) => {
-  const dataDiff = data - previousData;
+  const dataDiff = (data/previousData) * 100;
 
   if (dataDiff < dangerPercentage) {
     // ffc107 -f2a15e

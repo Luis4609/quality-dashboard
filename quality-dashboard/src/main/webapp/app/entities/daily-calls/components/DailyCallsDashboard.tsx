@@ -11,7 +11,8 @@ import MetricCardComponent from 'app/shared/components/MetricCardComponent';
 import { getMetrics } from '../reducers/daily-calls-metrics.reducer';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { getEntitiesByName } from 'app/entities/metric-threshold/metric-threshold.reducer';
+import { getCallsThresholds } from 'app/entities/metric-threshold/metric-threshold-calls.reducer';
+import PdfBody from 'app/shared/components/PdfBody';
 import { formattedCurrentDate, formattedStartDate } from 'app/shared/services/DateService';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
@@ -20,7 +21,6 @@ import ReceveidAndAttendedPercentageChart from '../components/CallsChart';
 import ReceivedAndAttendedChart from '../components/ReceivedAndAttendedChart';
 import { getMetricsByMonth } from '../reducers/daily-calls-metrics-by-month.reducer';
 import { getMetricsWithDate } from '../reducers/daily-calls-metrics-date.reducer';
-import PdfBody from 'app/shared/components/PdfBody';
 
 export const DailyCallsDashboard = () => {
   // State and variables
@@ -32,8 +32,13 @@ export const DailyCallsDashboard = () => {
   const dailyCallsMetrics = useAppSelector(state => state.dailyCallsMetrics.entity);
   const metricsYTD = useAppSelector(state => state.dailyCallsMetricsByDate.entities);
   const metricsByMonth = useAppSelector(state => state.dailyCallsMetricsByMonth.entities);
+  const dailyCallsThresholds = useAppSelector(state => state.metricThresholdCalls.entities);
 
-  const dailyCallsThresholds = useAppSelector(state => state.metricThreshold.thresholds);
+  // loading state
+  const getMetricsLoading = useAppSelector(state => state.dailyCallsMetrics.loading);
+  const metricsYTDLoading = useAppSelector(state => state.dailyCallsMetricsByDate.loading);
+  const metricsByMonthLoading = useAppSelector(state => state.dailyCallsMetricsByMonth.loading);
+  const thresholdsLoading = useAppSelector(state => state.metricThresholdCalls.loading);
 
   const dispatch = useAppDispatch();
 
@@ -70,7 +75,7 @@ export const DailyCallsDashboard = () => {
     dispatch(getMetrics({ startDate, endDate: currentDate }));
     dispatch(getMetricsWithDate({ startDate, endDate: currentDate }));
     dispatch(getMetricsByMonth({ startDate, endDate: currentDate }));
-    dispatch(getEntitiesByName('dailyCalls'));
+    dispatch(getCallsThresholds('dailyCalls'));
   };
 
   const pdfBodyRef = useRef(null);
@@ -130,61 +135,68 @@ export const DailyCallsDashboard = () => {
           </Col>
         </Row>
         <Container id="pdfCalls">
-          <Row>
-            <Col>
-              <MetricCardComponent
-                title={translate('qualitydashboardApp.dailyCalls.metrics.cards.totalDailyReceivedCalls')}
-                footer={translate('qualitydashboardApp.dailyCalls.metrics.previousPeriodLabel')}
-                previousData={dailyCallsMetrics.previous.totalReceivedCalls}
-                data={dailyCallsMetrics.current.totalReceivedCalls}
-                thresholds={dailyCallsThresholds.filter(t => t.metricName === 'totalReceivedCalls')}
-                icon={'phone'}
-              ></MetricCardComponent>
-            </Col>
-            <Col>
-              <MetricCardComponent
-                title={translate('qualitydashboardApp.dailyCalls.metrics.cards.totalDailyAttendedCalls')}
-                footer={translate('qualitydashboardApp.dailyCalls.metrics.previousPeriodLabel')}
-                previousData={dailyCallsMetrics.previous.totalAttendedCalls}
-                data={dailyCallsMetrics.current.totalAttendedCalls}
-                thresholds={dailyCallsThresholds.filter(t => t.metricName === 'totalAttendedCalls')}
-                icon={'phone'}
-              ></MetricCardComponent>
-            </Col>
-            <Col>
-              <MetricCardComponent
-                title={translate('qualitydashboardApp.dailyCalls.metrics.cards.totalDailyMissedCalls')}
-                footer={translate('qualitydashboardApp.dailyCalls.metrics.previousPeriodLabel')}
-                previousData={dailyCallsMetrics.previous.totalLostCalls}
-                data={dailyCallsMetrics.current.totalLostCalls}
-                thresholds={dailyCallsThresholds.filter(t => t.metricName === 'totalLostCalls')}
-                icon={'phone'}
-              ></MetricCardComponent>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <MetricCardComponent
-                title={translate('qualitydashboardApp.dailyCalls.metrics.cards.totalDailyAttendedCallsExternalAgent')}
-                footer={translate('qualitydashboardApp.dailyCalls.metrics.previousPeriodLabel')}
-                previousData={dailyCallsMetrics.previous.totalAttendedCallsExternalAgent}
-                data={dailyCallsMetrics.current.totalAttendedCallsExternalAgent}
-                thresholds={dailyCallsThresholds.filter(t => t.metricName === 'totalAttendedCallsExternalAgent')}
-                icon={'phone'}
-              ></MetricCardComponent>
-            </Col>
-            <Col>
-              <MetricCardComponent
-                title={translate('qualitydashboardApp.dailyCalls.metrics.cards.totalDailyAttendedCallsInternalAgent')}
-                footer={translate('qualitydashboardApp.dailyCalls.metrics.previousPeriodLabel')}
-                previousData={dailyCallsMetrics.previous.totalAttendedCallsInternalAgent}
-                data={dailyCallsMetrics.current.totalAttendedCallsInternalAgent}
-                thresholds={dailyCallsThresholds.filter(t => t.metricName === 'totalAttendedCallsInternalAgent')}
-                icon={'phone'}
-              ></MetricCardComponent>
-            </Col>
-            <Col></Col>
-          </Row>
+          {!(getMetricsLoading || metricsYTDLoading || metricsByMonthLoading || thresholdsLoading) ? (
+            <>
+              <Row>
+                <Col>
+                  <MetricCardComponent
+                    title={translate('qualitydashboardApp.dailyCalls.metrics.cards.totalDailyReceivedCalls')}
+                    footer={translate('qualitydashboardApp.dailyCalls.metrics.previousPeriodLabel')}
+                    previousData={dailyCallsMetrics.previous.totalReceivedCalls}
+                    data={dailyCallsMetrics.current.totalReceivedCalls}
+                    thresholds={dailyCallsThresholds.filter(t => t.metricName === 'totalReceivedCalls')}
+                    icon={'phone'}
+                  ></MetricCardComponent>
+                </Col>
+                <Col>
+                  <MetricCardComponent
+                    title={translate('qualitydashboardApp.dailyCalls.metrics.cards.totalDailyAttendedCalls')}
+                    footer={translate('qualitydashboardApp.dailyCalls.metrics.previousPeriodLabel')}
+                    previousData={dailyCallsMetrics.previous.totalAttendedCalls}
+                    data={dailyCallsMetrics.current.totalAttendedCalls}
+                    thresholds={dailyCallsThresholds.filter(t => t.metricName === 'totalAttendedCalls')}
+                    icon={'phone'}
+                  ></MetricCardComponent>
+                </Col>
+                <Col>
+                  <MetricCardComponent
+                    title={translate('qualitydashboardApp.dailyCalls.metrics.cards.totalDailyMissedCalls')}
+                    footer={translate('qualitydashboardApp.dailyCalls.metrics.previousPeriodLabel')}
+                    previousData={dailyCallsMetrics.previous.totalLostCalls}
+                    data={dailyCallsMetrics.current.totalLostCalls}
+                    thresholds={dailyCallsThresholds.filter(t => t.metricName === 'totalLostCalls')}
+                    icon={'phone'}
+                  ></MetricCardComponent>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <MetricCardComponent
+                    title={translate('qualitydashboardApp.dailyCalls.metrics.cards.totalDailyAttendedCallsExternalAgent')}
+                    footer={translate('qualitydashboardApp.dailyCalls.metrics.previousPeriodLabel')}
+                    previousData={dailyCallsMetrics.previous.totalAttendedCallsExternalAgent}
+                    data={dailyCallsMetrics.current.totalAttendedCallsExternalAgent}
+                    thresholds={dailyCallsThresholds.filter(t => t.metricName === 'totalAttendedCallsExternalAgent')}
+                    icon={'phone'}
+                  ></MetricCardComponent>
+                </Col>
+                <Col>
+                  <MetricCardComponent
+                    title={translate('qualitydashboardApp.dailyCalls.metrics.cards.totalDailyAttendedCallsInternalAgent')}
+                    footer={translate('qualitydashboardApp.dailyCalls.metrics.previousPeriodLabel')}
+                    previousData={dailyCallsMetrics.previous.totalAttendedCallsInternalAgent}
+                    data={dailyCallsMetrics.current.totalAttendedCallsInternalAgent}
+                    thresholds={dailyCallsThresholds.filter(t => t.metricName === 'totalAttendedCallsInternalAgent')}
+                    icon={'phone'}
+                  ></MetricCardComponent>
+                </Col>
+                <Col></Col>
+              </Row>
+            </>
+          ) : (
+            <p>loading</p>
+          )}
+
           {/* CHARTS section */}
           <Row>
             <Col>

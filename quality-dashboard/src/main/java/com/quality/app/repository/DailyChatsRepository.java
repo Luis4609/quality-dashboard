@@ -1,8 +1,8 @@
 package com.quality.app.repository;
 
 import com.quality.app.domain.DailyChats;
-import com.quality.app.service.dto.metrics.chats.IChatsMetrics;
-import com.quality.app.service.dto.metrics.chats.IChatsMetricsSummary;
+import com.quality.app.domain.IChatsMetrics;
+import com.quality.app.domain.IChatsMetricsSummary;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;

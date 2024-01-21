@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { createAsyncThunk, isFulfilled, isPending } from '@reduxjs/toolkit';
+import { combineReducers, createAsyncThunk, isFulfilled, isPending } from '@reduxjs/toolkit';
 import { cleanEntity } from 'app/shared/util/entity-utils';
 import { IQueryParams, createEntitySlice, EntityState, serializeAxiosError } from 'app/shared/reducers/reducer.utils';
 import { IMetricThreshold, defaultValue } from 'app/shared/model/metric-threshold.model';

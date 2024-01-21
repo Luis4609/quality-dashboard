@@ -1,5 +1,7 @@
 package com.quality.app.service.dto.metrics.chats;
 
+import com.quality.app.domain.IChatsMetricsSummary;
+
 public class DailyChatsMetricsDTO {
 
     private IChatsMetricsSummary current;

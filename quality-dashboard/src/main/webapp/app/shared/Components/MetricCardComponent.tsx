@@ -1,7 +1,7 @@
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
-import { Card, CardBody, CardTitle, Col, Row } from 'reactstrap';
+import { Card, CardBody, CardFooter, CardTitle, Col, Row } from 'reactstrap';
 import { IMetricThreshold } from '../model/metric-threshold.model';
 import { getBackgroundColor, getIcon } from '../services/MetricColorService';
 

@@ -1,5 +1,7 @@
 package com.quality.app.service.dto.metrics.calls;
 
+import com.quality.app.domain.IDailyCallsMetrics;
+
 public class DailyCallsMetricsDTO {
 
     private IDailyCallsMetrics current;

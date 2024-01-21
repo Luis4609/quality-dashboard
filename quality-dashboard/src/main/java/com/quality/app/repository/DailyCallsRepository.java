@@ -1,8 +1,8 @@
 package com.quality.app.repository;
 
 import com.quality.app.domain.DailyCalls;
-import com.quality.app.service.dto.metrics.calls.IDailyCallsMetrics;
-import com.quality.app.service.dto.metrics.calls.IDailyCallsMetricsByDate;
+import com.quality.app.domain.IDailyCallsMetrics;
+import com.quality.app.domain.IDailyCallsMetricsByDate;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;

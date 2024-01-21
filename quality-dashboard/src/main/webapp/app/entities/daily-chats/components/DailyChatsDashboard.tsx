@@ -17,6 +17,8 @@ import { getChatsMetrics } from '../reducers/daily-chats-metrics.reducer';
 import ChatsAttendedPercentage from './ChatsAttendedPercentageChart';
 import ReceivedAndAttendedChart from './ReceivedAndAttendedChart';
 import PdfBody from 'app/shared/components/PdfBody';
+import { getEntitiesByName } from 'app/entities/metric-threshold/metric-threshold.reducer';
+import { getChatsThresholds } from 'app/entities/metric-threshold/metric-threshold-chats.reducer';
 
 function DailyChatsDashboard() {
   // State and variables
@@ -56,25 +58,30 @@ function DailyChatsDashboard() {
 
   const dailyChatsMetricsList = useAppSelector(state => state.dailyChatsMetrics.entities);
   const dailyChatsList = useAppSelector(state => state.dailyChatsMetricsWithPrevious.entity);
-  const dailyChatsThreshold = useAppSelector(state => state.metricThreshold.thresholds);
-
+  const dailyChatsThreshold = useAppSelector(state => state.metricThresholdChats.entities);
   const chatsMetricsByMonth = useAppSelector(state => state.dailyChatsMetricsGroupByMonth.entities);
+
+  const dailyChatsMetricsListLoading = useAppSelector(state => state.dailyChatsMetrics.loading);
+  const dailyChatsListLoading = useAppSelector(state => state.dailyChatsMetricsWithPrevious.loading);
+  const dailyChatsThresholdLoading = useAppSelector(state => state.metricThresholdChats.loading);
+  const chatsMetricsByMonthLoading = useAppSelector(state => state.dailyChatsMetricsGroupByMonth.loading);
 
   // dispatch, calls to APIs
   const getAllChatsMetricData = () => {
     dispatch(getChatsMetricsWithPrevious({ startDate, endDate: currentDate }));
     dispatch(getChatsMetrics({ startDate, endDate: currentDate }));
     dispatch(getChatsMetricsByMonth({ startDate, endDate: currentDate }));
+    dispatch(getChatsThresholds('dailyChats'));
   };
 
   const pdfBodyRef = useRef(null);
 
   // PDF
   const createPDF = async () => {
-    const pdf = new jsPDF("portrait", "pt", "a4"); 
+    const pdf = new jsPDF('portrait', 'pt', 'a4');
     // Adding the fonts
     pdf.setFont('Inter-Regular');
-    pdf.setFontSize(8)
+    pdf.setFontSize(8);
 
     // data
     const data = await html2canvas(document.querySelector('#pdfChats'));
@@ -125,62 +132,67 @@ function DailyChatsDashboard() {
       </Container>
 
       <Container id="pdfChats">
-        <Row>
-          <Col>
-            <MetricCardComponent
-              title={translate('qualitydashboardApp.dailyChats.metrics.cards.totalDailyReceivedChats')}
-              footer={translate('qualitydashboardApp.dailyChats.metrics.previousPeriodLabel')}
-              previousData={dailyChatsList.previous.totalReceivedChats}
-              data={dailyChatsList.current.totalReceivedChats}
-              thresholds={dailyChatsThreshold.filter(t => t.metricName === 'totalReceivedCalls')}
-              icon={'message'}
-            ></MetricCardComponent>
-          </Col>
-          <Col>
-            <MetricCardComponent
-              title={translate('qualitydashboardApp.dailyChats.metrics.cards.totalDailyAttendedChats')}
-              footer={translate('qualitydashboardApp.dailyChats.metrics.previousPeriodLabel')}
-              previousData={dailyChatsList.previous.totalAttendedChats}
-              data={dailyChatsList.current.totalAttendedChats}
-              thresholds={dailyChatsThreshold.filter(t => t.metricName === 'totalAttendedChats')}
-              icon={'message'}
-            ></MetricCardComponent>
-          </Col>
-          <Col>
-            <MetricCardComponent
-              title={translate('qualitydashboardApp.dailyChats.metrics.cards.totalDailyMissedChats')}
-              footer={translate('qualitydashboardApp.dailyChats.metrics.previousPeriodLabel')}
-              previousData={dailyChatsList.previous.totalMissedChats}
-              data={dailyChatsList.current.totalMissedChats}
-              thresholds={dailyChatsThreshold.filter(t => t.metricName === 'totalMissedChats')}
-              icon={'message'}
-            ></MetricCardComponent>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <MetricCardComponent
-              title={translate('qualitydashboardApp.dailyChats.metrics.cards.totalDailyConversationChatsTimeInMin')}
-              footer={translate('qualitydashboardApp.dailyChats.metrics.previousPeriodLabel')}
-              previousData={dailyChatsList.previous.totalDailyConversationChatsTime}
-              data={dailyChatsList.current.totalDailyConversationChatsTime}
-              thresholds={dailyChatsThreshold.filter(t => t.metricName === 'totalDailyConversationChatsTime')}
-              icon={'message'}
-            ></MetricCardComponent>
-          </Col>
-          <Col>
-            <MetricCardComponent
-              title={translate('qualitydashboardApp.dailyChats.metrics.cards.avgDailyConversationChatsTimeInMin')}
-              footer={translate('qualitydashboardApp.dailyChats.metrics.previousPeriodLabel')}
-              previousData={dailyChatsList.previous.avgConversationChats}
-              data={dailyChatsList.current.avgConversationChats}
-              thresholds={dailyChatsThreshold.filter(t => t.metricName === 'avgConversationChats')}
-              icon={'message'}
-            ></MetricCardComponent>
-          </Col>
-          <Col></Col>
-        </Row>
-
+        {!(dailyChatsMetricsListLoading || dailyChatsListLoading || dailyChatsThresholdLoading || chatsMetricsByMonthLoading) ? (
+          <>
+            <Row>
+              <Col>
+                <MetricCardComponent
+                  title={translate('qualitydashboardApp.dailyChats.metrics.cards.totalDailyReceivedChats')}
+                  footer={translate('qualitydashboardApp.dailyChats.metrics.previousPeriodLabel')}
+                  previousData={dailyChatsList.previous.totalReceivedChats}
+                  data={dailyChatsList.current.totalReceivedChats}
+                  thresholds={dailyChatsThreshold.filter(t => t.metricName === 'totalReceivedChats')}
+                  icon={'message'}
+                ></MetricCardComponent>
+              </Col>
+              <Col>
+                <MetricCardComponent
+                  title={translate('qualitydashboardApp.dailyChats.metrics.cards.totalDailyAttendedChats')}
+                  footer={translate('qualitydashboardApp.dailyChats.metrics.previousPeriodLabel')}
+                  previousData={dailyChatsList.previous.totalAttendedChats}
+                  data={dailyChatsList.current.totalAttendedChats}
+                  thresholds={dailyChatsThreshold.filter(t => t.metricName === 'totalAttendedChats')}
+                  icon={'message'}
+                ></MetricCardComponent>
+              </Col>
+              <Col>
+                <MetricCardComponent
+                  title={translate('qualitydashboardApp.dailyChats.metrics.cards.totalDailyMissedChats')}
+                  footer={translate('qualitydashboardApp.dailyChats.metrics.previousPeriodLabel')}
+                  previousData={dailyChatsList.previous.totalMissedChats}
+                  data={dailyChatsList.current.totalMissedChats}
+                  thresholds={dailyChatsThreshold.filter(t => t.metricName === 'totalMissedChats')}
+                  icon={'message'}
+                ></MetricCardComponent>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <MetricCardComponent
+                  title={translate('qualitydashboardApp.dailyChats.metrics.cards.totalDailyConversationChatsTimeInMin')}
+                  footer={translate('qualitydashboardApp.dailyChats.metrics.previousPeriodLabel')}
+                  previousData={dailyChatsList.previous.totalDailyConversationChatsTime}
+                  data={dailyChatsList.current.totalDailyConversationChatsTime}
+                  thresholds={dailyChatsThreshold.filter(t => t.metricName === 'totalDailyConversationChatsTime')}
+                  icon={'message'}
+                ></MetricCardComponent>
+              </Col>
+              <Col>
+                <MetricCardComponent
+                  title={translate('qualitydashboardApp.dailyChats.metrics.cards.avgDailyConversationChatsTimeInMin')}
+                  footer={translate('qualitydashboardApp.dailyChats.metrics.previousPeriodLabel')}
+                  previousData={dailyChatsList.previous.avgConversationChats}
+                  data={dailyChatsList.current.avgConversationChats}
+                  thresholds={dailyChatsThreshold.filter(t => t.metricName === 'avgConversationChats')}
+                  icon={'message'}
+                ></MetricCardComponent>
+              </Col>
+              <Col></Col>
+            </Row>
+          </>
+        ) : (
+          <p>loading</p>
+        )}
         <Row>
           <Col>
             <ReceivedAndAttendedChart
@@ -197,11 +209,7 @@ function DailyChatsDashboard() {
 
       <div style={{ visibility: 'hidden' }}>
         <div ref={pdfBodyRef}>
-          <PdfBody
-            startDate={startDate}
-            currentDate={currentDate}
-           title={"Reporte de chats"}
-          ></PdfBody>
+          <PdfBody startDate={startDate} currentDate={currentDate} title={'Reporte de chats'}></PdfBody>
         </div>
       </div>
     </>

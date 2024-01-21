@@ -39,8 +39,8 @@
           "totalDailyReceivedChats": "Chats recibidos",
           "totalDailyAttendedChats": "Chats atendidos",
           "totalDailyMissedChats": "Chats perdidos",
-          "totalDailyConversationChatsTimeInMin": "Tiempo total de atención por chat",
-          "avgDailyConversationChatsTimeInMin": "Tiempo medio por chat"
+          "totalDailyConversationChatsTimeInMin": "Tiempo total de atención (min)",
+          "avgDailyConversationChatsTimeInMin": "Tiempo medio por chat (min)"
         }
       },
       "detail": {

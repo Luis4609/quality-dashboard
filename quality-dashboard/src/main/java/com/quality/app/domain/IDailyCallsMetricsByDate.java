@@ -1,4 +1,4 @@
-package com.quality.app.service.dto.metrics.calls;
+package com.quality.app.domain;
 
 import java.sql.Date;
 

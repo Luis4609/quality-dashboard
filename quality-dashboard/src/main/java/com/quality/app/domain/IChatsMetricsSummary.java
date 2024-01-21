@@ -1,8 +1,6 @@
-package com.quality.app.service.dto.metrics.chats;
+package com.quality.app.domain;
 
-import java.util.Date;
-
-public interface IChatsMetrics {
+public interface IChatsMetricsSummary {
 
     Integer getTotalReceivedChats();
 
@@ -14,5 +12,4 @@ public interface IChatsMetrics {
 
     Integer getAvgConversationChats();
 
-    Date getMetricDate();
 }

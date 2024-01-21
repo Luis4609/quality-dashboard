@@ -9,6 +9,8 @@ import dailyChatsMetrics from 'app/entities/daily-chats/reducers/daily-chats-met
 import dailyChatsMetricsSummary from 'app/entities/daily-chats/reducers/daily-chats-metrics.reducer';
 import dailyChatsMetricsWithPrevious from 'app/entities/daily-chats/reducers/daily-chats-metrics-with-previous.reducer';
 import dailyChatsMetricsGroupByMonth from 'app/entities/daily-chats/reducers/daily-chats-metrics-group-by-month.reducer';
+import metricThresholdChats from 'app/entities/metric-threshold/metric-threshold-chats.reducer'
+import metricThresholdCalls from 'app/entities/metric-threshold/metric-threshold-calls.reducer'
 /* jhipster-needle-add-reducer-import - JHipster will add reducer here */
 
 const entitiesReducers = {
@@ -19,6 +21,8 @@ const entitiesReducers = {
   dailyCallsMetricsByMonth,
   dailyCallsUploadExcel,
   metricThreshold,
+  metricThresholdCalls,
+  metricThresholdChats,
   dailyChatsMetrics,
   dailyChatsMetricsSummary,
   dailyChatsMetricsWithPrevious,

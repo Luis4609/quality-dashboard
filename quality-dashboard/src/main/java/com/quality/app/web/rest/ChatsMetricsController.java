@@ -3,11 +3,9 @@ package com.quality.app.web.rest;
 
 import com.quality.app.service.DailyChatsService;
 import com.quality.app.service.dto.metrics.chats.DailyChatsMetricsDTO;
-import com.quality.app.service.dto.metrics.chats.IChatsMetrics;
-import com.quality.app.service.dto.metrics.chats.IChatsMetricsSummary;
+import com.quality.app.domain.IChatsMetrics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
