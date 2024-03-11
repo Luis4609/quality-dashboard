@@ -6,24 +6,53 @@
         "refreshListLabel": "Refresh list",
         "createLabel": "Create a new Daily Chats",
         "createOrEditLabel": "Create or edit a Daily Chats",
-        "notFound": "No Daily Chats found"
+        "notFound": "No Daily Chats found",
+        "uploadExcel": "Subir archivo"
       },
-      "created": "A new Daily Chats is created with identifier {{ param }}",
-      "updated": "A Daily Chats is updated with identifier {{ param }}",
-      "deleted": "A Daily Chats is deleted with identifier {{ param }}",
+      "created": "Es crea un nou xat diari amb un identificador {{ param }}",
+      "updated": "S'actualitza un Xat diari amb un identificador {{ param }}",
+      "deleted": "S'elimina un xat diari amb un identificador {{ param }}",
+      "fileUploaded": "L'entitat Chats s'ha actualitzat en pujar el fitxer: {{ param }}",
       "delete": {
-        "question": "Are you sure you want to delete Daily Chats {{ id }}?"
+        "question": "Confirmes que vols suprimir els xats diaris {{ id }}?"
       },
       "detail": {
-        "title": "Daily Chats"
+        "title": "Chats"
+      },
+      "upload": {
+        "title": "Xats - Pujar fitxer amb dades",
+        "button": "Pujar fitxer",
+        "infoText": "Pujar un fitxer excel amb les dades relacionades amb els Xats diaris"
+      },
+      "metrics": {
+        "title": "Xats diaris Metricas",
+        "startDateInput": "Data d'inici:",
+        "endDateInput": "Data final:",
+        "previousPeriodLabel": "any anterior",
+        "dashboardUpdated": "El dashboard s'ha actualitzat correctament",
+        "validation": {
+          "required": "Els camps data d'inici i data final són obligatoris",
+          "startDateLessThanEndDate": "La data inicial ha de ser anterior a la data final",
+          "canNotBeEmpty": "Els camps data d'inici i data final no poden estar buits",
+          "endDateLessThanStartDate": "La data final ha de ser posterior a la data dinici"
+        },
+        "refreshMetricsLabel": "Refrescar",
+        "downloadPdf": "PDF",
+        "cards": {
+          "totalDailyReceivedChats": "Xats rebuts",
+          "totalDailyAttendedChats": "Xats atesos",
+          "totalDailyMissedChats": "Xats perduts",
+          "totalDailyConversationChatsTimeInMin": "Temps total d'atenció (min)",
+          "avgDailyConversationChatsTimeInMin": "Temps mitjà per xat (min)"
+        }
       },
       "id": "ID",
       "day": "Day",
-      "totalDailyReceivedChats": "Total Daily Received Chats",
-      "totalDailyConversationChatsTimeInMin": "Total Daily Conversation Chats Time In Min",
-      "totalDailyAttendedChats": "Total Daily Attended Chats",
-      "totalDailyMissedChats": "Total Daily Missed Chats",
-      "avgDailyConversationChatsTimeInMin": "Avg Daily Conversation Chats Time In Min"
+      "totalDailyReceivedChats": "Total de xats diaris rebuts",
+      "totalDailyConversationChatsTimeInMin": "Temps total de converses diàries en min",
+      "totalDailyAttendedChats": "Total de xats assistits diaris",
+      "totalDailyMissedChats": "Total de xats perduts diaris",
+      "avgDailyConversationChatsTimeInMin": "Temps mitjà diari de xats de converses en min"
     }
   }
 }

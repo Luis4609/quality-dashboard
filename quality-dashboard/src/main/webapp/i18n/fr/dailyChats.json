@@ -14,6 +14,33 @@
       "delete": {
         "question": "Êtes-vous certain de vouloir supprimer le Daily Chats {{ id }} ?"
       },
+      "upload": {
+        "title": "Chats – Télécharger un fichier avec des données",
+        "button": "Téléverser un fichier",
+        "infoText": "Téléchargez un fichier Excel avec les données liées aux discussions quotidiennes"
+      },
+      "metrics": {
+        "title": "Mesures des discussions quotidiennes",
+        "startDateInput": "Date de début:",
+        "endDateInput": "Date finale:",
+        "previousPeriodLabel": "année antérieure",
+        "dashboardUpdated": "Le tableau de bord a été mis à jour avec succès",
+        "validation": {
+          "required": "Les champs date de début et date de fin sont obligatoires",
+          "startDateLessThanEndDate": "La date de début doit être antérieure à la date de fin",
+          "canNotBeEmpty": "Les champs date de début et date de fin ne peuvent pas être vides",
+          "endDateLessThanStartDate": "La date de fin doit être postérieure à la date de début"
+        },
+        "refreshMetricsLabel": "Refrescar",
+        "downloadPdf": "PDF",
+        "cards": {
+          "totalDailyReceivedChats": "Chats reçus",
+          "totalDailyAttendedChats": "Discussions auxquelles ont assisté",
+          "totalDailyMissedChats": "Discussions perdues",
+          "totalDailyConversationChatsTimeInMin": "Temps d'attention total (min)",
+          "avgDailyConversationChatsTimeInMin": "Temps moyen par chat (min)"
+        }
+      },
       "detail": {
         "title": "Daily Chats"
       },

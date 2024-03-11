@@ -21,7 +21,42 @@
         "infoText": "Téléchargez le fichier Excel avec les données des appels quotidiens"
       },
       "metrics": {
-        "title": "Daily Calls Metricas"
+        "title": "Daily Calls Metricas",
+        "startDateInput": "Date de début:",
+        "endDateInput": "Date finale:",
+        "previousPeriodLabel": "année antérieure",
+        "dashboardUpdated": "Le tableau de bord a été mis à jour avec succès",
+        "validation": {
+          "required": "Les champs date de début et date de fin sont obligatoires",
+          "startDateLessThanEndDate": "Les champs date de début et date de fin sont obligatoires",
+          "canNotBeEmpty": "Les champs date de début et date de fin ne peuvent pas être vides",
+          "endDateLessThanStartDate": "La date de fin doit être postérieure à la date de début"
+        },
+        "refreshMetricsLabel": "Refrescar",
+        "downloadPdf": "PDF",
+        "cards": {
+          "totalDailyReceivedCalls": "Les appels entrants",
+          "totalDailyAttendedCalls": "Appels répondus",
+          "totalDailyMissedCalls": "Appels manqués",
+          "totalDailyReceivedCallsExternalAgent": "Appels reçus d'un agent externe",
+          "totalDailyAttendedCallsExternalAgent": "Appels répondus par un agent externe",
+          "totalDailyReceivedCallsInternalAgent": "Appels d'agent interne reçus",
+          "totalDailyAttendedCallsInternalAgent": "Appels répondus agent interne"
+        },
+        "charts": {
+          "receivedAndAttendedTitle": "Appels - reçus et répondus",
+          "xAxisName": "Jour",
+          "yAxisName": "Nombre d'appels",
+          "legend": "Les appels entrants",
+          "legend2": "Appels répondus"
+        },
+        "percentageCharts": {
+          "attendedPercentageTitle": "Appels - Reçus et pourcentage de réponses",
+          "yAxisName2": "% desservis",
+          "yAxisName": "Reçu",
+          "legend": "Les appels entrants",
+          "legend2": "% Appels répondus"
+        }
       },
       "detail": {
         "title": "Daily Calls"

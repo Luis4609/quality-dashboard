@@ -1,19 +1,15 @@
 {
   "home": {
-    "title": "Benvingut, Java Hipster!",
-    "subtitle": "Aquesta és la pàgina principal",
+    "title": "Dashboard de Calidad",
+    "subtitle": "Aquesta és la pàgina d'inici",
     "logged": {
-      "message": "S'ha connectat amb l'usuari \"{{username}}\"."
+      "message": "Hola \"{{username}}\".",
+      "welcomeMessage": "Hola "
     },
-    "question": "Si tens qualsevol pregunta sobre JHipster:",
-    "link": {
-      "homepage": "Pàgina preincipal de JHipster",
-      "stackoverflow": "JHipster a Stack Overflow",
-      "bugtracker": "JHipster seguiment d'incidencies",
-      "chat": "JHipster public chat room",
-      "follow": "Contacte @jhipster a Twitter"
-    },
-    "like": "Si li agrada JHipster, no oblidi donar-nos una estrella",
-    "github": "GitHub"
+    "metrics": {
+      "callsTabTitle": "Mètriques de Trucades",
+      "chatsTabTitle": "Mètriques de Xats",
+      "pdf": "Generar PDF"
+    }
   }
 }

@@ -94,11 +94,6 @@ export const DailyCallsDashboard = () => {
     const pdfWidth = pdf.internal.pageSize.getWidth();
     const pdfHeight = (imgProperties.height * pdfWidth) / imgProperties.width;
 
-    // corporate logo
-    // const logo = new Image(pdfWidth * 0.25, 100);
-    // logo.src = 'content/images/quality-dashboard-logo2-removebg-preview.png';
-    // pdf.addImage(logo, 'PNG', 25, 0, pdfWidth * 0.25, pdfHeight * 0.10)
-
     pdf.addImage(img, 'PNG', 0, 85, pdfWidth, pdfHeight);
     // pdf.save('shipping_label.pdf');
     pdf.html(pdfBodyRef.current, {

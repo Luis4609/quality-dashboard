@@ -24,11 +24,38 @@
         "title": "Daily Calls Metricas",
         "startDateInput": "Data d'inici:",
         "endDateInput": "Data final:",
+        "previousPeriodLabel": "año anterior",
         "dashboardUpdated": "El dashboard se ha actualizado correctamente",
         "validation": {
           "required": "Els camps data d'inici i data final són obligatoris",
           "startDateLessThanEndDate": "La data inicial ha de ser anterior a la data final",
-          "canNotBeEmpty": "Els camps data d'inici i data final no poden estar buits"
+          "canNotBeEmpty": "Els camps data d'inici i data final no poden estar buits",
+          "endDateLessThanStartDate": "La data final ha de ser posterior a la data dinici"
+        },
+        "refreshMetricsLabel": "Refrescar",
+        "downloadPdf": "PDF",
+        "cards": {
+          "totalDailyReceivedCalls": "Trucades rebudes",
+          "totalDailyAttendedCalls": "Trucades ateses",
+          "totalDailyMissedCalls": "Trucades perdudes",
+          "totalDailyReceivedCallsExternalAgent": "Trucades rebudes agent extern",
+          "totalDailyAttendedCallsExternalAgent": "Trucades ateses agent extern",
+          "totalDailyReceivedCallsInternalAgent": "Trucades rebudes agent interno",
+          "totalDailyAttendedCallsInternalAgent": "Trucades ateses agent interno"
+        },
+        "charts": {
+          "receivedAndAttendedTitle": "Trucades - Rebudes i Ateses",
+          "xAxisName": "Dia",
+          "yAxisName": "Nº de Trucades",
+          "legend": "Trucades rebudes",
+          "legend2": "Trucades ateses"
+        },
+        "percentageCharts": {
+          "attendedPercentageTitle": "Trucades - Rebudes i Percentatge Ateses",
+          "yAxisName2": "% Ateses",
+          "yAxisName": "Trucades",
+          "legend": "Trucades rebudes",
+          "legend2": "% Trucades ateses"
         }
       },
       "detail": {
